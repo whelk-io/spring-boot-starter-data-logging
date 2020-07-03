@@ -16,16 +16,13 @@ import org.springframework.stereotype.Component;
 
 import io.whelk.spring.data.logging.configurer.LoggingConfigurer;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import lombok.experimental.FieldDefaults;
 
 @Aspect
 @Component
-@FieldDefaults
 @RequiredArgsConstructor
 public class LogAspect {
 
-    LoggingConfigurer loggingConfigurer;
+    private final LoggingConfigurer loggingConfigurer;
 
     @Before("@annotation(around)")
     public void logBefore(JoinPoint joinPoint, Log.Around around) {
