@@ -199,4 +199,8 @@ public interface Log {
         LogLevel withLevel() default LogLevel.DEBUG;
     }
 
+    @Target(METHOD)
+    @Retention(RUNTIME)
+    public @interface Span { }
+
 }
