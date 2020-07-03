@@ -6,7 +6,7 @@
 
 	<groupId>io.whelk.spring.data.logging</groupId>
 	<artifactId>spring-data-logging-starter</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1-RELEASE</version>
 	<name>Spring Data Logging Starter</name>
 	<description>Annotated logging using Spring Data and Spring AOP</description>
 	<url>https://github.com/whelk-io/spring-data-logger-starter</url>
@@ -22,6 +22,15 @@
 	<scm>
 		<url>https://github.com/whelk-io/spring-data-logger-starter.git</url>
 	</scm>
+
+	<developers>
+		<developer>
+			<name>Zack Teater</name>
+			<email>zteater@gmail.com</email>
+			<organization>Whelk</organization>
+			<organizationUrl>http://whelk.io</organizationUrl>
+		</developer>
+	</developers>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -117,7 +126,7 @@
 
 	<distributionManagement>
 		<repository>
-			<id>github-spring-data-logging-starter</id>
+			<id>github</id>
 			<url>https://maven.pkg.github.com/whelk-io/spring-data-logging-starter</url>
 		</repository>
 	</distributionManagement>

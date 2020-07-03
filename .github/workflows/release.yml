@@ -37,9 +37,9 @@ jobs:
           -d '{ "tag_name": "'$version'", "target_commitish": "master", "name": "'$version'", "body": "Release deployment", "draft": false, "prerelease": false }'
 
     - name: Create Maven settings.xml
-      uses: whelk-io/maven-settings-xml-action@v9
+      uses: whelk-io/maven-settings-xml-action@v2
       with:
-        servers: '[{"id": "github-spring-data-logging-starter", "username": "${{ secrets.BUILD_USERNAME }}", "password": "${{ secrets.BUILD_TOKEN }}"}]'
+        servers: '[{"id": "github", "username": "${{ secrets.BUILD_USERNAME }}", "password": "${{ secrets.BUILD_TOKEN }}"}]'
 
     - name: Deploy package
       run: mvn -B deploy --file pom.xml
