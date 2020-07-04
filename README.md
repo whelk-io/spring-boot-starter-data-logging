@@ -1,12 +1,12 @@
 # spring-boot-starter-data-logging
 
-Spring-Boot starter for reducing logging boilerplate through annotations using Spring-Data, Spring-AOP, Spring-Cloud-Sleuth, and Lombok.
-
 [![CodeFactor](https://www.codefactor.io/repository/github/whelk-io/spring-boot-starter-data-logging/badge)](https://www.codefactor.io/repository/github/whelk-io/spring-boot-starter-data-logging) ![release](https://github.com/whelk-io/spring-boot-starter-data-logging/workflows/release/badge.svg)
+
+Spring-Boot starter for reducing logging boilerplate with Spring-AOP annotations. Takes advantage of tracing and logging capabilities in Spring-Data, Spring-Cloud-Sleuth, and Lombok.
 
 ## Basic Example
 
-Given a `JPA` data model: 
+Given a <code>[Spring-Data-JPA](https://spring.io/projects/spring-data-jpa)</code> data model: 
 
 ````java
 @Data
@@ -26,14 +26,14 @@ public class Foo {
 }
 ````
 
-And a `Spring-Data-Rest` repository:
+And a <code>[Spring-Data-REST](https://spring.io/projects/spring-data-rest)</code> repository:
 
 ````java
 @RepositoryRestResource
 public interface FooRepository extends JpaRepository<Foo, Long> { }
 ````
 
-And a `Spring-Data-Rest` event handler:
+And a <code>[Spring-Data-REST](https://spring.io/projects/spring-data-rest)</code> <code>[RepositoryEventHandler](https://docs.spring.io/spring-data/rest/docs/2.0.0.M1/reference/html/events-chapter.html)</code>:
 ````java
 @Slf4j
 @Component
@@ -53,7 +53,7 @@ Observe logs generated
 2020-07-04 12:17:19.583  INFO [foo,6aaf12d29bafd856,6aaf12d29bafd856,true] 21978 --- [nio-8080-exec-2] com.example.demo.event.FooEventHandler   : foo created, do something
 ````
 
-At the method `handleCreate(..)`, add annotation <code>[@Log.Around](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/aop/Log.java)</code> from `Spring-Boot-Starter-Data-Logging`:
+At the method `handleCreate(..)`, add annotation <code>[@Log.Around](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/aop/Log.java)</code> from <code>[Spring-Boot-Starter-Data-Logging](https://github.com/whelk-io/spring-boot-starter-data-logging)</code>:
 
 ````java
 @Slf4j
@@ -93,6 +93,7 @@ Observe logs generated
 // TODO
 // adhoc
 // auto for repo
+  /// mongo, jpa variants
 
 // TODO
 
