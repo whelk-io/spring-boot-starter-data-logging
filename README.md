@@ -4,7 +4,91 @@ Spring-Boot starter for reducing logging boilerplate through annotations using S
 
 [![CodeFactor](https://www.codefactor.io/repository/github/whelk-io/spring-boot-starter-data-logging/badge)](https://www.codefactor.io/repository/github/whelk-io/spring-boot-starter-data-logging) ![release](https://github.com/whelk-io/spring-boot-starter-data-logging/workflows/release/badge.svg)
 
-## Usage
+## Basic Example
+
+Given a `JPA` data model: 
+
+````java
+@Data
+@Entity
+public class Foo {
+
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    private Long id;
+
+    @Column
+    private String name;
+
+    @Version
+    private int version;
+
+}
+````
+
+And a `Spring-Data-Rest` repository:
+
+````java
+@RepositoryRestResource
+public interface FooRepository extends JpaRepository<Foo, Long> { }
+````
+
+And a `Spring-Data-Rest` event handler:
+````java
+@Slf4j
+@Component
+@RepositoryEventHandler
+public class FooEventHandler {
+
+    @HandleAfterCreate
+    public void handleCreate(final Foo foo) {
+        log.info("foo created, do something");
+    }
+
+}
+````
+
+Observe logs generated
+````log
+2020-07-04 12:17:19.583  INFO [foo,6aaf12d29bafd856,6aaf12d29bafd856,true] 21978 --- [nio-8080-exec-2] com.example.demo.event.FooEventHandler   : foo created, do something
+````
+
+At the method `handleCreate(..)`, add annotation <code>[@Log.Around](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/aop/Log.java)</code> from `Spring-Boot-Starter-Data-Logging`:
+
+````java
+@Slf4j
+@Component
+@RepositoryEventHandler
+public class FooEventHandler {
+
+    @Log.Around
+    @HandleAfterCreate
+    public void handleCreate(final Foo foo) {
+        log.info("foo created, do something");
+    }
+
+}
+````
+
+Observe logs generated
+````log
+2020-07-04 12:20:37.652 DEBUG [foo,99b86b1544f68f1a,99b86b1544f68f1a,true] 21978 --- [nio-8080-exec-5] com.example.demo.event.FooEventHandler   : before [method=handleCreate, args=(Foo(id=2, name=fubar, version=0))]
+
+2020-07-04 12:20:37.653  INFO [foo,99b86b1544f68f1a,99b86b1544f68f1a,true] 21978 --- [nio-8080-exec-5] com.example.demo.event.FooEventHandler   : foo created, do something
+
+2020-07-04 12:20:37.653 DEBUG [foo,99b86b1544f68f1a,99b86b1544f68f1a,true] 21978 --- [nio-8080-exec-5] com.example.demo.event.FooEventHandler   : after [method=handleCreate]
+````
+
+## Logging Method Annotations
+
+<code>[@Log.Around](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/aop/Log.java)</code> - Log messages before and after annotated method executes.
+ - `@Log.Around(withLevel=LogLevel.DEBUG)` - <code>[LogLevel](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html)</code> to write log messages, defaults to <code>[LogLevel.DEBUG](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html#DEBUG)</code>
+
+`@Log.Before` - Log messages only before annotated method executes.
+
+`@Log.After` - Log messsages only after annotated method executes, regardless if returns void, Object, or exception.
+
+`@Log.AfterReturning` - Log messages only after annotated method executes and returns non-void value.
 
 // TODO
 // adhoc
