@@ -94,6 +94,57 @@ public class LogAspect {
         logBefore(joinPoint, LogLevel.FATAL, before.withArgs());
     }
 
+    void logBefore(JoinPoint joinPoint, LogLevel logLevel, boolean withArgs) { 
+        var logger = LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringType());
+        var methodName = joinPoint.getSignature().getName();
+        var args = joinPoint.getArgs();
+
+        switch(logLevel) {
+            case TRACE: {
+                if (logger.isTraceEnabled()) {
+                    var message = generateBeforeMessage(methodName, withArgs, args);
+                    logger.trace(message);
+                }
+                break;
+            }
+            case DEBUG: {
+                if (logger.isDebugEnabled()) {
+                    var message = generateBeforeMessage(methodName, withArgs, args);
+                    logger.debug(message);
+                }
+                break;
+            }
+            case INFO: {
+                if (logger.isInfoEnabled()) {
+                    var message = generateBeforeMessage(methodName, withArgs, args);
+                    logger.info(message);
+                }
+                break;
+            }
+            case WARN: {
+                if (logger.isWarnEnabled()) {
+                    var message = generateBeforeMessage(methodName, withArgs, args);
+                    logger.warn(message);
+                }
+                break;
+            }
+            case ERROR: {
+                if (logger.isErrorEnabled()) {
+                    var message = generateBeforeMessage(methodName, withArgs, args);
+                    logger.error(message);
+                }
+                break;
+            }
+            case FATAL: {
+                var message = generateBeforeMessage(methodName, withArgs, args);
+                logger.error(message);
+                break;
+            }
+            case OFF:
+            default: break;
+        }
+    }
+
     @After("@annotation(after)")
     public void logAfter(JoinPoint joinPoint, Log.After after) {
         logAfter(joinPoint, after.withLevel(), false, null);
@@ -198,59 +249,6 @@ public class LogAspect {
     public void logAfter(JoinPoint joinPoint, Log.Fatal.Around around, Object returnType) {
         logAfter(joinPoint, LogLevel.FATAL, around.withReturnType(), returnType);
     }
-
-    void logBefore(JoinPoint joinPoint, LogLevel logLevel, boolean withArgs) { 
-        var logger = LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringType());
-        var methodName = joinPoint.getSignature().getName();
-        var args = joinPoint.getArgs();
-
-        switch(logLevel) {
-            case TRACE: {
-                if (logger.isTraceEnabled()) {
-                    var message = generateBeforeMessage(methodName, withArgs, args);
-                    logger.trace(message);
-                }
-                break;
-            }
-            case DEBUG: {
-                if (logger.isDebugEnabled()) {
-                    var message = generateBeforeMessage(methodName, withArgs, args);
-                    logger.debug(message);
-                }
-                break;
-            }
-            case INFO: {
-                if (logger.isInfoEnabled()) {
-                    var message = generateBeforeMessage(methodName, withArgs, args);
-                    logger.info(message);
-                }
-                break;
-            }
-            case WARN: {
-                if (logger.isWarnEnabled()) {
-                    var message = generateBeforeMessage(methodName, withArgs, args);
-                    logger.warn(message);
-                }
-                break;
-            }
-            case ERROR: {
-                if (logger.isErrorEnabled()) {
-                    var message = generateBeforeMessage(methodName, withArgs, args);
-                    logger.error(message);
-                }
-                break;
-            }
-            case FATAL: {
-                var message = generateBeforeMessage(methodName, withArgs, args);
-                logger.error(message);
-                break;
-            }
-            case OFF: { 
-                break;
-            }
-        }
-    }
-
     void logAfter(JoinPoint joinPoint, LogLevel logLevel, boolean withReturnType, Object returnType) { 
         var logger = LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringType());
         var signature = joinPoint.getSignature();
@@ -296,9 +294,8 @@ public class LogAspect {
                 logger.error(message);
                 break;
             }
-            case OFF: { 
-                break;
-            }
+            case OFF: break;
+            default: 
         }
     }
 

@@ -7,14 +7,47 @@ Spring-Boot starter for reducing logging boilerplate through annotations using S
 ## Usage
 
 // TODO
-
-## Installation
+// adhoc
+// auto for repo
 
 // TODO
+
+## Configure SLF4j Log Format
+
+// how to configure log pattern
+
+## Configure Log Message Format
+
+// default
+
+// how to configure custom
+
+## Configure Argument Writer
+
+### Use Basic Writer
+
+// Lombok.toString Exclude/Include
+
+### Use Jackson Writer
 
 ## Supported Versions
 
-// TODO
+| Package                          | Version                      |
+| -------------------------------- | ---------------------------- |
+| Spring-Boot-Starter              | `2.3.1-RELEASE`              |
+| Spring-Boot-Starter-AOP          | `2.3.1-RELEASE` <sup>1</sup> |
+| Spring-Boot-Starter-Data-Rest    | `2.3.1-RELEASE` <sup>1</sup> |
+| Spring-Boot-Starter-Data-JPA     | `2.3.1-RELEASE` <sup>1</sup> |
+| Spring-Boot-Starter-Data-MongoDB | `2.3.1-RELEASE` <sup>1</sup> |
+| Spring-Cloud                     | `Hoxton.SR6`                 |
+| Spring-Cloud-Starter-Sleuth      | `2.2.3.RELEASE` <sup>2</sup> |
+| Lombok                           | `1.18.12` <sup>1</sup>       |
+| Jackson-Databind                 | `2.11.0` <sup>1</sup>        |
+| Java                             | `11`                         |
+
+<sup>1</sup> Dependency versioning inherited from `Spring-Boot-Starter`.
+
+<sup>2</sup> Dependency versioning inherited from `Spring-Cloud`.
 
 ## Maven Integration
 
