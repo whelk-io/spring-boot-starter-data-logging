@@ -5,11 +5,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>io.whelk.spring.data.logging</groupId>
-	<artifactId>spring-data-logging-starter</artifactId>
-	<version>..1-RELEASE</version>
-	<name>Spring Data Logging Starter</name>
-	<description>Annotated logging using Spring Data and Spring AOP</description>
-	<url>https://github.com/whelk-io/spring-data-logger-starter</url>
+	<artifactId>spring-boot-starter-data-logging</artifactId>
+	<version>0.1.1-RELEASE</version>
+	<name>Spring Boot Starter Data Logging</name>
+	<description>Spring-Boot starter for reducing logging boilerplate through annotations using Spring-Data, Spring-AOP, Spring-Cloud-Sleuth, and Lombok.</description>
+	<url>https://github.com/whelk-io/spring-boot-starter-data-logging</url>
 
 	<licenses>
 		<license>
@@ -20,7 +20,7 @@
 	</licenses>
 
 	<scm>
-		<url>https://github.com/whelk-io/spring-data-logger-starter.git</url>
+		<url>https://github.com/whelk-io/spring-boot-starter-data-logging.git</url>
 	</scm>
 
 	<developers>
@@ -126,8 +126,8 @@
 
 	<distributionManagement>
 		<repository>
-			<id>github-spring-data-logger-starter</id>
-			<url>https://maven.pkg.github.com/whelk-io/spring-data-logger-starter</url>
+			<id>github-spring-boot-starter-data-logging</id>
+			<url>https://maven.pkg.github.com/whelk-io/spring-boot-starter-data-logging</url>
 		</repository>
 	</distributionManagement>
 
