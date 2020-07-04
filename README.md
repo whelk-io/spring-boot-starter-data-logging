@@ -1,4 +1,4 @@
-# spring-data-logging-starter
+# spring-boot-starter-data-logging
 
 // TODO
 
