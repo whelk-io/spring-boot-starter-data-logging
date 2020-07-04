@@ -6,7 +6,7 @@
 
 	<groupId>io.whelk.spring.data.logging</groupId>
 	<artifactId>spring-data-logging-starter</artifactId>
-	<version>0.0.20-RELEASE</version>
+	<version>..1-RELEASE</version>
 	<name>Spring Data Logging Starter</name>
 	<description>Annotated logging using Spring Data and Spring AOP</description>
 	<url>https://github.com/whelk-io/spring-data-logger-starter</url>
