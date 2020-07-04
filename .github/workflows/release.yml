@@ -2,7 +2,8 @@ name: release
 
 on:
   push:
-    branches: master
+    branches: 
+      - master
 
 jobs:
 
@@ -39,7 +40,7 @@ jobs:
     - name: Create Maven settings.xml
       uses: whelk-io/maven-settings-xml-action@v2
       with:
-        servers: '[{"id": "github", "username": "${{ secrets.BUILD_USERNAME }}", "password": "${{ secrets.BUILD_TOKEN }}"}]'
+        servers: '[{"id": "github-spring-data-logging-starter", "username": "${{ secrets.BUILD_USERNAME }}", "password": "${{ secrets.BUILD_TOKEN }}"}]'
 
     - name: Deploy package
       run: mvn -B deploy --file pom.xml
