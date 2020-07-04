@@ -30,7 +30,7 @@ jobs:
     - name: Get latest release version
       run: |
         curl -X GET \
-          https://api.github.com/repos/whelk-io/hy-phen-a-tion/releases/latest \
+          https://api.github.com/repos/whelk-io/spring-data-logging-starter/releases/latest \
           -o /tmp/release.json
     - name: Increment version in pom.xml
       run: |
