@@ -6,7 +6,7 @@ Spring-Boot starter for reducing logging boilerplate with Spring-AOP annotations
 
 ## Basic Example
 
-Given a <code>[Spring-Data-JPA](https://spring.io/projects/spring-data-jpa)</code> data model: 
+Given a <code>[Spring-Data-JPA](https://spring.io/projects/spring-data-jpa)</code> entity: 
 
 ````java
 @Data
@@ -26,7 +26,7 @@ public class Foo {
 }
 ````
 
-And a <code>[Spring-Data-REST](https://spring.io/projects/spring-data-rest)</code> repository:
+And a <code>[Spring-Data-REST](https://spring.io/projects/spring-data-rest)</code> <code>[RepositoryRestResource](https://docs.spring.io/spring-data/rest/docs/current/reference/html/#repository-resources)</code>:
 
 ````java
 @RepositoryRestResource
