@@ -45,13 +45,10 @@ jobs:
     - name: Deploy package
       run: mvn -B deploy --file pom.xml
 
-    - name: Checkout develop branch
-      uses: actions/checkout@master
-      with:
-        branch: develop
-
     - name: Merge master to develop
       run: |
+        git fetch
+        git checkout develop
         git config --local user.email ${{ secrets.BUILD_EMAIL }}
         git config --local user.name ${{ secrets.BUILD_USERNAME }}
         git pull
