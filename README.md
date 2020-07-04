@@ -1,7 +1,6 @@
-# spring-data-logging-starter
+# spring-boot-starter-data-logging
 
 // TODO
-// add support for other spring-data projects (mongo, e.g.)
 
 ## Installation
 

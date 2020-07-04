@@ -31,7 +31,7 @@ jobs:
       run: |
         version=`cat /tmp/version.txt` &&
         curl -X POST \
-          https://api.github.com/repos/whelk-io/spring-data-logging-starter/releases \
+          https://api.github.com/repos/whelk-io/spring-boot-starter-data-logging/releases \
           -H 'Authorization: Bearer ${{ secrets.BUILD_TOKEN }}' \
           -H 'Content-Type: application/json' \
           -H 'Host: api.github.com' \
@@ -40,7 +40,7 @@ jobs:
     - name: Create Maven settings.xml
       uses: whelk-io/maven-settings-xml-action@v2
       with:
-        servers: '[{"id": "github-spring-data-logging-starter", "username": "${{ secrets.BUILD_USERNAME }}", "password": "${{ secrets.BUILD_TOKEN }}"}]'
+        servers: '[{"id": "github-spring-boot-starter-data-logging", "username": "${{ secrets.BUILD_USERNAME }}", "password": "${{ secrets.BUILD_TOKEN }}"}]'
 
     - name: Deploy package
       run: mvn -B deploy --file pom.xml
