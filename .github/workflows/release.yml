@@ -2,7 +2,7 @@ name: release
 
 on:
   push:
-    branches: 
+    branches:
       - master
 
 jobs:
@@ -44,5 +44,3 @@ jobs:
 
     - name: Deploy package
       run: mvn -B deploy --file pom.xml
-
-  

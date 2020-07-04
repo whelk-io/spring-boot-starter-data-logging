@@ -29,15 +29,15 @@ public interface TraceableJpaRepository<T, ID>
 
     @Log.Trace.Around
     @Override
-    List<T> findAllById(Iterable<ID> ids);
-
-    @Log.Trace.Around
-    @Override
     <S extends T> List<S> findAll(Example<S> example);
 
     @Log.Trace.Around
     @Override
     <S extends T> List<S> findAll(Example<S> example, Sort sort);
+
+    @Log.Trace.Around
+    @Override
+    List<T> findAllById(Iterable<ID> ids);
 
     @Log.Trace.Around
     @Override
