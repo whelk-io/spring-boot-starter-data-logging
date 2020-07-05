@@ -83,12 +83,17 @@ Observe logs generated
 
 <code>[@Log.Around](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/aop/Log.java)</code> - Log messages before and after annotated method executes.
  - `@Log.Around(withLevel=LogLevel.DEBUG)` - <code>[LogLevel](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html)</code> to write log messages, defaults to <code>[LogLevel.DEBUG](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html#DEBUG)</code>
+ - `@Log.Around(withArgs=true)` - Log method parameters using wired [ArgWriter](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/ArgWriter.java). 
 
-`@Log.Before` - Log messages only before annotated method executes.
+<code>[@Log.Before](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/aop/Log.java)</code> - Log messages only before annotated method executes.
+  - `@Log.Before(withLevel=LogLevel.DEBUG)` - <code>[LogLevel](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html)</code> to write log messages, defaults to <code>[LogLevel.DEBUG](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html#DEBUG)</code>
+  - `@Log.Before(withArgs=true)` - Log method parameters using wired [ArgWriter](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/ArgWriter.java). 
 
-`@Log.After` - Log messsages only after annotated method executes, regardless if returns void, Object, or exception.
+<code>[@Log.After](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/aop/Log.java)</code> - Log messsages only after annotated method executes, regardless if returns `void`, any `Object`, or any `Exception`.
 
-`@Log.AfterReturning` - Log messages only after annotated method executes and returns non-void value.
+<code>[@Log.AfterReturning](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/aop/Log.java)</code> - Log messages only after annotated method executes and returns non-`void` value.
+
+
 
 // TODO
 // adhoc
