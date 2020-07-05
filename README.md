@@ -83,11 +83,12 @@ Observe logs generated
 
 <code>[@Log.Around](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/aop/Log.java)</code> - Log messages before and after annotated method executes.
  - `@Log.Around(withLevel=LogLevel.DEBUG)` - <code>[LogLevel](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html)</code> to write log messages, defaults to <code>[LogLevel.DEBUG](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html#DEBUG)</code>
- - `@Log.Around(withArgs=true)` - Log method parameters using wired [ArgWriter](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/ArgWriter.java). 
+ - `@Log.Around(withArgs=true)` - Log method parameters (if any) using wired [ArgWriter](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/ArgWriter.java). 
+ - `@Log.Around(withReturnType=true)` - Log method return (if any) using wired [ArgWriter](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/ArgWriter.java). 
 
 <code>[@Log.Before](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/aop/Log.java)</code> - Log messages only before annotated method executes.
   - `@Log.Before(withLevel=LogLevel.DEBUG)` - <code>[LogLevel](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html)</code> to write log messages, defaults to <code>[LogLevel.DEBUG](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html#DEBUG)</code>
-  - `@Log.Before(withArgs=true)` - Log method parameters using wired [ArgWriter](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/ArgWriter.java). 
+  - `@Log.Before(withArgs=true)` - Log method parameters (if any) using wired [ArgWriter](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/ArgWriter.java). 
 
 <code>[@Log.After](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/aop/Log.java)</code> - Log messsages only after annotated method executes, regardless if returns `void`, any `Object`, or any `Exception`.
   - `@Log.After(withLevel=LogLevel.DEBUG)` - <code>[LogLevel](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html)</code> to write log messages, defaults to <code>[LogLevel.DEBUG](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html#DEBUG)</code>
@@ -95,31 +96,23 @@ Observe logs generated
 <code>[@Log.AfterReturning](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/aop/Log.java)</code> - Log messages only after annotated method executes and returns non-`void` value.
   - `@Log.AfterReturning(withLevel=LogLevel.DEBUG)` - <code>[LogLevel](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html)</code> to write log messages, defaults to <code>[LogLevel.DEBUG](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html#DEBUG)</code>
 
+## Spring-Data-REST
 
-// TODO
-// adhoc
-// auto for repo
-  /// mongo, jpa variants
+## Spring-Data-JPA
 
-// TODO
+## Spring-Data-MongoDB
 
-## Configure SLF4j Log Format
+## ToString ArgWriter with Lombok
 
-// how to configure log pattern
+## JSON ArgWriter with Jackson
+
+## Configure SLF4j Log Pattern
 
 ## Configure Log Message Format
 
 // default
 
 // how to configure custom
-
-## Configure Argument Writer
-
-### Use Basic Writer
-
-// Lombok.toString Exclude/Include
-
-### Use Jackson Writer
 
 ## Supported Versions
 
