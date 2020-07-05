@@ -90,9 +90,10 @@ Observe logs generated
   - `@Log.Before(withArgs=true)` - Log method parameters using wired [ArgWriter](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/ArgWriter.java). 
 
 <code>[@Log.After](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/aop/Log.java)</code> - Log messsages only after annotated method executes, regardless if returns `void`, any `Object`, or any `Exception`.
+  - `@Log.After(withLevel=LogLevel.DEBUG)` - <code>[LogLevel](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html)</code> to write log messages, defaults to <code>[LogLevel.DEBUG](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html#DEBUG)</code>
 
 <code>[@Log.AfterReturning](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/aop/Log.java)</code> - Log messages only after annotated method executes and returns non-`void` value.
-
+  - `@Log.AfterReturning(withLevel=LogLevel.DEBUG)` - <code>[LogLevel](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html)</code> to write log messages, defaults to <code>[LogLevel.DEBUG](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html#DEBUG)</code>
 
 
 // TODO
