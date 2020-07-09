@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 public class BasicLoggingConfigurer implements LoggingConfigurer {
 
     public static final String AFTER_METHOD = "after [method=%s]";
-    public static final String AFTER_METHOD_WITH_RETURN_TYPE = "after [method=%s, returnType=%s]";
+    public static final String AFTER_METHOD_WITH_RETURN_TYPE = "after [method=%s, return=%s]";
     public static final String BEFORE_METHOD = "before [method=%s]";
     public static final String BEFORE_METHOD_WITH_ARGS = "before [method=%s, args=(%s)]";
 

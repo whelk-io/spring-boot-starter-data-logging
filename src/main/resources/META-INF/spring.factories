@@ -1,1 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.whelk.spring.data.logging.auto.LoggingAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io.whelk.spring.data.logging.auto.LoggingAutoConfiguration

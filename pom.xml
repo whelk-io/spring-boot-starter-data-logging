@@ -6,7 +6,7 @@
 
 	<groupId>io.whelk.spring.data.logging</groupId>
 	<artifactId>spring-boot-starter-data-logging</artifactId>
-	<version>0.0.5-RELEASE</version>
+	<version>0.0.5-SNAPSHOT</version>
 	<name>Spring Boot Starter Data Logging</name>
 	<description>Spring-Boot starter for reducing logging boilerplate with Spring-AOP annotations. Takes advantage of tracing and logging capabilities in Spring-Data, Spring-Cloud-Sleuth, and Lombok.</description>
 	<url>https://github.com/whelk-io/spring-boot-starter-data-logging</url>

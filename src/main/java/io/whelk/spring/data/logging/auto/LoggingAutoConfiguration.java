@@ -9,7 +9,9 @@ import io.whelk.spring.data.logging.configurer.BasicLoggingConfigurer;
 import io.whelk.spring.data.logging.configurer.LoggingConfigurer;
 import io.whelk.spring.data.logging.writer.ArgWriter;
 import io.whelk.spring.data.logging.writer.BasicArgWriter;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Configuration
 @ComponentScan("io.whelk.spring.data.logging")
 public class LoggingAutoConfiguration {

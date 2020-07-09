@@ -48,6 +48,14 @@ public class FooEventHandler {
 }
 ````
 
+When creating entity by REST
+````
+curl -X POST \
+     -H 'Content-Type: application/json' \
+     -d '{ "name": fubar" }' \
+     localhost:8080/foos 
+````
+
 Observe logs generated
 ````log
 2020-07-04 12:17:19.583  INFO [foo,6aaf12d29bafd856,6aaf12d29bafd856,true] 21978 --- [nio-8080-exec-2] com.example.demo.event.FooEventHandler   : foo created, do something
@@ -98,9 +106,52 @@ Observe logs generated
 
 ## Spring-Data-REST
 
+> Spring Data REST is part of the umbrella Spring Data project and makes it easy to build hypermedia-driven REST web services on top of Spring Data repositories.
+
+> Spring Data REST builds on top of Spring Data repositories, analyzes your application’s domain model and exposes hypermedia-driven HTTP resources for aggregates contained in the model.
+
+Source: [Spring Data REST](https://spring.io/projects/spring-data-rest)
+
+
+````
+@RepositoryRestResource
+public interface FooRepository extends TraceableCrudRepository<Foo, Long> { }
+````
+
+## Spring-Cloud-Sleuth
+
+> Spring Cloud Sleuth provides Spring Boot auto-configuration for distributed tracing. Specifically, adds trace and span ids to the Slf4J MDC, to extract all the logs from a given trace or span in a log aggregator.
+
+Source: [Spring Cloud Sleuth](https://spring.io/projects/spring-cloud-sleuth)
+
+### Integration
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-sleuth</artifactId>
+    </dependency>
+  </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring-cloud.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
 ## Spring-Data-JPA
 
+// default logging and span
+
 ## Spring-Data-MongoDB
+
+// default logging and span
 
 ## ToString ArgWriter with Lombok
 
