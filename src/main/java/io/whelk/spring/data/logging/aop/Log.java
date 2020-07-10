@@ -35,10 +35,17 @@ public interface Log {
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
+        public @interface AfterThrowing {
+            boolean withStacktrace() default true;
+        }
+
+        @Inherited
+        @Target(METHOD)
+        @Retention(RUNTIME)
         public @interface Around {
             boolean withArgs() default true;
-
             boolean withReturnType() default true;
+            boolean withStacktrace() default true;
         }
 
     }
@@ -67,10 +74,17 @@ public interface Log {
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
+        public @interface AfterThrowing {
+            boolean withStacktrace() default true;
+        }
+
+        @Inherited
+        @Target(METHOD)
+        @Retention(RUNTIME)
         public @interface Around {
             boolean withArgs() default true;
-
             boolean withReturnType() default true;
+            boolean withStacktrace() default true;
         }
 
     }
@@ -99,10 +113,17 @@ public interface Log {
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
+        public @interface AfterThrowing {
+            boolean withStacktrace() default true;
+        }
+
+        @Inherited
+        @Target(METHOD)
+        @Retention(RUNTIME)
         public @interface Around {
             boolean withArgs() default true;
-
             boolean withReturnType() default true;
+            boolean withStacktrace() default true;
         }
 
     }
@@ -131,10 +152,17 @@ public interface Log {
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
+        public @interface AfterThrowing {
+            boolean withStacktrace() default true;
+        }
+
+        @Inherited
+        @Target(METHOD)
+        @Retention(RUNTIME)
         public @interface Around {
             boolean withArgs() default true;
-
             boolean withReturnType() default true;
+            boolean withStacktrace() default true;
         }
 
     }
@@ -163,10 +191,17 @@ public interface Log {
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
+        public @interface AfterThrowing {
+            boolean withStacktrace() default true;
+        }
+
+        @Inherited
+        @Target(METHOD)
+        @Retention(RUNTIME)
         public @interface Around {
             boolean withArgs() default true;
-
             boolean withReturnType() default true;
+            boolean withStacktrace() default true;
         }
 
     }
@@ -184,6 +219,7 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface After {
+
         }
 
         @Inherited
@@ -195,10 +231,17 @@ public interface Log {
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
+        public @interface AfterThrowing {
+            boolean withStacktrace() default true;
+        }
+
+        @Inherited
+        @Target(METHOD)
+        @Retention(RUNTIME)
         public @interface Around {
             boolean withArgs() default true;
-
             boolean withReturnType() default true;
+            boolean withStacktrace() default true;
         }
 
     }
@@ -208,7 +251,6 @@ public interface Log {
     @Retention(RUNTIME)
     public @interface Before {
         boolean withArgs() default true;
-
         LogLevel withLevel() default LogLevel.DEBUG;
     }
 
@@ -229,12 +271,19 @@ public interface Log {
     @Inherited
     @Target(METHOD)
     @Retention(RUNTIME)
+    public @interface AfterThrowing {
+        LogLevel withLevel() default LogLevel.ERROR;
+        boolean withStacktrace() default true;
+    }
+
+    @Inherited
+    @Target(METHOD)
+    @Retention(RUNTIME)
     public @interface Around {
         boolean withArgs() default true;
-
         boolean withReturnType() default true;
-
         LogLevel withLevel() default LogLevel.DEBUG;
+        boolean withStacktrace() default true;
     }
 
     @Inherited

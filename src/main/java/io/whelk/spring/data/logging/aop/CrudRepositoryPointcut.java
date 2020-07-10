@@ -1,15 +1,23 @@
 package io.whelk.spring.data.logging.aop;
 
 import static org.springframework.boot.logging.LogLevel.DEBUG;
+import static org.springframework.boot.logging.LogLevel.ERROR;
+
+import java.util.Optional;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
+import io.whelk.spring.data.logging.sleuth.TracerAdvice;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 
 @Aspect
 @Component
@@ -17,42 +25,61 @@ import lombok.RequiredArgsConstructor;
 public class CrudRepositoryPointcut {
 
     private final LogAdvice logAdvice;
+    private final Optional<TracerAdvice> tracerAdvice;
 
-    @Pointcut("execution(* org.springframework.data.repository.CrudRepository.count())))")
-    private void count() { }
+    @Pointcut("execution(* org.springframework.data.repository.CrudRepository.existsById(*))")
+    void existsById() { }
+
+    @Before("existsById()")
+    void existsByIdBefore(JoinPoint joinPoint) throws Throwable {
+        logAdvice.logBefore(joinPoint, DEBUG);
+    }
+
+    @AfterReturning(pointcut = "existsById()", returning = "returnType")
+    void existsByIdAfterReturning(JoinPoint joinPoint, Object returnType) throws Throwable {
+        logAdvice.logAfterReturning(joinPoint, DEBUG, returnType);
+    }
+
+    @AfterThrowing(pointcut = "existsById()", throwing = "e")
+    void existsByIdAfterThrowing(JoinPoint joinPoint, Exception e) throws Throwable {
+        logAdvice.logAfterThrowing(joinPoint, DEBUG, e);
+    }
+
+    @Pointcut("execution(* org.springframework.data.repository.CrudRepository.count())")
+    void count() { }
 
     @Before("count()")
-    public void logBeforeCount(JoinPoint joinPoint) throws Throwable {
-        logAdvice.logBefore(joinPoint, DEBUG, true);
+    void countBefore(JoinPoint joinPoint) throws Throwable {
+        logAdvice.logBefore(joinPoint, DEBUG);
     }
 
     @AfterReturning(pointcut = "count()", returning = "returnType")
-    public void logAfterCount(JoinPoint joinPoint, Object returnType) {
-        logAdvice.logAfter(joinPoint, DEBUG, true, returnType);
+    void countAfterReturning(JoinPoint joinPoint, Object returnType) {
+        logAdvice.logAfterReturning(joinPoint, DEBUG, returnType);
     }
 
-    @Pointcut("execution(* org.springframework.data.repository.CrudRepository.findById(..))))")
-    private void findById() { }
+    @AfterThrowing(pointcut = "count()", throwing = "e")
+    void countAfterThrowing(JoinPoint joinPoint, Exception e) {
+        logAdvice.logAfterThrowing(joinPoint, ERROR, e);
+    }
+ 
+    @Pointcut("execution(* org.springframework.data.repository.CrudRepository.findById(*))")
+    void findById() { }
 
     @Before("findById()")
-    public void logBeforeFindById(JoinPoint joinPoint) throws Throwable {
-        logAdvice.logBefore(joinPoint, DEBUG, true);
+    void findByIdBefore(JoinPoint joinPoint) throws Throwable {
+        logAdvice.logBefore(joinPoint, DEBUG);
     }
 
     @AfterReturning(pointcut = "findById()", returning = "returnType")
-    public void logAfterFindById(JoinPoint joinPoint, Object returnType) {
-        logAdvice.logAfter(joinPoint, DEBUG, true, returnType);
+    void findByIdAfterReturning(JoinPoint joinPoint, Object returnType) {
+        logAdvice.logAfterReturning(joinPoint, DEBUG, returnType);
     }
 
-
-
-    // @Log.Trace.Around
-    // @Override
-    // boolean existsById(ID id);
-
-    // @Log.Trace.Around
-    // @Override
-    // long count();
+    @AfterThrowing(pointcut = "findById()", throwing = "e")
+    void findByIdAfterReturning(JoinPoint joinPoint, Exception e) {
+        logAdvice.logAfterThrowing(joinPoint, ERROR, e);
+    }
 
     // @Log.Trace.Around
     // @Override
@@ -62,22 +89,30 @@ public class CrudRepositoryPointcut {
     // @Override
     // Iterable<T> findAllById(Iterable<ID> ids);
 
-    // @Log.Debug.Around
-    // @Log.Span
-    // @Override
-    // <S extends T> S save(S entity);
-
-    @Pointcut("execution(* org.springframework.data.repository.CrudRepository.save(..))))")
-    private void save() { }
+    @Pointcut("execution(* org.springframework.data.repository.CrudRepository.save(*))")
+    void save() { }
 
     @Before("save()")
-    public void logBeforeSave(JoinPoint joinPoint) throws Throwable {
-        logAdvice.logBefore(joinPoint, DEBUG, true);
+    void saveBefore(JoinPoint joinPoint) throws Throwable {
+        logAdvice.logBefore(joinPoint, DEBUG);
     }
 
     @AfterReturning(pointcut = "save()", returning = "returnType")
-    public void logAfterSave(JoinPoint joinPoint, Object returnType) {
-        logAdvice.logAfter(joinPoint, DEBUG, true, returnType);
+    void saveAfterReturning(JoinPoint joinPoint, Object returnType) {
+        logAdvice.logAfterReturning(joinPoint, DEBUG, returnType);
+    }
+
+    @AfterThrowing(pointcut = "save()", throwing = "e")
+    void saveAfterThrowing(JoinPoint joinPoint, Exception e) {
+        logAdvice.logAfterThrowing(joinPoint, ERROR, e);
+    }
+
+    @SneakyThrows
+    @Around("save()")
+    Object saveAround(ProceedingJoinPoint joinPoint) { 
+        return tracerAdvice.isPresent()
+               ? tracerAdvice.get().spanAround(joinPoint)
+               : joinPoint.proceed();
     }
 
     // @Log.Debug.Around

@@ -1,40 +1,47 @@
 package io.whelk.spring.data.logging.configurer;
 
 import io.whelk.spring.data.logging.writer.ArgWriter;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class BasicLoggingConfigurer implements LoggingConfigurer {
 
-    public static final String AFTER_METHOD = "after [method=%s]";
-    public static final String AFTER_METHOD_WITH_RETURN_TYPE = "after [method=%s, return=%s]";
-    public static final String BEFORE_METHOD = "before [method=%s]";
-    public static final String BEFORE_METHOD_WITH_ARGS = "before [method=%s, args=(%s)]";
+    public static final String BEFORE = "before [method=%s]";
+    public static final String BEFORE_WITH_ARGS = "before [method=%s, args=(%s)]";
+    public static final String AFTER = "after [method=%s]";
+    public static final String AFTER_RETURNING = "after [method=%s, return=%s]";
+    public static final String AFTER_THROWING = "thrown [method=%s, exception=%s, message=%s]";
 
     private final ArgWriter argWriter;
 
     @Override
-    public String beforeMethodMessage() {
-        return BEFORE_METHOD;
+    public @NonNull String beforeMessage() {
+        return BEFORE;
     }
 
     @Override
-    public String beforeMethodWithArgsMessage() {
-        return BEFORE_METHOD_WITH_ARGS;
+    public @NonNull String beforeWithArgsMessage() {
+        return BEFORE_WITH_ARGS;
     }
 
     @Override
-    public String afterMethodMessage() {
-        return AFTER_METHOD;
+    public @NonNull String afterMessage() {
+        return AFTER;
     }
 
     @Override
-    public String afterMethodWithReturnType() {
-        return AFTER_METHOD_WITH_RETURN_TYPE;
+    public @NonNull String afterReturningMessage() {
+        return AFTER_RETURNING;
     }
 
     @Override
-    public ArgWriter argWriter() {
+    public @NonNull String afterThrowingMessage() {
+        return AFTER_THROWING;
+    }
+
+    @Override
+    public @NonNull ArgWriter argWriter() {
         return argWriter;
     }
 
