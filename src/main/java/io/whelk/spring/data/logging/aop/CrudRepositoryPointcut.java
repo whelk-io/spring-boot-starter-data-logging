@@ -24,8 +24,8 @@ import lombok.SneakyThrows;
 @RequiredArgsConstructor
 public class CrudRepositoryPointcut {
 
-    private final LogAdvice logAdvice;
-    private final Optional<TracerAdvice> tracerAdvice;
+    protected final LogAdvice logAdvice;
+    protected final Optional<TracerAdvice> tracerAdvice;
 
     @Pointcut("execution(* org.springframework.data.repository.CrudRepository.existsById(*))")
     void existsById() { }
@@ -114,11 +114,6 @@ public class CrudRepositoryPointcut {
                ? tracerAdvice.get().spanAround(joinPoint)
                : joinPoint.proceed();
     }
-
-    // @Log.Debug.Around
-    // @Log.Span
-    // @Override
-    // <S extends T> Iterable<S> saveAll(Iterable<S> entities);
 
     // @Log.Debug.Around
     // @Log.Span
