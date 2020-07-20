@@ -28,72 +28,72 @@ public class LogPointcut {
 
     @Before("@annotation(around)")
     void logBefore(JoinPoint joinPoint, Log.Around around) {
-        logAdvice.logBefore(joinPoint, around.withLevel(), around.withArgs());
+        logAdvice.logBefore(joinPoint, around.withLevel(), around.withArgs(), around.withArgWriter());
     }
 
     @Before("@annotation(around)")
     void logBefore(JoinPoint joinPoint, Log.Trace.Around around) {
-        logAdvice.logBefore(joinPoint, TRACE, around.withArgs());
+        logAdvice.logBefore(joinPoint, TRACE, around.withArgs(), around.withArgWriter());
     }
 
     @Before("@annotation(around)")
     void logBefore(JoinPoint joinPoint, Log.Debug.Around around) {
-        logAdvice.logBefore(joinPoint, DEBUG, around.withArgs());
+        logAdvice.logBefore(joinPoint, DEBUG, around.withArgs(), around.withArgWriter());
     }
 
     @Before("@annotation(around)")
     void logBefore(JoinPoint joinPoint, Log.Info.Around around) {
-        logAdvice.logBefore(joinPoint, INFO, around.withArgs());
+        logAdvice.logBefore(joinPoint, INFO, around.withArgs(), around.withArgWriter());
     }
 
     @Before("@annotation(around)")
     void logBefore(JoinPoint joinPoint, Log.Warn.Around around) {
-        logAdvice.logBefore(joinPoint, WARN, around.withArgs());
+        logAdvice.logBefore(joinPoint, WARN, around.withArgs(), around.withArgWriter());
     }
 
     @Before("@annotation(around)")
     void logBefore(JoinPoint joinPoint, Log.Error.Around around) {
-        logAdvice.logBefore(joinPoint, LogLevel.ERROR, around.withArgs());
+        logAdvice.logBefore(joinPoint, LogLevel.ERROR, around.withArgs(), around.withArgWriter());
     }
 
     @Before("@annotation(around)")
     void logBefore(JoinPoint joinPoint, Log.Fatal.Around around) {
-        logAdvice.logBefore(joinPoint, FATAL, around.withArgs());
+        logAdvice.logBefore(joinPoint, FATAL, around.withArgs(), around.withArgWriter());
     }
 
     @Before("@annotation(before)")
     void logBefore(JoinPoint joinPoint, Log.Before before) {
-        logAdvice.logBefore(joinPoint, before.withLevel(), before.withArgs());
+        logAdvice.logBefore(joinPoint, before.withLevel(), before.withArgs(), before.withArgWriter());
     }
 
     @Before("@annotation(before)")
     void logBefore(JoinPoint joinPoint, Log.Trace.Before before) {
-        logAdvice.logBefore(joinPoint, TRACE, before.withArgs());
+        logAdvice.logBefore(joinPoint, TRACE, before.withArgs(), before.withArgWriter());
     }
 
     @Before("@annotation(before)")
     void logBefore(JoinPoint joinPoint, Log.Debug.Before before) {
-        logAdvice.logBefore(joinPoint, DEBUG, before.withArgs());
+        logAdvice.logBefore(joinPoint, DEBUG, before.withArgs(), before.withArgWriter());
     }
 
     @Before("@annotation(before)")
     void logBefore(JoinPoint joinPoint, Log.Info.Before before) {
-        logAdvice.logBefore(joinPoint, INFO, before.withArgs());
+        logAdvice.logBefore(joinPoint, INFO, before.withArgs(), before.withArgWriter());
     }
 
     @Before("@annotation(before)")
     void logBefore(JoinPoint joinPoint, Log.Warn.Before before) {
-        logAdvice.logBefore(joinPoint, WARN, before.withArgs());
+        logAdvice.logBefore(joinPoint, WARN, before.withArgs(), before.withArgWriter());
     }
 
     @Before("@annotation(before)")
     void logBefore(JoinPoint joinPoint, Log.Error.Before before) {
-        logAdvice.logBefore(joinPoint, LogLevel.ERROR, before.withArgs());
+        logAdvice.logBefore(joinPoint, LogLevel.ERROR, before.withArgs(), before.withArgWriter());
     }
 
     @Before("@annotation(before)")
     void logBefore(JoinPoint joinPoint, Log.Fatal.Before before) {
-        logAdvice.logBefore(joinPoint, FATAL, before.withArgs());
+        logAdvice.logBefore(joinPoint, FATAL, before.withArgs(), before.withArgWriter());
     }
 
     @After("@annotation(after)")

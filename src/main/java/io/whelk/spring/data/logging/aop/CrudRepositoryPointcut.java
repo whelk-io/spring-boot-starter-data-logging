@@ -156,6 +156,30 @@ public class CrudRepositoryPointcut {
     }
 
     @Pointcut("execution(* org.springframework.data.repository.CrudRepository.deleteAll(*))")
+    void deleteAllByReference() { }
+
+    @Before("deleteAllByReference()")
+    void deleteAllByReferenceBefore(JoinPoint joinPoint) throws Throwable {
+        logBefore(joinPoint);
+    }
+
+    @After("deleteAllByReference()")
+    void deleteAllByReferenceAfter(JoinPoint joinPoint) {
+        logAfter(joinPoint);
+    }
+
+    @AfterThrowing(pointcut = "deleteAllByReference()", throwing = "e")
+    void deleteAllByReferenceAfterThrowing(JoinPoint joinPoint, Exception e) {
+        logAfterThrowing(joinPoint, e);
+    }
+
+    @SneakyThrows
+    @Around("deleteAllByReference()")
+    Object deleteAllByReferenceAround(ProceedingJoinPoint joinPoint) { 
+        return spanAround(joinPoint);
+    }
+
+    @Pointcut("execution(* org.springframework.data.repository.CrudRepository.deleteAll())")
     void deleteAll() { }
 
     @Before("deleteAll()")
@@ -178,11 +202,6 @@ public class CrudRepositoryPointcut {
     Object deleteAllAround(ProceedingJoinPoint joinPoint) { 
         return spanAround(joinPoint);
     }
-
-    // @Log.Debug.Around
-    // @Log.Span
-    // @Override
-    // void deleteAll();
 
     void logBefore(JoinPoint joinPoint) { 
         if (isCrudRepositoryDeclaringType(joinPoint))

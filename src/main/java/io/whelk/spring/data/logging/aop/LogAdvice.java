@@ -12,6 +12,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import io.whelk.spring.data.logging.configurer.LoggingConfigurer;
+import io.whelk.spring.data.logging.writer.ArgWriter;
 import io.whelk.spring.data.logging.writer.ReturnTypeWriter;
 import lombok.RequiredArgsConstructor;
 
@@ -23,10 +24,14 @@ public class LogAdvice {
     private final ApplicationContext applicationContext;
 
     public void logBefore(JoinPoint joinPoint, LogLevel logLevel) {
-        logBefore(joinPoint, logLevel, true);
+        logBefore(joinPoint, logLevel, true, null);
     }
 
-    public void logBefore(JoinPoint joinPoint, LogLevel logLevel, boolean withArgs) {
+    public void logBefore(JoinPoint joinPoint, LogLevel logLevel, Class<? extends ArgWriter> argWriter) {
+        logBefore(joinPoint, logLevel, true, argWriter);
+    }
+
+    public void logBefore(JoinPoint joinPoint, LogLevel logLevel, boolean withArgs, Class<? extends ArgWriter> argWriter) {
         var logger = LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringType());
         var methodName = joinPoint.getSignature().getName();
         var args = joinPoint.getArgs();
@@ -34,41 +39,41 @@ public class LogAdvice {
         switch (logLevel) {
             case TRACE: {
                 if (logger.isTraceEnabled()) {
-                    var message = generateBeforeMessage(methodName, withArgs, args);
+                    var message = generateBeforeMessage(methodName, withArgs, argWriter, args);
                     logger.trace(message);
                 }
                 break;
             }
             case DEBUG: {
                 if (logger.isDebugEnabled()) {
-                    var message = generateBeforeMessage(methodName, withArgs, args);
+                    var message = generateBeforeMessage(methodName, withArgs, argWriter, args);
                     logger.debug(message);
                 }
                 break;
             }
             case INFO: {
                 if (logger.isInfoEnabled()) {
-                    var message = generateBeforeMessage(methodName, withArgs, args);
+                    var message = generateBeforeMessage(methodName, withArgs, argWriter, args);
                     logger.info(message);
                 }
                 break;
             }
             case WARN: {
                 if (logger.isWarnEnabled()) {
-                    var message = generateBeforeMessage(methodName, withArgs, args);
+                    var message = generateBeforeMessage(methodName, withArgs, argWriter, args);
                     logger.warn(message);
                 }
                 break;
             }
             case ERROR: {
                 if (logger.isErrorEnabled()) {
-                    var message = generateBeforeMessage(methodName, withArgs, args);
+                    var message = generateBeforeMessage(methodName, withArgs, argWriter, args);
                     logger.error(message);
                 }
                 break;
             }
             case FATAL: {
-                var message = generateBeforeMessage(methodName, withArgs, args);
+                var message = generateBeforeMessage(methodName, withArgs, argWriter, args);
                 logger.error(message);
                 break;
             }
@@ -316,17 +321,30 @@ public class LogAdvice {
         return Void.TYPE.equals(MethodSignature.class.cast(signature).getReturnType());
     }
 
-    String generateBeforeMessage(String methodName, boolean withArgs, Object[] args) {
+    String generateBeforeMessage(
+            String methodName, 
+            boolean withArgs, 
+            Class<? extends ArgWriter> argWriter, 
+            Object[] args) {
+
         if (withArgs && args != null && args.length > 0) {
+            var argWriterBean = this.getArgWriterBean(argWriter);
             var argsJoined = 
                 Arrays
                     .stream(args)
-                    .map(this.loggingConfigurer.argWriter()::argToString)
+                    .map(argWriterBean::argToString)
                     .collect(Collectors.joining(", "));
             return String.format(loggingConfigurer.beforeWithArgsMessage(), methodName, argsJoined);
         } else {
             return String.format(loggingConfigurer.beforeMessage(), methodName);
         }
+
+    }
+
+    ArgWriter getArgWriterBean(Class<? extends ArgWriter> argWriter) { 
+        return argWriter == null || ArgWriter.class.equals(argWriter)
+               ? this.loggingConfigurer.argWriter() 
+               : applicationContext.getBean(argWriter);
     }
 
 }
