@@ -34,45 +34,78 @@ public class JpaRepositoryPointcut {
 
 	// <S extends T> List<S> findAll(Example<S> example, Sort sort);
 
-	// List<T> findAll();
+    @Pointcut("execution(* org.springframework.data.repository.CrudRepository.findAll())")
+    void findAll() { }
 
-	// List<T> findAll(Sort sort);
+    @Before("findAll()")
+    void findAllBefore(JoinPoint joinPoint) throws Throwable {
+        logBefore(joinPoint);
+    }
 
-	// List<T> findAllById(Iterable<ID> ids);
+    @AfterReturning(pointcut = "findAll()", returning = "returnType")
+    void findAllAfterReturning(JoinPoint joinPoint, Object returnType) {
+        logAfterReturning(joinPoint, returnType);
+    }
+
+    @AfterThrowing(pointcut = "findAll()", throwing = "e")
+    void findAllAfterThrowing(JoinPoint joinPoint, Exception e) {
+        logAfterThrowing(joinPoint, e);
+    }
+
+    @Around("findAll()")
+    Object findAllAround(ProceedingJoinPoint joinPoint) { 
+        return spanAround(joinPoint);
+    }
+
+    // List<T> findAll(Sort sort);
+
+    @Pointcut("execution(* org.springframework.data.repository.CrudRepository.findAllById(*))")
+    void findAllById() { }
+
+    @Before("findAllById()")
+    void findAllByIdBefore(JoinPoint joinPoint) throws Throwable {
+        logBefore(joinPoint);
+    }
+
+    @AfterReturning(pointcut = "findAllById()", returning = "returnType")
+    void findAllByIdAfterReturning(JoinPoint joinPoint, Object returnType) {
+        logAfterReturning(joinPoint, returnType);
+    }
+
+    @AfterThrowing(pointcut = "findAllById()", throwing = "e")
+    void findAllByIdAfterThrowing(JoinPoint joinPoint, Exception e) {
+        logAfterThrowing(joinPoint, e);
+    }
+
+    @SneakyThrows
+    @Around("findAllById()")
+    Object findAllByIdAround(ProceedingJoinPoint joinPoint) { 
+        return spanAround(joinPoint);
+    }
 
     @Pointcut("execution(* org.springframework.data.repository.CrudRepository.saveAll(*))")
     void saveAll() { }
 
     @Before("saveAll()")
     void saveAllBefore(JoinPoint joinPoint) throws Throwable {
-        if (isJpaRepositoryDeclaringType(joinPoint))
-            logAdvice.logBefore(joinPoint, DEBUG);
+        logBefore(joinPoint);
     }
 
     @AfterReturning(pointcut = "saveAll()", returning = "returnType")
-    void saveAfterReturning(JoinPoint joinPoint, Object returnType) {
-        if (isJpaRepositoryDeclaringType(joinPoint))
-            logAdvice.logAfterReturning(joinPoint, DEBUG, returnType);
+    void saveAllAfterReturning(JoinPoint joinPoint, Object returnType) {
+        logAfterReturning(joinPoint, returnType);
     }
 
     @AfterThrowing(pointcut = "saveAll()", throwing = "e")
-    void saveAfterThrowing(JoinPoint joinPoint, Exception e) {
-        if (isJpaRepositoryDeclaringType(joinPoint))
-            logAdvice.logAfterThrowing(joinPoint, ERROR, e);
+    void saveAllAfterThrowing(JoinPoint joinPoint, Exception e) {
+        logAfterThrowing(joinPoint, e);
     }
 
     @SneakyThrows
     @Around("saveAll()")
-    Object saveAround(ProceedingJoinPoint joinPoint) { 
-        return tracerAdvice.isPresent() && isJpaRepositoryDeclaringType(joinPoint)
-            ? tracerAdvice.get().spanAround(joinPoint)
-            : joinPoint.proceed();
+    Object saveAllAround(ProceedingJoinPoint joinPoint) { 
+        return spanAround(joinPoint);
     }
-
-    boolean isJpaRepositoryDeclaringType(JoinPoint joinPoint) {
-        return joinPoint.getSignature().getDeclaringType().equals(JpaRepository.class);
-    }
-
 
 	// void flush();
 
@@ -81,5 +114,31 @@ public class JpaRepositoryPointcut {
 	// void deleteInBatch(Iterable<T> entities);
 
 	// void deleteAllInBatch();
+
+    void logBefore(JoinPoint joinPoint) { 
+        if (isJpaRepositoryDeclaringType(joinPoint))
+            logAdvice.logBefore(joinPoint, DEBUG);
+    }
+
+    void logAfterReturning(JoinPoint joinPoint, Object returnType) { 
+        if (isJpaRepositoryDeclaringType(joinPoint))
+            logAdvice.logAfterReturning(joinPoint, DEBUG, returnType);
+    }
+
+    void logAfterThrowing(JoinPoint joinPoint, Exception e) { 
+        if (isJpaRepositoryDeclaringType(joinPoint))
+            logAdvice.logAfterThrowing(joinPoint, ERROR, e);
+    }
+
+    @SneakyThrows
+    Object spanAround(ProceedingJoinPoint joinPoint) { 
+        return tracerAdvice.isPresent() && isJpaRepositoryDeclaringType(joinPoint)
+            ? tracerAdvice.get().spanAround(joinPoint)
+            : joinPoint.proceed();
+    }
+
+    boolean isJpaRepositoryDeclaringType(JoinPoint joinPoint) {
+        return joinPoint.getSignature().getDeclaringType().equals(JpaRepository.class);
+    }
 
 }

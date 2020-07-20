@@ -9,6 +9,8 @@ import java.lang.annotation.Target;
 
 import org.springframework.boot.logging.LogLevel;
 
+import io.whelk.spring.data.logging.writer.ReturnTypeWriter;
+
 public interface Log {
 
     public interface Trace {
@@ -30,6 +32,7 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterReturning {
+            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
         }
 
         @Inherited
@@ -45,6 +48,7 @@ public interface Log {
         public @interface Around {
             boolean withArgs() default true;
             boolean withReturnType() default true;
+            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
             boolean withStacktrace() default true;
         }
 
@@ -69,6 +73,7 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterReturning {
+            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
         }
 
         @Inherited
@@ -84,6 +89,7 @@ public interface Log {
         public @interface Around {
             boolean withArgs() default true;
             boolean withReturnType() default true;
+            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
             boolean withStacktrace() default true;
         }
 
@@ -108,6 +114,7 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterReturning {
+            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
         }
 
         @Inherited
@@ -123,6 +130,7 @@ public interface Log {
         public @interface Around {
             boolean withArgs() default true;
             boolean withReturnType() default true;
+            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
             boolean withStacktrace() default true;
         }
 
@@ -147,6 +155,7 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterReturning {
+            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
         }
 
         @Inherited
@@ -162,6 +171,7 @@ public interface Log {
         public @interface Around {
             boolean withArgs() default true;
             boolean withReturnType() default true;
+            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
             boolean withStacktrace() default true;
         }
 
@@ -186,6 +196,7 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterReturning {
+            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
         }
 
         @Inherited
@@ -201,6 +212,7 @@ public interface Log {
         public @interface Around {
             boolean withArgs() default true;
             boolean withReturnType() default true;
+            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
             boolean withStacktrace() default true;
         }
 
@@ -226,6 +238,7 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterReturning {
+            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
         }
 
         @Inherited
@@ -241,6 +254,7 @@ public interface Log {
         public @interface Around {
             boolean withArgs() default true;
             boolean withReturnType() default true;
+            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
             boolean withStacktrace() default true;
         }
 
@@ -266,6 +280,7 @@ public interface Log {
     @Retention(RUNTIME)
     public @interface AfterReturning {
         LogLevel withLevel() default LogLevel.DEBUG;
+        Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
     }
 
     @Inherited
@@ -283,6 +298,7 @@ public interface Log {
         boolean withArgs() default true;
         boolean withReturnType() default true;
         LogLevel withLevel() default LogLevel.DEBUG;
+        Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
         boolean withStacktrace() default true;
     }
 

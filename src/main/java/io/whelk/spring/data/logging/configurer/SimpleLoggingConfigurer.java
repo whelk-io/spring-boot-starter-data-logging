@@ -1,11 +1,12 @@
 package io.whelk.spring.data.logging.configurer;
 
 import io.whelk.spring.data.logging.writer.ArgWriter;
+import io.whelk.spring.data.logging.writer.ReturnTypeWriter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class BasicLoggingConfigurer implements LoggingConfigurer {
+public class SimpleLoggingConfigurer implements LoggingConfigurer {
 
     public static final String BEFORE = "before [method=%s]";
     public static final String BEFORE_WITH_ARGS = "before [method=%s, args=(%s)]";
@@ -14,6 +15,7 @@ public class BasicLoggingConfigurer implements LoggingConfigurer {
     public static final String AFTER_THROWING = "thrown [method=%s, exception=%s, message=%s]";
 
     private final ArgWriter argWriter;
+    private final ReturnTypeWriter returnTypeWriter;
 
     @Override
     public @NonNull String beforeMessage() {
@@ -44,5 +46,12 @@ public class BasicLoggingConfigurer implements LoggingConfigurer {
     public @NonNull ArgWriter argWriter() {
         return argWriter;
     }
+
+    @Override
+    public @NonNull ReturnTypeWriter returnTypeWriter() {
+        return returnTypeWriter;
+    }
+
+    
 
 }

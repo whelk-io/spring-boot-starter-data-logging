@@ -1,6 +1,7 @@
 package io.whelk.spring.data.logging.configurer;
 
 import io.whelk.spring.data.logging.writer.ArgWriter;
+import io.whelk.spring.data.logging.writer.ReturnTypeWriter;
 import lombok.NonNull;
 
 public interface LoggingConfigurer {
@@ -22,5 +23,8 @@ public interface LoggingConfigurer {
 
     @NonNull
     ArgWriter argWriter();
+
+    @NonNull
+    ReturnTypeWriter returnTypeWriter();
 
 }
