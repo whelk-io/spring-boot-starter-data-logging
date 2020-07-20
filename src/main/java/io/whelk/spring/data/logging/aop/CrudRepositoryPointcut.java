@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
@@ -106,21 +107,77 @@ public class CrudRepositoryPointcut {
         return spanAround(joinPoint);
     }
 
-    
-    // @Log.Debug.Around
-    // @Log.Span
-    // @Override
-    // void deleteById(ID id);
+    @Pointcut("execution(* org.springframework.data.repository.CrudRepository.deleteById(*))")
+    void deleteById() { }
 
-    // @Log.Debug.Around
-    // @Log.Span
-    // @Override
-    // void delete(T entity);
+    @Before("deleteById()")
+    void deleteByIdBefore(JoinPoint joinPoint) throws Throwable {
+        logBefore(joinPoint);
+    }
 
-    // @Log.Debug.Around
-    // @Log.Span
-    // @Override
-    // void deleteAll(Iterable<? extends T> entities);
+    @AfterReturning(pointcut = "deleteById()", returning = "returnType")
+    void deleteByIdAfterReturning(JoinPoint joinPoint, Object returnType) {
+        logAfterReturning(joinPoint, returnType);
+    }
+
+    @AfterThrowing(pointcut = "deleteById()", throwing = "e")
+    void deleteByIdAfterThrowing(JoinPoint joinPoint, Exception e) {
+        logAfterThrowing(joinPoint, e);
+    }
+
+    @SneakyThrows
+    @Around("deleteById()")
+    Object deleteByIdAround(ProceedingJoinPoint joinPoint) { 
+        return spanAround(joinPoint);
+    }
+
+    @Pointcut("execution(* org.springframework.data.repository.CrudRepository.delete(*))")
+    void delete() { }
+
+    @Before("delete()")
+    void deleteBefore(JoinPoint joinPoint) throws Throwable {
+        logBefore(joinPoint);
+    }
+
+    @After("delete()")
+    void deleteAfter(JoinPoint joinPoint) {
+        logAfter(joinPoint);
+    }
+
+    @AfterThrowing(pointcut = "delete()", throwing = "e")
+    void deleteAfterThrowing(JoinPoint joinPoint, Exception e) {
+        logAfterThrowing(joinPoint, e);
+    }
+
+    @SneakyThrows
+    @Around("delete()")
+    Object deleteAround(ProceedingJoinPoint joinPoint) { 
+        return spanAround(joinPoint);
+    }
+
+    @Pointcut("execution(* org.springframework.data.repository.CrudRepository.deleteAll(*))")
+    void deleteAll() { }
+
+    @Before("deleteAll()")
+    void deleteAllBefore(JoinPoint joinPoint) throws Throwable {
+        logBefore(joinPoint);
+    }
+
+    @After("deleteAll()")
+    void deleteAllAfter(JoinPoint joinPoint) {
+        logAfter(joinPoint);
+    }
+
+    @AfterThrowing(pointcut = "deleteAll()", throwing = "e")
+    void deleteAllAfterThrowing(JoinPoint joinPoint, Exception e) {
+        logAfterThrowing(joinPoint, e);
+    }
+
+    @SneakyThrows
+    @Around("deleteAll()")
+    Object deleteAllAround(ProceedingJoinPoint joinPoint) { 
+        return spanAround(joinPoint);
+    }
 
     // @Log.Debug.Around
     // @Log.Span
@@ -130,6 +187,11 @@ public class CrudRepositoryPointcut {
     void logBefore(JoinPoint joinPoint) { 
         if (isCrudRepositoryDeclaringType(joinPoint))
             logAdvice.logBefore(joinPoint, DEBUG);
+    }
+
+    void logAfter(JoinPoint joinPoint) { 
+        if (isCrudRepositoryDeclaringType(joinPoint))
+            logAdvice.logAfter(joinPoint, DEBUG);
     }
 
     void logAfterReturning(JoinPoint joinPoint, Object returnType) { 

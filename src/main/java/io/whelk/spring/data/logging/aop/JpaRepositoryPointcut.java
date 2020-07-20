@@ -52,11 +52,6 @@ public class JpaRepositoryPointcut {
         logAfterThrowing(joinPoint, e);
     }
 
-    @Around("findAll()")
-    Object findAllAround(ProceedingJoinPoint joinPoint) { 
-        return spanAround(joinPoint);
-    }
-
     // List<T> findAll(Sort sort);
 
     @Pointcut("execution(* org.springframework.data.repository.CrudRepository.findAllById(*))")
@@ -75,12 +70,6 @@ public class JpaRepositoryPointcut {
     @AfterThrowing(pointcut = "findAllById()", throwing = "e")
     void findAllByIdAfterThrowing(JoinPoint joinPoint, Exception e) {
         logAfterThrowing(joinPoint, e);
-    }
-
-    @SneakyThrows
-    @Around("findAllById()")
-    Object findAllByIdAround(ProceedingJoinPoint joinPoint) { 
-        return spanAround(joinPoint);
     }
 
     @Pointcut("execution(* org.springframework.data.repository.CrudRepository.saveAll(*))")

@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Primary;
 import io.whelk.spring.data.logging.configurer.LoggingConfigurer;
 import io.whelk.spring.data.logging.configurer.SimpleLoggingConfigurer;
 import io.whelk.spring.data.logging.writer.ArgWriter;
+import io.whelk.spring.data.logging.writer.FullArgWriter;
 import io.whelk.spring.data.logging.writer.FullReturnTypeWriter;
 import io.whelk.spring.data.logging.writer.JacksonArgWriter;
 import io.whelk.spring.data.logging.writer.JacksonReturnTypeWriter;
@@ -48,6 +49,11 @@ public class LoggingAutoConfiguration {
     @Bean
     public SimpleArgWriter simpleArgWriter() { 
         return new SimpleArgWriter();
+    }
+
+    @Bean
+    public FullArgWriter fullArgWriter() { 
+        return new FullArgWriter();
     }
 
     @Bean

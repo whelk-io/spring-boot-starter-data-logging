@@ -17,6 +17,7 @@ public class JacksonArgWriter implements ArgWriter {
     @SneakyThrows
     @Override
     public <T> String argToString(T t) {
+
         if (Optional.class.isInstance(t)) {
             var opt = Optional.class.cast(t);
             var val = opt.isPresent() ? opt.get() : null;
@@ -24,6 +25,7 @@ public class JacksonArgWriter implements ArgWriter {
         }
 
         return objectMapper.writeValueAsString(t);
+        
     }
 
 }
