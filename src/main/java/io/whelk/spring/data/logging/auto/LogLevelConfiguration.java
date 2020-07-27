@@ -18,6 +18,8 @@ public class LogLevelConfiguration {
     public void setup() { 
         setLogLevel("org.springframework.data.repository.CrudRepository", LogLevel.DEBUG);
         setLogLevel("org.springframework.data.jpa.repository.JpaRepository", LogLevel.DEBUG);
+        setLogLevel("org.springframework.data.repository.PagingAndSortingRepository", LogLevel.DEBUG);
+        setLogLevel("org.springframework.data.repository.query.QueryByExampleExecutor", LogLevel.DEBUG);
     }
 
     private void setLogLevel(String loggerName, LogLevel level) {

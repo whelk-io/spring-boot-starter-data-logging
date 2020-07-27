@@ -13,6 +13,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
@@ -28,11 +30,23 @@ public class JpaRepositoryPointcut {
     protected final LogAdvice logAdvice;
     protected final Optional<TracerAdvice> tracerAdvice;
 
-    // T getOne(ID id);
+    @Pointcut("execution(* org.springframework.data..jpa.repository.JpaRepository.getOne(*))")
+    void getOne() { }
 
-	// <S extends T> List<S> findAll(Example<S> example);
+    @Before("getOne()")
+    void getOneBefore(JoinPoint joinPoint) throws Throwable {
+        logBefore(joinPoint);
+    }
 
-	// <S extends T> List<S> findAll(Example<S> example, Sort sort);
+    @AfterReturning(pointcut = "getOne()", returning = "returnType")
+    void getOneAfterReturning(JoinPoint joinPoint, Object returnType) {
+        logAfterReturning(joinPoint, returnType);
+    }
+
+    @AfterThrowing(pointcut = "getOne()", throwing = "e")
+    void getOneAfterThrowing(JoinPoint joinPoint, Exception e) {
+        logAfterThrowing(joinPoint, e);
+    }
 
     @Pointcut("execution(* org.springframework.data.repository.CrudRepository.findAll())")
     void findAll() { }
@@ -52,7 +66,53 @@ public class JpaRepositoryPointcut {
         logAfterThrowing(joinPoint, e);
     }
 
-    // List<T> findAll(Sort sort);
+    @Pointcut("execution(* org.springframework.data.jpa.repository.JpaRepository.findAll(..))")
+    void findAllWithArgs() { }
+
+    @Before("findAllWithArgs() && args(sort,..)")
+    void findAllWithSortBefore(JoinPoint joinPoint, Sort sort) throws Throwable {
+        logBefore(joinPoint);
+    }
+
+    @AfterReturning(pointcut = "findAllWithArgs() && args(sort,..)", returning = "returnType")
+    void findAllWithSortAfterReturning(JoinPoint joinPoint, Sort sort, Object returnType) {
+        logAfterReturning(joinPoint, returnType);
+    }
+
+    @AfterThrowing(pointcut = "findAllWithArgs() && args(sort,..)", throwing = "e")
+    void findAllWithSortAfterThrowing(JoinPoint joinPoint, Sort sort, Exception e) {
+        logAfterThrowing(joinPoint, e);
+    }
+
+    @Before("findAllWithArgs() && args(..,example)")
+    void findAllWithExampleBefore(JoinPoint joinPoint, Example<?> example) throws Throwable {
+        logBefore(joinPoint);
+    }
+
+    @AfterReturning(pointcut = "findAllWithArgs() && args(..,example)", returning = "returnType")
+    void findAllWithExampleAfterReturning(JoinPoint joinPoint, Example<?> example, Object returnType) {
+        logAfterReturning(joinPoint, returnType);
+    }
+
+    @AfterThrowing(pointcut = "findAllWithArgs() && args(..,example)", throwing = "e")
+    void findAllWithExampleAfterThrowing(JoinPoint joinPoint, Example<?> example, Exception e) {
+        logAfterThrowing(joinPoint, e);
+    }
+
+    @Before("findAllWithArgs() && args(..,example,sort)")
+    void findAllWithExampleSortBefore(JoinPoint joinPoint, Example<?> example, Sort sort) throws Throwable {
+        logBefore(joinPoint);
+    }
+
+    @AfterReturning(pointcut = "findAllWithArgs() && args(..,example,sort)", returning = "returnType")
+    void findAllWithExampleSortAfterReturning(JoinPoint joinPoint, Example<?> example, Sort sort, Object returnType) {
+        logAfterReturning(joinPoint, returnType);
+    }
+
+    @AfterThrowing(pointcut = "findAllWithArgs() && args(..,example,sort)", throwing = "e")
+    void findAllWithExampleSortAfterThrowing(JoinPoint joinPoint, Example<?> example, Sort sort, Exception e) {
+        logAfterThrowing(joinPoint, e);
+    }
 
     @Pointcut("execution(* org.springframework.data.repository.CrudRepository.findAllById(*))")
     void findAllById() { }
