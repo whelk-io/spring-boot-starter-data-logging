@@ -47,13 +47,61 @@ public class QueryByExampleExecutorPointcut {
     void findAllWithExampleageableAfterThrowing(JoinPoint joinPoint, Example<?> example, Pageable pageable, Exception e) {
         logAfterThrowing(joinPoint, e);
     }
-	
-	// <S extends T> Optional<S> findOne(Example<S> example);
+    
+    @Pointcut("execution(* org.springframework.data.repository.query.QueryByExampleExecutor.findOne(..))")
+    void findOne() { }
 
-	// <S extends T> long count(Example<S> example);
+    @Before("findOne()")
+    void findOneBefore(JoinPoint joinPoint) throws Throwable {
+        logBefore(joinPoint);
+    }
 
-	// <S extends T> boolean exists(Example<S> example);
-	
+    @AfterReturning(pointcut = "findOne()", returning = "returnType")
+    void findOneAfterReturning(JoinPoint joinPoint, Object returnType) {
+        logAfterReturning(joinPoint, returnType);
+    }
+
+    @AfterThrowing(pointcut = "findOne()", throwing = "e")
+    void findOneAfterThrowing(JoinPoint joinPoint, Exception e) {
+        logAfterThrowing(joinPoint, e);
+    }
+    
+    @Pointcut("execution(* org.springframework.data.repository.query.QueryByExampleExecutor.count(..))")
+    void count() { }
+
+    @Before("count()")
+    void countBefore(JoinPoint joinPoint) throws Throwable {
+        logBefore(joinPoint);
+    }
+
+    @AfterReturning(pointcut = "count()", returning = "returnType")
+    void countAfterReturning(JoinPoint joinPoint, Object returnType) {
+        logAfterReturning(joinPoint, returnType);
+    }
+
+    @AfterThrowing(pointcut = "count()", throwing = "e")
+    void countAfterThrowing(JoinPoint joinPoint, Exception e) {
+        logAfterThrowing(joinPoint, e);
+    }
+
+    @Pointcut("execution(* org.springframework.data.repository.query.QueryByExampleExecutor.exists(..))")
+    void exists() { }
+
+    @Before("exists()")
+    void existsBefore(JoinPoint joinPoint) throws Throwable {
+        logBefore(joinPoint);
+    }
+
+    @AfterReturning(pointcut = "exists()", returning = "returnType")
+    void existsAfterReturning(JoinPoint joinPoint, Object returnType) {
+        logAfterReturning(joinPoint, returnType);
+    }
+
+    @AfterThrowing(pointcut = "exists()", throwing = "e")
+    void existsAfterThrowing(JoinPoint joinPoint, Exception e) {
+        logAfterThrowing(joinPoint, e);
+    }
+    
 	void logBefore(JoinPoint joinPoint) {
         if (isQueryByExampleExecutorDeclaringType(joinPoint))
             logAdvice.logBefore(joinPoint, DEBUG);

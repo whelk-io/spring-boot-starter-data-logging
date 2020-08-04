@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
@@ -156,13 +157,95 @@ public class JpaRepositoryPointcut {
         return spanAround(joinPoint);
     }
 
-	// void flush();
+    @Pointcut("execution(* org.springframework.data.jpa.repository.JpaRepository.flush())")
+    void flush() { }
 
-	// <S extends T> S saveAndFlush(S entity);
+    @Before("flush()")
+    void flushBefore(JoinPoint joinPoint) throws Throwable {
+        logBefore(joinPoint);
+    }
 
-	// void deleteInBatch(Iterable<T> entities);
+    @After("flush()")
+    void flushAfter(JoinPoint joinPoint) {
+        logAfter(joinPoint);
+    }
 
-	// void deleteAllInBatch();
+    @AfterThrowing(pointcut = "flush()", throwing = "e")
+    void flushAfterThrowing(JoinPoint joinPoint, Exception e) {
+        logAfterThrowing(joinPoint, e);
+    }
+
+    @Pointcut("execution(* org.springframework.data.jpa.repository.JpaRepository.saveAndFlush(*))")
+    void saveAndFlush() { }
+
+    @Before("saveAndFlush()")
+    void saveAndFlushBefore(JoinPoint joinPoint) throws Throwable {
+        logBefore(joinPoint);
+    }
+
+    @AfterReturning(pointcut = "saveAndFlush()", returning = "returnType")
+    void saveAndFlushAfterReturning(JoinPoint joinPoint, Object returnType) {
+        logAfterReturning(joinPoint, returnType);
+    }
+
+    @AfterThrowing(pointcut = "saveAndFlush()", throwing = "e")
+    void saveAndFlushAfterThrowing(JoinPoint joinPoint, Exception e) {
+        logAfterThrowing(joinPoint, e);
+    }
+
+    @SneakyThrows
+    @Around("saveAndFlush()")
+    Object saveAndFlushAround(ProceedingJoinPoint joinPoint) { 
+        return spanAround(joinPoint);
+    }
+
+    @Pointcut("execution(* org.springframework.data.jpa.repository.JpaRepository.deleteInBatch(*))")
+    void deleteInBatch() { }
+
+    @Before("deleteInBatch()")
+    void deleteInBatchBefore(JoinPoint joinPoint) throws Throwable {
+        logBefore(joinPoint);
+    }
+
+    @After("deleteInBatch()")
+    void deleteInBatchAfter(JoinPoint joinPoint) {
+        logAfter(joinPoint);
+    }
+
+    @AfterThrowing(pointcut = "deleteInBatch()", throwing = "e")
+    void deleteInBatchAfterThrowing(JoinPoint joinPoint, Exception e) {
+        logAfterThrowing(joinPoint, e);
+    }
+
+    @SneakyThrows
+    @Around("deleteInBatch()")
+    Object deleteInBatchAround(ProceedingJoinPoint joinPoint) { 
+        return spanAround(joinPoint);
+    }
+
+    @Pointcut("execution(* org.springframework.data.jpa.repository.JpaRepository.deleteAllInBatch())")
+    void deleteAllInBatch() { }
+
+    @Before("deleteAllInBatch()")
+    void deleteAllInBatchBefore(JoinPoint joinPoint) throws Throwable {
+        logBefore(joinPoint);
+    }
+
+    @After("deleteAllInBatch()")
+    void deleteAllInBatchAfter(JoinPoint joinPoint) {
+        logAfter(joinPoint);
+    }
+
+    @AfterThrowing(pointcut = "deleteAllInBatch()", throwing = "e")
+    void deleteAllInBatchAfterThrowing(JoinPoint joinPoint, Exception e) {
+        logAfterThrowing(joinPoint, e);
+    }
+
+    @SneakyThrows
+    @Around("deleteAllInBatch()")
+    Object deleteAllInBatchAround(ProceedingJoinPoint joinPoint) { 
+        return spanAround(joinPoint);
+    }
 
     void logBefore(JoinPoint joinPoint) { 
         if (isJpaRepositoryDeclaringType(joinPoint))
@@ -172,6 +255,11 @@ public class JpaRepositoryPointcut {
     void logAfterReturning(JoinPoint joinPoint, Object returnType) { 
         if (isJpaRepositoryDeclaringType(joinPoint))
             logAdvice.logAfterReturning(joinPoint, DEBUG, returnType);
+    }
+
+    void logAfter(JoinPoint joinPoint) { 
+        if (isJpaRepositoryDeclaringType(joinPoint))
+            logAdvice.logAfter(joinPoint, DEBUG);
     }
 
     void logAfterThrowing(JoinPoint joinPoint, Exception e) { 
