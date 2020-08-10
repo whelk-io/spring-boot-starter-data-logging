@@ -11,6 +11,8 @@ import lombok.SneakyThrows;
 @RequiredArgsConstructor
 public class TracerAdvice {
 
+    public static final String SPAN_MDC = "X-B3-TraceId";
+
     private final Optional<brave.Tracer> tracer;
 
     @SneakyThrows
