@@ -1,7 +1,5 @@
 package io.whelk.spring.data.logging.writer;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;

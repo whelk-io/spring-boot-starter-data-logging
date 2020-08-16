@@ -15,7 +15,7 @@ public class LogLevelConfiguration {
     private final LoggingSystem loggingSystem;
 
     @PostConstruct
-    public void setup() { 
+    public void setup() {
         setLogLevel("org.springframework.data.repository.CrudRepository", LogLevel.DEBUG);
         setLogLevel("org.springframework.data.jpa.repository.JpaRepository", LogLevel.DEBUG);
         setLogLevel("org.springframework.data.repository.PagingAndSortingRepository", LogLevel.DEBUG);
@@ -28,5 +28,5 @@ public class LogLevelConfiguration {
             loggingSystem.setLogLevel(loggerName, level);
         }
     }
-    
+
 }

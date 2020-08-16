@@ -1,18 +1,17 @@
 package io.whelk.spring.data.logging.aop;
 
 import static org.springframework.boot.logging.LogLevel.DEBUG;
+import static org.springframework.boot.logging.LogLevel.ERROR;
 import static org.springframework.boot.logging.LogLevel.FATAL;
 import static org.springframework.boot.logging.LogLevel.INFO;
 import static org.springframework.boot.logging.LogLevel.TRACE;
 import static org.springframework.boot.logging.LogLevel.WARN;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.springframework.boot.logging.LogLevel;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +24,8 @@ import lombok.RequiredArgsConstructor;
 public class LogPointcut {
 
     private final LogAdvice logAdvice;
+
+    /* Before */
 
     @Before("@annotation(around)")
     void logBefore(JoinPoint joinPoint, Log.Around around) {
@@ -53,7 +54,7 @@ public class LogPointcut {
 
     @Before("@annotation(around)")
     void logBefore(JoinPoint joinPoint, Log.Error.Around around) {
-        logAdvice.logBefore(joinPoint, LogLevel.ERROR, around.withArgs(), around.withArgWriter());
+        logAdvice.logBefore(joinPoint, ERROR, around.withArgs(), around.withArgWriter());
     }
 
     @Before("@annotation(around)")
@@ -88,7 +89,7 @@ public class LogPointcut {
 
     @Before("@annotation(before)")
     void logBefore(JoinPoint joinPoint, Log.Error.Before before) {
-        logAdvice.logBefore(joinPoint, LogLevel.ERROR, before.withArgs(), before.withArgWriter());
+        logAdvice.logBefore(joinPoint, ERROR, before.withArgs(), before.withArgWriter());
     }
 
     @Before("@annotation(before)")
@@ -96,37 +97,39 @@ public class LogPointcut {
         logAdvice.logBefore(joinPoint, FATAL, before.withArgs(), before.withArgWriter());
     }
 
-    @After("@annotation(after)")
+    /* After Returning */
+
+    @AfterReturning("@annotation(after)")
     void logAfter(JoinPoint joinPoint, Log.After after) {
         logAdvice.logAfter(joinPoint, after.withLevel());
     }
 
-    @After("@annotation(after)")
+    @AfterReturning("@annotation(after)")
     void logAfter(JoinPoint joinPoint, Log.Trace.After after) {
         logAdvice.logAfter(joinPoint, TRACE);
     }
 
-    @After("@annotation(after)")
+    @AfterReturning("@annotation(after)")
     void logAfter(JoinPoint joinPoint, Log.Debug.After after) {
         logAdvice.logAfter(joinPoint, DEBUG);
     }
 
-    @After("@annotation(after)")
+    @AfterReturning("@annotation(after)")
     void logAfter(JoinPoint joinPoint, Log.Info.After after) {
         logAdvice.logAfter(joinPoint, INFO);
     }
 
-    @After("@annotation(after)")
+    @AfterReturning("@annotation(after)")
     void logAfter(JoinPoint joinPoint, Log.Warn.After after) {
         logAdvice.logAfter(joinPoint, WARN);
     }
 
-    @After("@annotation(after)")
+    @AfterReturning("@annotation(after)")
     void logAfter(JoinPoint joinPoint, Log.Error.After after) {
-        logAdvice.logAfter(joinPoint, LogLevel.ERROR);
+        logAdvice.logAfter(joinPoint, ERROR);
     }
 
-    @After("@annotation(after)")
+    @AfterReturning("@annotation(after)")
     void logAfter(JoinPoint joinPoint, Log.Fatal.After after) {
         logAdvice.logAfter(joinPoint, FATAL);
     }
@@ -158,7 +161,7 @@ public class LogPointcut {
 
     @AfterReturning(value = "@annotation(afterReturning)", returning = "returnType")
     void logAfterReturning(JoinPoint joinPoint, Log.Error.AfterReturning afterReturning, Object returnType) {
-        logAdvice.logAfterReturning(joinPoint, LogLevel.ERROR, afterReturning.withReturnTypeWriter(), returnType);
+        logAdvice.logAfterReturning(joinPoint, ERROR, afterReturning.withReturnTypeWriter(), returnType);
     }
 
     @AfterReturning(value = "@annotation(afterReturning)", returning = "returnType")
@@ -193,7 +196,7 @@ public class LogPointcut {
 
     @AfterReturning(value = "@annotation(around)", returning = "returnType")
     void logAfterReturning(JoinPoint joinPoint, Log.Error.Around around, Object returnType) {
-        logAdvice.logAfterReturning(joinPoint, LogLevel.ERROR, around.withReturnType(), around.withReturnTypeWriter(), returnType);
+        logAdvice.logAfterReturning(joinPoint, ERROR, around.withReturnType(), around.withReturnTypeWriter(), returnType);
     }
 
     @AfterReturning(value = "@annotation(around)", returning = "returnType")
@@ -201,44 +204,111 @@ public class LogPointcut {
         logAdvice.logAfterReturning(joinPoint, FATAL, around.withReturnType(), around.withReturnTypeWriter(), returnType);
     }
 
+    /* After Throwing */
+
     @AfterThrowing(value = "@annotation(afterThrowing)", throwing = "e")
     void logAfterThrowing(JoinPoint joinPoint, Log.AfterThrowing afterThrowing, Exception e) {
-        logAdvice.logAfterThrowing(joinPoint, INFO, afterThrowing.withStacktrace(), e);
+        logAdvice.logAfterThrowing(joinPoint, afterThrowing.withExceptionOverride() ? ERROR : INFO, afterThrowing.withExceptionStacktrace(), e);
     }
 
     @AfterThrowing(value = "@annotation(afterThrowing)", throwing = "e")
     void logAfterThrowing(JoinPoint joinPoint, Log.Trace.AfterThrowing afterThrowing, Exception e) {
-        logAdvice.logAfterThrowing(joinPoint, TRACE, afterThrowing.withStacktrace(), e);
+        logAdvice.logAfterThrowing(joinPoint, afterThrowing.withExceptionOverride() ? ERROR : TRACE, afterThrowing.withExceptionStacktrace(), e);
     }
 
     @AfterThrowing(value = "@annotation(afterThrowing)", throwing = "e")
     void logAfterThrowing(JoinPoint joinPoint, Log.Debug.AfterThrowing afterThrowing, Exception e) {
-        logAdvice.logAfterThrowing(joinPoint, DEBUG, afterThrowing.withStacktrace(), e);
+        logAdvice.logAfterThrowing(joinPoint, afterThrowing.withExceptionOverride() ? ERROR : DEBUG, afterThrowing.withExceptionStacktrace(), e);
     }
 
     @AfterThrowing(value = "@annotation(afterThrowing)", throwing = "e")
     void logAfterThrowing(JoinPoint joinPoint, Log.Info.AfterThrowing afterThrowing, Exception e) {
-        logAdvice.logAfterThrowing(joinPoint, INFO, afterThrowing.withStacktrace(), e);
+        logAdvice.logAfterThrowing(joinPoint, afterThrowing.withExceptionOverride() ? ERROR : INFO, afterThrowing.withExceptionStacktrace(), e);
     }
 
     @AfterThrowing(value = "@annotation(afterThrowing)", throwing = "e")
     void logAfterThrowing(JoinPoint joinPoint, Log.Warn.AfterThrowing afterThrowing, Exception e) {
-        logAdvice.logAfterThrowing(joinPoint, WARN, afterThrowing.withStacktrace(), e);
+        logAdvice.logAfterThrowing(joinPoint, afterThrowing.withExceptionOverride() ? ERROR : WARN, afterThrowing.withExceptionStacktrace(), e);
     }
 
     @AfterThrowing(value = "@annotation(afterThrowing)", throwing = "e")
     void logAfterThrowing(JoinPoint joinPoint, Log.Error.AfterThrowing afterThrowing, Exception e) {
-        logAdvice.logAfterThrowing(joinPoint, LogLevel.ERROR, afterThrowing.withStacktrace(), e);
+        logAdvice.logAfterThrowing(joinPoint, ERROR, afterThrowing.withExceptionStacktrace(), e);
     }
 
     @AfterThrowing(value = "@annotation(afterThrowing)", throwing = "e")
     void logAfterThrowing(JoinPoint joinPoint, Log.Fatal.AfterThrowing afterThrowing, Exception e) {
-        logAdvice.logAfterThrowing(joinPoint, FATAL, afterThrowing.withStacktrace(), e);
+        logAdvice.logAfterThrowing(joinPoint, FATAL, afterThrowing.withExceptionStacktrace(), e);
     }
 
     @AfterThrowing(value = "@annotation(around)", throwing = "e")
     void logAfterThrowing(JoinPoint joinPoint, Log.Around around, Exception e) {
-        logAdvice.logAfterThrowing(joinPoint, INFO, around.withStacktrace(), e);
+        logAdvice.logAfterThrowing(joinPoint, around.withExceptionOverride() ? ERROR : INFO, around.withExceptionStacktrace(), e);
+    }
+
+    @AfterThrowing(value = "@annotation(around)", throwing = "e")
+    void logAfterThrowing(JoinPoint joinPoint, Log.Trace.Around around, Exception e) {
+        logAdvice.logAfterThrowing(joinPoint, around.withExceptionOverride() ? ERROR : TRACE, around.withExceptionStacktrace(), e);
+    }
+
+    @AfterThrowing(value = "@annotation(around)", throwing = "e")
+    void logAfterThrowing(JoinPoint joinPoint, Log.Debug.Around around, Exception e) {
+        logAdvice.logAfterThrowing(joinPoint, around.withExceptionOverride() ? ERROR : DEBUG, around.withExceptionStacktrace(), e);
+    }
+
+    @AfterThrowing(value = "@annotation(around)", throwing = "e")
+    void logAfterThrowing(JoinPoint joinPoint, Log.Info.Around around, Exception e) {
+        logAdvice.logAfterThrowing(joinPoint, around.withExceptionOverride() ? ERROR : INFO, around.withExceptionStacktrace(), e);
+    }
+
+    @AfterThrowing(value = "@annotation(around)", throwing = "e")
+    void logAfterThrowing(JoinPoint joinPoint, Log.Warn.Around around, Exception e) {
+        logAdvice.logAfterThrowing(joinPoint, around.withExceptionOverride() ? ERROR : WARN, around.withExceptionStacktrace(), e);
+    }
+
+    @AfterThrowing(value = "@annotation(around)", throwing = "e")
+    void logAfterThrowing(JoinPoint joinPoint, Log.Error.Around around, Exception e) {
+        logAdvice.logAfterThrowing(joinPoint, ERROR, around.withExceptionStacktrace(), e);
+    }
+
+    @AfterThrowing(value = "@annotation(around)", throwing = "e")
+    void logAfterThrowing(JoinPoint joinPoint, Log.Fatal.Around around, Exception e) {
+        logAdvice.logAfterThrowing(joinPoint, FATAL, around.withExceptionStacktrace(), e);
+    }
+
+    @AfterThrowing(value = "@annotation(after)", throwing = "e")
+    void logAfterThrowing(JoinPoint joinPoint, Log.After after, Exception e) {
+        logAdvice.logAfterThrowing(joinPoint, after.withExceptionOverride() ? ERROR : INFO, after.withExceptionStacktrace(), e);
+    }
+
+    @AfterThrowing(value = "@annotation(after)", throwing = "e")
+    void logAfterThrowing(JoinPoint joinPoint, Log.Trace.After after, Exception e) {
+        logAdvice.logAfterThrowing(joinPoint, after.withExceptionOverride() ? ERROR : TRACE, after.withExceptionStacktrace(), e);
+    }
+
+    @AfterThrowing(value = "@annotation(after)", throwing = "e")
+    void logAfterThrowing(JoinPoint joinPoint, Log.Debug.After after, Exception e) {
+        logAdvice.logAfterThrowing(joinPoint, after.withExceptionOverride() ? ERROR : DEBUG, after.withExceptionStacktrace(), e);
+    }
+
+    @AfterThrowing(value = "@annotation(after)", throwing = "e")
+    void logAfterThrowing(JoinPoint joinPoint, Log.Info.After after, Exception e) {
+        logAdvice.logAfterThrowing(joinPoint, after.withExceptionOverride() ? ERROR : INFO, after.withExceptionStacktrace(), e);
+    }
+
+    @AfterThrowing(value = "@annotation(after)", throwing = "e")
+    void logAfterThrowing(JoinPoint joinPoint, Log.Warn.After after, Exception e) {
+        logAdvice.logAfterThrowing(joinPoint, after.withExceptionOverride() ? ERROR : WARN, after.withExceptionStacktrace(), e);
+    }
+
+    @AfterThrowing(value = "@annotation(after)", throwing = "e")
+    void logAfterThrowing(JoinPoint joinPoint, Log.Error.After after, Exception e) {
+        logAdvice.logAfterThrowing(joinPoint, ERROR, after.withExceptionStacktrace(), e);
+    }
+
+    @AfterThrowing(value = "@annotation(after)", throwing = "e")
+    void logAfterThrowing(JoinPoint joinPoint, Log.Fatal.After after, Exception e) {
+        logAdvice.logAfterThrowing(joinPoint, FATAL, after.withExceptionStacktrace(), e);
     }
 
 }

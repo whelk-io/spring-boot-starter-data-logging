@@ -28,6 +28,8 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface After {
+            boolean withExceptionStacktrace() default true;
+            boolean withExceptionOverride() default true;
         }
 
         @Inherited
@@ -41,7 +43,8 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterThrowing {
-            boolean withStacktrace() default true;
+            boolean withExceptionStacktrace() default true;
+            boolean withExceptionOverride() default true;
         }
 
         @Inherited
@@ -52,7 +55,8 @@ public interface Log {
             Class<? extends ArgWriter> withArgWriter() default ArgWriter.class;
             boolean withReturnType() default true;
             Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
-            boolean withStacktrace() default true;
+            boolean withExceptionStacktrace() default true;
+            boolean withExceptionOverride() default true;
         }
 
     }
@@ -71,6 +75,8 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface After {
+            boolean withExceptionStacktrace() default true;
+            boolean withExceptionOverride() default true;
         }
 
         @Inherited
@@ -84,7 +90,8 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterThrowing {
-            boolean withStacktrace() default true;
+            boolean withExceptionStacktrace() default true;
+            boolean withExceptionOverride() default true;
         }
 
         @Inherited
@@ -95,7 +102,8 @@ public interface Log {
             Class<? extends ArgWriter> withArgWriter() default ArgWriter.class;
             boolean withReturnType() default true;
             Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
-            boolean withStacktrace() default true;
+            boolean withExceptionStacktrace() default true;
+            boolean withExceptionOverride() default true;
         }
 
     }
@@ -114,6 +122,8 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface After {
+            boolean withExceptionStacktrace() default true;
+            boolean withExceptionOverride() default true;
         }
 
         @Inherited
@@ -127,7 +137,8 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterThrowing {
-            boolean withStacktrace() default true;
+            boolean withExceptionStacktrace() default true;
+            boolean withExceptionOverride() default true;
         }
 
         @Inherited
@@ -138,7 +149,8 @@ public interface Log {
             Class<? extends ArgWriter> withArgWriter() default ArgWriter.class;
             boolean withReturnType() default true;
             Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
-            boolean withStacktrace() default true;
+            boolean withExceptionStacktrace() default true;
+            boolean withExceptionOverride() default true;
         }
 
     }
@@ -157,6 +169,8 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface After {
+            boolean withExceptionStacktrace() default true;
+            boolean withExceptionOverride() default true;
         }
 
         @Inherited
@@ -170,7 +184,8 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterThrowing {
-            boolean withStacktrace() default true;
+            boolean withExceptionStacktrace() default true;
+            boolean withExceptionOverride() default true;
         }
 
         @Inherited
@@ -181,7 +196,8 @@ public interface Log {
             Class<? extends ArgWriter> withArgWriter() default ArgWriter.class;
             boolean withReturnType() default true;
             Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
-            boolean withStacktrace() default true;
+            boolean withExceptionStacktrace() default true;
+            boolean withExceptionOverride() default true;
         }
 
     }
@@ -200,6 +216,8 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface After {
+            boolean withExceptionStacktrace() default true;
+            boolean withExceptionOverride() default true;
         }
 
         @Inherited
@@ -213,7 +231,8 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterThrowing {
-            boolean withStacktrace() default true;
+            boolean withExceptionStacktrace() default true;
+            boolean withExceptionOverride() default true;
         }
 
         @Inherited
@@ -224,7 +243,8 @@ public interface Log {
             Class<? extends ArgWriter> withArgWriter() default ArgWriter.class;
             boolean withReturnType() default true;
             Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
-            boolean withStacktrace() default true;
+            boolean withExceptionStacktrace() default true;
+            boolean withExceptionOverride() default true;
         }
 
     }
@@ -243,7 +263,8 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface After {
-
+            boolean withExceptionStacktrace() default true;
+            boolean withExceptionOverride() default true;
         }
 
         @Inherited
@@ -257,7 +278,8 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterThrowing {
-            boolean withStacktrace() default true;
+            boolean withExceptionStacktrace() default true;
+            boolean withExceptionOverride() default true;
         }
 
         @Inherited
@@ -268,7 +290,8 @@ public interface Log {
             Class<? extends ArgWriter> withArgWriter() default ArgWriter.class;
             boolean withReturnType() default true;
             Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
-            boolean withStacktrace() default true;
+            boolean withExceptionStacktrace() default true;
+            boolean withExceptionOverride() default true;
         }
 
     }
@@ -287,6 +310,8 @@ public interface Log {
     @Retention(RUNTIME)
     public @interface After {
         LogLevel withLevel() default LogLevel.DEBUG;
+        boolean withExceptionStacktrace() default true;
+        boolean withExceptionOverride() default true;
     }
 
     @Inherited
@@ -302,19 +327,21 @@ public interface Log {
     @Retention(RUNTIME)
     public @interface AfterThrowing {
         LogLevel withLevel() default LogLevel.ERROR;
-        boolean withStacktrace() default true;
+        boolean withExceptionStacktrace() default true;
+        boolean withExceptionOverride() default true;
     }
 
     @Inherited
     @Target(METHOD)
     @Retention(RUNTIME)
     public @interface Around {
+        LogLevel withLevel() default LogLevel.DEBUG;
         boolean withArgs() default true;
         Class<? extends ArgWriter> withArgWriter() default ArgWriter.class;
         boolean withReturnType() default true;
-        LogLevel withLevel() default LogLevel.DEBUG;
         Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
-        boolean withStacktrace() default true;
+        boolean withExceptionStacktrace() default true;
+        boolean withExceptionOverride() default true;
     }
 
     @Inherited
