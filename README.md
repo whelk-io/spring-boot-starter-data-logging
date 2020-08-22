@@ -4,7 +4,7 @@
 
 Spring-Boot starter for reducing logging boilerplate with Spring-AOP annotations. Takes advantage of tracing and logging capabilities in Spring-Data, Spring-Cloud-Sleuth, and Lombok.
 
-<br>
+<br/>
 
 ## Basic Method Wrapper
 
@@ -22,15 +22,13 @@ public class SomeBean {
 }
 ````
 
-**Console Logs**
-
 ```Logtalk
 2020-08-22 18:36:28,811 c.e.d.SomeBean DEBUG : before [method=someMethod, args=("someParam")]
 
 2020-08-22 18:36:28,813 c.e.d.SomeBean DEBUG : after [method=someMethod, return="someReturn"]
 ```
 
-<br>
+<br/>
 
 ## Change Log Level
 
@@ -53,8 +51,6 @@ public class SomeBean {
 }
 ```
 
-**Console Logs**
-
 ```Logtalk
 2020-08-22 18:36:28,811 c.e.d.SomeBean INFO : before [method=someMethod, args=("someParam")]
 
@@ -65,7 +61,7 @@ public class SomeBean {
 2020-08-22 18:36:28,814 c.e.d.SomeBean INFO : after [method=otherMethod, return="otherReturn"]
 ```
 
-<br>
+<br/>
 
 ## Additional Pointcuts
 
@@ -78,13 +74,11 @@ public String someMethod(String param) {
 }
 ````
 
-**Console Logs**
-
 ````Logtalk
 2020-08-22 18:45:07,631 c.e.d.SomeBean DEBUG : before [method=someMethod, args=("someParam")]
 ````
 
-<br>
+<br/>
 
 **`Log.After`**
 
@@ -100,7 +94,7 @@ public String otherMethod() {
 2020-08-22 18:45:07,634 c.e.d.SomeBean DEBUG : after [method=otherMethod]
 ````
 
-<br>
+<br/>
 
 **`Log.AfterReturning`**
 
@@ -117,7 +111,7 @@ public String otherMethod() {
 2020-08-22 18:48:58,171 c.e.d.SomeBean DEBUG : after [method=otherMethod, return="otherReturn"]
 ````
 
-<br>
+<br/>
 
 **`@Log.AfterThrowing`**
 
@@ -130,18 +124,16 @@ public String someMethod(String param) {
 }
 ````
 
-**Console Logs**
-
 ```Logtalk
 2020-08-22 18:54:56,499 c.e.d.SomeBean ERROR : thrown [method=someMethod, exception=java.lang.RuntimeException, message=some error]
 
 {stacktrace}
 ````
 
-<br>
+<br/>
 
 
-## Full Configurtion
+## Method Configuration
 
 ### Method Logging
 
@@ -152,7 +144,9 @@ public String someMethod(String param) {
 | `withLevel` | `@Log.Level` | `@Log.Level.Debug` | Level of message when logged |
 | `withArgs` | `@Log.Args` | `@Log.Args` | Configuration for logging method parameters | 
 
-<br>
+// TODO link to Log.Level and Log.Args in doc
+
+<br/>
 
 **`@Log.After`** - Log message after method is invoked.
 
@@ -162,7 +156,7 @@ public String someMethod(String param) {
         Log.ReturnException withReturnException() default @Log.ReturnException;
 
 
-<br>
+<br/>
 
 **`@Log.AfterReturning`** - Log message with return value after method is invoked. 
 
@@ -171,7 +165,7 @@ public String someMethod(String param) {
         Log.Level withLevel() default Log.Level.DEBUG;
         Log.ReturnType withReturnType() default @Log.ReturnType;
 
-<br>
+<br/>
 
 **`@Log.AfterThrowing`** - Log message only after throwing an exception.
 
@@ -180,7 +174,7 @@ public String someMethod(String param) {
         Log.Level withLevel() default Log.Level.ERROR;
         Log.ReturnException withReturnException() default @Log.ReturnException;
 
-<br>
+<br/>
 
 **`@Log.Around`** - Combines other annotations to wrap a method with logging before, after, and on exception.
 
@@ -189,9 +183,7 @@ public String someMethod(String param) {
         Log.ReturnType withReturnType() default @Log.ReturnType;
         Log.ReturnException withReturnException() default @Log.ReturnException;
 
-<br>
-
-### Configuration
+<br/>
 
 **`@Log.Args`** - Configuration for logging method parameters
 
@@ -202,7 +194,7 @@ public String someMethod(String param) {
 
 > <sup>1</sup> See [Global Configuration](#global-configuration) to change value for all logging annotations.
 
-<br>
+<br/>
 
 **`@Log.ReturnType`**
 
@@ -213,7 +205,7 @@ public String someMethod(String param) {
 
 > <sup>1</sup> See [Global Configuration](#global-configuration) to change value for all logging annotations.
 
-<br>
+<br/>
 
 **`@Log.ReturnException`**
 
@@ -224,21 +216,27 @@ public String someMethod(String param) {
 
 > <sup>1</sup> See [Global Configuration](#global-configuration) to change value for all logging annotations.
 
-<br>
+<br/>
 
-#### Auto-Logging with Spring-Data-Rest
+**`@Log.Level`**
 
-// TODO
+// TOOD
 
-#### Auto-Logging with Spring-Data-JPA
+<br/>
 
-// TODO
-
-#### Auto-Logging with Spring-Cloud-Sleuth
+## Auto-Logging with Spring-Data-Rest
 
 // TODO
 
-#### Global Configuration
+## Auto-Logging with Spring-Data-JPA
+
+// TODO
+
+## Auto-Logging with Spring-Cloud-Sleuth
+
+// TODO
+
+## Global Configuration
 
 // TODO
 
@@ -269,7 +267,7 @@ Source: [Spring Cloud Sleuth](https://spring.io/projects/spring-cloud-sleuth)
     </dependencies>
   </dependencyManagement>
 
-<br>
+<br/>
 
 ## Supported Dependencies
 
@@ -290,7 +288,7 @@ Source: [Spring Cloud Sleuth](https://spring.io/projects/spring-cloud-sleuth)
 
 <sup>2</sup> Dependency versioning inherited from `Spring-Cloud`.
 
-<br> 
+<br/> 
 
 ## Maven Integration
 
