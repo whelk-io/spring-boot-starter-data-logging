@@ -4,6 +4,8 @@
 
 Spring-Boot starter for reducing logging boilerplate with Spring-AOP annotations. Takes advantage of tracing and logging capabilities in Spring-Data, Spring-Cloud-Sleuth, and Lombok.
 
+<br><br>
+
 ## Basic Use Case
 
 Any method on a Spring managed bean can be wrapped with logging by annotating with `Log.Around`.
@@ -25,6 +27,8 @@ public class Application implements CommandLineRunner {
 }
 ````
 
+<br><br>
+
 **Console Logs**
 
 ```Logtalk
@@ -32,6 +36,8 @@ public class Application implements CommandLineRunner {
 
 2020-08-22 15:32:16.772 com.example.demo.Application DEBUG : after [method=run]
 ```
+
+<br><br>
 
 ### Method Logging
 
@@ -42,28 +48,28 @@ public class Application implements CommandLineRunner {
 | `withLevel` | `@Log.Level` | `@Log.Level.Debug` | Level of message when logged |
 | `withArgs` | `@Log.Args` | `@Log.Args` | Configuration for logging method parameters | 
 
-<br> 
+<br><br>
 
 **`@Log.After`** - Log message after method is invoked.
 
         Log.Level withLevel() default Log.Level.DEBUG;
         Log.ReturnException withReturnException() default @Log.ReturnException;
 
-<br> 
+<br><br>
 
 **`@Log.AfterReturning`** - Log message with return value after method is invoked. 
 
         Log.Level withLevel() default Log.Level.DEBUG;
         Log.ReturnType withReturnType() default @Log.ReturnType;
 
-<br> 
+<br><br>
 
 **`@Log.AfterThrowing`** - Log message only after throwing an exception.
 
         Log.Level withLevel() default Log.Level.ERROR;
         Log.ReturnException withReturnException() default @Log.ReturnException;
 
-<br> 
+<br><br>
 
 **`@Log.Around`** - Combines other annotations to wrap a method with logging before, after, and on exception.
 
@@ -75,8 +81,6 @@ public class Application implements CommandLineRunner {
 <br><br>
 
 ### Configuration
-
-<br><br>
 
 **`@Log.Args`** - Configuration for logging method parameters
 
