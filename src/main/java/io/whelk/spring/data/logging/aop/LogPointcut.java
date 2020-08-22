@@ -1,11 +1,11 @@
 package io.whelk.spring.data.logging.aop;
 
-import static org.springframework.boot.logging.LogLevel.DEBUG;
-import static org.springframework.boot.logging.LogLevel.ERROR;
-import static org.springframework.boot.logging.LogLevel.FATAL;
-import static org.springframework.boot.logging.LogLevel.INFO;
-import static org.springframework.boot.logging.LogLevel.TRACE;
-import static org.springframework.boot.logging.LogLevel.WARN;
+import static io.whelk.spring.data.logging.aop.Log.Level.DEBUG;
+import static io.whelk.spring.data.logging.aop.Log.Level.ERROR;
+import static io.whelk.spring.data.logging.aop.Log.Level.FATAL;
+import static io.whelk.spring.data.logging.aop.Log.Level.INFO;
+import static io.whelk.spring.data.logging.aop.Log.Level.TRACE;
+import static io.whelk.spring.data.logging.aop.Log.Level.WARN;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;

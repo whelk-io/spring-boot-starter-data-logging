@@ -8,8 +8,6 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import org.springframework.boot.logging.LogLevel;
-
 import io.whelk.spring.data.logging.writer.ArgWriter;
 import io.whelk.spring.data.logging.writer.ReturnTypeWriter;
 
@@ -266,7 +264,7 @@ public interface Log {
     @Target(METHOD)
     @Retention(RUNTIME)
     public @interface Before {
-        LogLevel withLevel() default LogLevel.DEBUG;
+        Log.Level withLevel() default Log.Level.DEBUG;
         Log.Args withArgs() default @Log.Args;
     }
 
@@ -274,7 +272,7 @@ public interface Log {
     @Target(METHOD)
     @Retention(RUNTIME)
     public @interface After {
-        LogLevel withLevel() default LogLevel.DEBUG;
+        Log.Level withLevel() default Log.Level.DEBUG;
         Log.ReturnException withReturnException() default @Log.ReturnException;
     }
 
@@ -282,7 +280,7 @@ public interface Log {
     @Target(METHOD)
     @Retention(RUNTIME)
     public @interface AfterReturning {
-        LogLevel withLevel() default LogLevel.DEBUG;
+        Log.Level withLevel() default Log.Level.DEBUG;
         Log.ReturnType withReturnType() default @Log.ReturnType;
     }
 
@@ -290,7 +288,7 @@ public interface Log {
     @Target(METHOD)
     @Retention(RUNTIME)
     public @interface AfterThrowing {
-        LogLevel withLevel() default LogLevel.ERROR;
+        Log.Level withLevel() default Log.Level.ERROR;
         Log.ReturnException withReturnException() default @Log.ReturnException;
     }
 
@@ -298,7 +296,7 @@ public interface Log {
     @Target(METHOD)
     @Retention(RUNTIME)
     public @interface Around {
-        LogLevel withLevel() default LogLevel.DEBUG;
+        Log.Level withLevel() default Log.Level.DEBUG;
         Log.Args withArgs() default @Log.Args;
         Log.ReturnType withReturnType() default @Log.ReturnType;
         Log.ReturnException withReturnException() default @Log.ReturnException;
@@ -326,6 +324,10 @@ public interface Log {
     public @interface ReturnException { 
         boolean withStacktrace () default true;
         boolean withOverride() default true;
+    }
+
+    enum Level { 
+        TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF
     }
 
     @Inherited

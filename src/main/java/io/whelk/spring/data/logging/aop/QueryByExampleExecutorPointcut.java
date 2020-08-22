@@ -1,7 +1,7 @@
 package io.whelk.spring.data.logging.aop;
 
-import static org.springframework.boot.logging.LogLevel.DEBUG;
-import static org.springframework.boot.logging.LogLevel.ERROR;
+import static io.whelk.spring.data.logging.aop.Log.Level.DEBUG;
+import static io.whelk.spring.data.logging.aop.Log.Level.ERROR;
 
 import java.util.Optional;
 

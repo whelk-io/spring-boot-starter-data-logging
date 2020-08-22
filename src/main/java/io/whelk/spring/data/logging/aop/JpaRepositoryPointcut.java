@@ -1,7 +1,7 @@
 package io.whelk.spring.data.logging.aop;
 
-import static org.springframework.boot.logging.LogLevel.DEBUG;
-import static org.springframework.boot.logging.LogLevel.ERROR;
+import static io.whelk.spring.data.logging.aop.Log.Level.DEBUG;
+import static io.whelk.spring.data.logging.aop.Log.Level.ERROR;
 
 import java.util.Optional;
 
@@ -32,7 +32,8 @@ public class JpaRepositoryPointcut {
     protected final Optional<TracerAdvice> tracerAdvice;
 
     @Pointcut("execution(* org.springframework.data..jpa.repository.JpaRepository.getOne(*))")
-    void getOne() { }
+    void getOne() {
+    }
 
     @Before("getOne()")
     void getOneBefore(JoinPoint joinPoint) throws Throwable {
@@ -50,7 +51,8 @@ public class JpaRepositoryPointcut {
     }
 
     @Pointcut("execution(* org.springframework.data.repository.CrudRepository.findAll())")
-    void findAll() { }
+    void findAll() {
+    }
 
     @Before("findAll()")
     void findAllBefore(JoinPoint joinPoint) throws Throwable {
@@ -68,7 +70,8 @@ public class JpaRepositoryPointcut {
     }
 
     @Pointcut("execution(* org.springframework.data.jpa.repository.JpaRepository.findAll(..))")
-    void findAllWithArgs() { }
+    void findAllWithArgs() {
+    }
 
     @Before("findAllWithArgs() && args(sort,..)")
     void findAllWithSortBefore(JoinPoint joinPoint, Sort sort) throws Throwable {
@@ -116,7 +119,8 @@ public class JpaRepositoryPointcut {
     }
 
     @Pointcut("execution(* org.springframework.data.repository.CrudRepository.findAllById(*))")
-    void findAllById() { }
+    void findAllById() {
+    }
 
     @Before("findAllById()")
     void findAllByIdBefore(JoinPoint joinPoint) throws Throwable {
@@ -134,7 +138,8 @@ public class JpaRepositoryPointcut {
     }
 
     @Pointcut("execution(* org.springframework.data.repository.CrudRepository.saveAll(*))")
-    void saveAll() { }
+    void saveAll() {
+    }
 
     @Before("saveAll()")
     void saveAllBefore(JoinPoint joinPoint) throws Throwable {
@@ -153,12 +158,13 @@ public class JpaRepositoryPointcut {
 
     @SneakyThrows
     @Around("saveAll()")
-    Object saveAllAround(ProceedingJoinPoint joinPoint) { 
+    Object saveAllAround(ProceedingJoinPoint joinPoint) {
         return spanAround(joinPoint);
     }
 
     @Pointcut("execution(* org.springframework.data.jpa.repository.JpaRepository.flush())")
-    void flush() { }
+    void flush() {
+    }
 
     @Before("flush()")
     void flushBefore(JoinPoint joinPoint) throws Throwable {
@@ -176,7 +182,8 @@ public class JpaRepositoryPointcut {
     }
 
     @Pointcut("execution(* org.springframework.data.jpa.repository.JpaRepository.saveAndFlush(*))")
-    void saveAndFlush() { }
+    void saveAndFlush() {
+    }
 
     @Before("saveAndFlush()")
     void saveAndFlushBefore(JoinPoint joinPoint) throws Throwable {
@@ -195,12 +202,13 @@ public class JpaRepositoryPointcut {
 
     @SneakyThrows
     @Around("saveAndFlush()")
-    Object saveAndFlushAround(ProceedingJoinPoint joinPoint) { 
+    Object saveAndFlushAround(ProceedingJoinPoint joinPoint) {
         return spanAround(joinPoint);
     }
 
     @Pointcut("execution(* org.springframework.data.jpa.repository.JpaRepository.deleteInBatch(*))")
-    void deleteInBatch() { }
+    void deleteInBatch() {
+    }
 
     @Before("deleteInBatch()")
     void deleteInBatchBefore(JoinPoint joinPoint) throws Throwable {
@@ -219,12 +227,13 @@ public class JpaRepositoryPointcut {
 
     @SneakyThrows
     @Around("deleteInBatch()")
-    Object deleteInBatchAround(ProceedingJoinPoint joinPoint) { 
+    Object deleteInBatchAround(ProceedingJoinPoint joinPoint) {
         return spanAround(joinPoint);
     }
 
     @Pointcut("execution(* org.springframework.data.jpa.repository.JpaRepository.deleteAllInBatch())")
-    void deleteAllInBatch() { }
+    void deleteAllInBatch() {
+    }
 
     @Before("deleteAllInBatch()")
     void deleteAllInBatchBefore(JoinPoint joinPoint) throws Throwable {
@@ -243,11 +252,11 @@ public class JpaRepositoryPointcut {
 
     @SneakyThrows
     @Around("deleteAllInBatch()")
-    Object deleteAllInBatchAround(ProceedingJoinPoint joinPoint) { 
+    Object deleteAllInBatchAround(ProceedingJoinPoint joinPoint) {
         return spanAround(joinPoint);
     }
 
-    void logBefore(JoinPoint joinPoint) { 
+    void logBefore(JoinPoint joinPoint) {
         if (isJpaRepositoryDeclaringType(joinPoint))
             logAdvice.logBefore(joinPoint, DEBUG);
     }

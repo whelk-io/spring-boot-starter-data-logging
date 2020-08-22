@@ -7,7 +7,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.logging.LogLevel;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -24,15 +23,15 @@ public class LogAdvice {
     private final LoggingConfigurer loggingConfigurer;
     private final ApplicationContext applicationContext;
 
-    void logBefore(JoinPoint joinPoint, LogLevel logLevel) { 
+    void logBefore(JoinPoint joinPoint, Log.Level logLevel) { 
         logBefore(joinPoint, logLevel, true, SimpleArgWriter.class);
     }
 
-    void logBefore(JoinPoint joinPoint, LogLevel logLevel, Log.Args args) {
+    void logBefore(JoinPoint joinPoint, Log.Level logLevel, Log.Args args) {
         logBefore(joinPoint, logLevel, args.enabled(), args.withWriter());
     }
 
-    void logBefore(JoinPoint joinPoint, LogLevel logLevel, boolean enabled, Class<? extends ArgWriter> argWriter) {
+    void logBefore(JoinPoint joinPoint, Log.Level logLevel, boolean enabled, Class<? extends ArgWriter> argWriter) {
         var logger = LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringType());
 
         switch (logLevel) {
@@ -82,7 +81,7 @@ public class LogAdvice {
         }
     }
 
-    public void logAfter(JoinPoint joinPoint, LogLevel logLevel) {
+    public void logAfter(JoinPoint joinPoint, Log.Level logLevel) {
 
         var signature = joinPoint.getSignature();
         var logger = LoggerFactory.getLogger(signature.getDeclaringType());
@@ -136,7 +135,7 @@ public class LogAdvice {
 
     public void logAfterReturning(
             JoinPoint joinPoint, 
-            LogLevel logLevel, 
+            Log.Level logLevel, 
             Object returnType) {
 
         logAfterReturning(joinPoint, logLevel, true, null, returnType);
@@ -145,7 +144,7 @@ public class LogAdvice {
 
     public void logAfterReturning(
         JoinPoint joinPoint, 
-        LogLevel logLevel, 
+        Log.Level logLevel, 
         Class<? extends ReturnTypeWriter> returnTypeWriter, 
         Object returnType) {
 
@@ -155,7 +154,7 @@ public class LogAdvice {
 
     public void logAfterReturning(
             JoinPoint joinPoint, 
-            LogLevel logLevel, 
+            Log.Level logLevel, 
             boolean withReturnType, 
             Class<? extends ReturnTypeWriter> returnTypeWriter,
             Object returnType) {
@@ -215,11 +214,11 @@ public class LogAdvice {
 
     }
 
-    public void logAfterThrowing(JoinPoint joinPoint, LogLevel logLevel, Exception e) {
+    public void logAfterThrowing(JoinPoint joinPoint, Log.Level logLevel, Exception e) {
         logAfterThrowing(joinPoint, logLevel, true, e);
     }
 
-    public void logAfterThrowing(JoinPoint joinPoint, LogLevel logLevel, boolean withStacktrace, Exception e) {
+    public void logAfterThrowing(JoinPoint joinPoint, Log.Level logLevel, boolean withStacktrace, Exception e) {
 
         var signature = joinPoint.getSignature();
         var logger = LoggerFactory.getLogger(signature.getDeclaringType());
