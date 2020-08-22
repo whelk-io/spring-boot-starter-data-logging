@@ -4,119 +4,92 @@
 
 Spring-Boot starter for reducing logging boilerplate with Spring-AOP annotations. Takes advantage of tracing and logging capabilities in Spring-Data, Spring-Cloud-Sleuth, and Lombok.
 
-## Basic Example
+## Basic Use Case
 
-Given a <code>[Spring-Data-JPA](https://spring.io/projects/spring-data-jpa)</code> entity: 
+Any method on a Spring managed bean can be wrapped with logging by annotating with `Log.Around`.
 
 ````java
-@Data
-@Entity
-public class Foo {
+@SpringBootApplication
+public class Application implements CommandLineRunner {
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long id;
+	public static void main(String... args) {
+		SpringApplication.run(Application.class, args);
+	}
 
-    @Column
-    private String name;
-
-    @Version
-    private int version;
+	@Log.Around
+	@Override
+	public void run(String... args) throws Exception {
+		// startup tasks
+	}
 
 }
 ````
 
-And a <code>[Spring-Data-REST](https://spring.io/projects/spring-data-rest)</code> <code>[RepositoryRestResource](https://docs.spring.io/spring-data/rest/docs/current/reference/html/#repository-resources)</code>:
+**Console Logs**
 
-````java
-@RepositoryRestResource
-public interface FooRepository extends JpaRepository<Foo, Long> { }
-````
+```Logtalk
+2020-08-22 15:32:16.767 com.example.demo.Application DEBUG : before [method=run, args=([])]
 
-And a <code>[Spring-Data-REST](https://spring.io/projects/spring-data-rest)</code> <code>[RepositoryEventHandler](https://docs.spring.io/spring-data/rest/docs/2.0.0.M1/reference/html/events-chapter.html)</code>:
-````java
-@Slf4j
-@Component
-@RepositoryEventHandler
-public class FooEventHandler {
+2020-08-22 15:32:16.772 com.example.demo.Application DEBUG : after [method=run]
+```
 
-    @HandleAfterCreate
-    public void handleCreate(final Foo foo) {
-        log.info("foo created, do something");
-    }
+#### Method Logging
 
-}
-````
+`@Log.Before` - Log message (with method parameters) before method is invoked
 
-When creating entity by REST
-````
-curl -X POST \
-     -H 'Content-Type: application/json' \
-     -d '{ "name": fubar" }' \
-     localhost:8080/foos 
-````
+| Attribute   | Type         | Default Value      | Description                                 | 
+| ----------- | ------------ | ------------------ | ------------------------------------------- |
+| `withLevel` | `@Log.Level` | `@Log.Level.Debug` | Level of message when logged                |
+| `withArgs`  | `@Log.Args`  | `@Log.Args`        | Configuration for logging method parameters | 
 
-Observe logs generated
-````log
-2020-07-04 12:17:19.583  INFO [foo,6aaf12d29bafd856,6aaf12d29bafd856,true] 21978 --- [nio-8080-exec-2] com.example.demo.event.FooEventHandler   : foo created, do something
-````
+`@Log.After` - Log message after method is invoked.
 
-At the method `handleCreate(..)`, add annotation <code>[@Log.Around](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/aop/Log.java)</code> from <code>[Spring-Boot-Starter-Data-Logging](https://github.com/whelk-io/spring-boot-starter-data-logging)</code>:
+`@Log.AfterReturning` - Log message with return value after method is invoked. 
 
-````java
-@Slf4j
-@Component
-@RepositoryEventHandler
-public class FooEventHandler {
+`@Log.AfterThrowing` - Log message only after throwing an exception.
 
-    @Log.Around
-    @HandleAfterCreate
-    public void handleCreate(final Foo foo) {
-        log.info("foo created, do something");
-    }
+`@Log.Around` - Combines other annotations to log wrap a method with logging before, after, and on exception.
 
-}
-````
+**Configuration**
 
-Observe logs generated
-````log
-2020-07-04 12:20:37.652 DEBUG [foo,99b86b1544f68f1a,99b86b1544f68f1a,true] 21978 --- [nio-8080-exec-5] com.example.demo.event.FooEventHandler   : before [method=handleCreate, args=(Foo(id=2, name=fubar, version=0))]
+`@Log.Args` - Configuration for logging method parameters
 
-2020-07-04 12:20:37.653  INFO [foo,99b86b1544f68f1a,99b86b1544f68f1a,true] 21978 --- [nio-8080-exec-5] com.example.demo.event.FooEventHandler   : foo created, do something
+| Attribute | Type | Default Value | Description | 
+| ----------| ---- | ------------- | ------------|
+| `enabled` | `boolean` | `true` | Whether to log method parameters or not |
+| `withWriter` | [`ArgWriter`](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/ArgWriter.java) | [`SimpleArgWriter`](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/SimpleArgWriter.java) <sup>1</sup> | Converts method parameters to `String` for logging | 
 
-2020-07-04 12:20:37.653 DEBUG [foo,99b86b1544f68f1a,99b86b1544f68f1a,true] 21978 --- [nio-8080-exec-5] com.example.demo.event.FooEventHandler   : after [method=handleCreate]
-````
+<sup>1</sup> See [Global Configuration](#global-configuration) to update values for all logging annotations.
 
-## Logging Method Annotations
+`@Log.ReturnType`
 
-<code>[@Log.Around](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/aop/Log.java)</code> - Log messages before and after annotated method executes.
- - `@Log.Around(withLevel=LogLevel.DEBUG)` - <code>[LogLevel](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html)</code> to write log messages, defaults to <code>[LogLevel.DEBUG](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html#DEBUG)</code>
- - `@Log.Around(withArgs=true)` - Log method parameters (if any) using wired [ArgWriter](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/ArgWriter.java). 
- - `@Log.Around(withReturnType=true)` - Log method return (if any) using wired [ArgWriter](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/ArgWriter.java). 
-
-<code>[@Log.Before](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/aop/Log.java)</code> - Log messages only before annotated method executes.
-  - `@Log.Before(withLevel=LogLevel.DEBUG)` - <code>[LogLevel](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html)</code> to write log messages, defaults to <code>[LogLevel.DEBUG](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html#DEBUG)</code>
-  - `@Log.Before(withArgs=true)` - Log method parameters (if any) using wired [ArgWriter](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/ArgWriter.java). 
-
-<code>[@Log.After](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/aop/Log.java)</code> - Log messsages only after annotated method executes, regardless if returns `void`, any `Object`, or any `Exception`.
-  - `@Log.After(withLevel=LogLevel.DEBUG)` - <code>[LogLevel](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html)</code> to write log messages, defaults to <code>[LogLevel.DEBUG](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html#DEBUG)</code>
-
-<code>[@Log.AfterReturning](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/aop/Log.java)</code> - Log messages only after annotated method executes and returns non-`void` value.
-  - `@Log.AfterReturning(withLevel=LogLevel.DEBUG)` - <code>[LogLevel](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html)</code> to write log messages, defaults to <code>[LogLevel.DEBUG](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/logging/LogLevel.html#DEBUG)</code>
-
-## Spring-Data-REST
-
-> Spring Data REST is part of the umbrella Spring Data project and makes it easy to build hypermedia-driven REST web services on top of Spring Data repositories.
-
-> Spring Data REST builds on top of Spring Data repositories, analyzes your application’s domain model and exposes hypermedia-driven HTTP resources for aggregates contained in the model.
-
-Source: [Spring Data REST](https://spring.io/projects/spring-data-rest)
+`@Log.ReturnException`
 
 
-````
-@RepositoryRestResource
-public interface FooRepository extends TraceableCrudRepository<Foo, Long> { }
-````
+#### Auto-Logging with Spring-Data-Rest
+
+#### Auto-Logging with Spring-Data-JPA
+
+#### Auto-Logging with Spring-Cloud-Sleuth
+
+#### Global Configuration
+
+
+
+
+
+
+
+Given Spring Bean with method
+
+
+With Spring-Data-REST
+
+With Spring-Data-JPA
+
+With Spring-Cloud-Sleuth
+
+
 
 ## Spring-Cloud-Sleuth
 
