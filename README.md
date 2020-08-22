@@ -59,7 +59,7 @@ public class Application implements CommandLineRunner {
 | `enabled` | `boolean` | `true` | Whether to log method parameters or not |
 | `withWriter` | [`ArgWriter`](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/ArgWriter.java) | [`SimpleArgWriter`](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/SimpleArgWriter.java) <sup>1</sup> | Converts method parameters to `String` for logging | 
 
-<sup>1</sup> See [Global Configuration](#global-configuration) to update values for all logging annotations.
+<sup>1</sup> See [Global Configuration](#global-configuration) to change value for all logging annotations.
 
 `@Log.ReturnType`
 
