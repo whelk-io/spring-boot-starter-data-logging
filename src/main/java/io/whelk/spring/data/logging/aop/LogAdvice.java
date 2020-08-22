@@ -35,47 +35,47 @@ public class LogAdvice {
         var logger = LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringType());
 
         switch (logLevel) {
-            case TRACE: {
+            case Trace: {
                 if (logger.isTraceEnabled()) {
                     var message = generateBeforeMessage(joinPoint, enabled, argWriter);
                     logger.trace(message);
                 }
                 break;
             }
-            case DEBUG: {
+            case Debug: {
                 if (logger.isDebugEnabled()) {
                     var message = generateBeforeMessage(joinPoint, enabled, argWriter);
                     logger.debug(message);
                 }
                 break;
             }
-            case INFO: {
+            case Info: {
                 if (logger.isInfoEnabled()) {
                     var message = generateBeforeMessage(joinPoint, enabled, argWriter);
                     logger.info(message);
                 }
                 break;
             }
-            case WARN: {
+            case Warn: {
                 if (logger.isWarnEnabled()) {
                     var message = generateBeforeMessage(joinPoint, enabled, argWriter);
                     logger.warn(message);
                 }
                 break;
             }
-            case ERROR: {
+            case Error: {
                 if (logger.isErrorEnabled()) {
                     var message = generateBeforeMessage(joinPoint, enabled, argWriter);
                     logger.error(message);
                 }
                 break;
             }
-            case FATAL: {
+            case Fatal: {
                 var message = generateBeforeMessage(joinPoint, enabled, argWriter);
                 logger.error(message);
                 break;
             }
-            case OFF:
+            case Off:
             default:
                 break;
         }
@@ -87,47 +87,47 @@ public class LogAdvice {
         var logger = LoggerFactory.getLogger(signature.getDeclaringType());
 
         switch (logLevel) {
-            case TRACE: {
+            case Trace: {
                 if (logger.isTraceEnabled()) {
                     var message = generateAfterMessage(signature);
                     logger.trace(message);
                 }
                 break;
             }
-            case DEBUG: {
+            case Debug: {
                 if (logger.isDebugEnabled()) {
                     var message = generateAfterMessage(signature);
                     logger.debug(message);
                 }
                 break;
             }
-            case INFO: {
+            case Info: {
                 if (logger.isInfoEnabled()) {
                     var message = generateAfterMessage(signature);
                     logger.info(message);
                 }
                 break;
             }
-            case WARN: {
+            case Warn: {
                 if (logger.isWarnEnabled()) {
                     var message = generateAfterMessage(signature);
                     logger.warn(message);
                 }
                 break;
             }
-            case ERROR: {
+            case Error: {
                 if (logger.isErrorEnabled()) {
                     var message = generateAfterMessage(signature);
                     logger.error(message);
                 }
                 break;
             }
-            case FATAL: {
+            case Fatal: {
                 var message = generateAfterMessage(signature);
                 logger.error(message);
                 break;
             }
-            case OFF:
+            case Off:
                 break;
             default:
         }
@@ -167,47 +167,47 @@ public class LogAdvice {
         }
 
         switch (logLevel) {
-            case TRACE: {
+            case Trace: {
                 if (logger.isTraceEnabled()) {
                     var message = generateAfterReturningMessage(signature, returnTypeWriter, returnType);
                     logger.trace(message);
                 }
                 break;
             }
-            case DEBUG: {
+            case Debug: {
                 if (logger.isDebugEnabled()) {
                     var message = generateAfterReturningMessage(signature, returnTypeWriter, returnType);
                     logger.debug(message);
                 }
                 break;
             }
-            case INFO: {
+            case Info: {
                 if (logger.isInfoEnabled()) {
                     var message = generateAfterReturningMessage(signature, returnTypeWriter, returnType);
                     logger.info(message);
                 }
                 break;
             }
-            case WARN: {
+            case Warn: {
                 if (logger.isWarnEnabled()) {
                     var message = generateAfterReturningMessage(signature, returnTypeWriter, returnType);
                     logger.warn(message);
                 }
                 break;
             }
-            case ERROR: {
+            case Error: {
                 if (logger.isErrorEnabled()) {
                     var message = generateAfterReturningMessage(signature, returnTypeWriter, returnType);
                     logger.error(message);
                 }
                 break;
             }
-            case FATAL: {
+            case Fatal: {
                 var message = generateAfterReturningMessage(signature, returnTypeWriter, returnType); 
                 logger.error(message);
                 break;
             }
-            case OFF:
+            case Off:
                 break;
             default:
         }
@@ -218,71 +218,71 @@ public class LogAdvice {
         logAfterThrowing(joinPoint, logLevel, true, e);
     }
 
-    public void logAfterThrowing(JoinPoint joinPoint, Log.Level logLevel, boolean withStacktrace, Exception e) {
+    public void logAfterThrowing(JoinPoint joinPoint, Log.Level logLevel, boolean withStackTrace, Exception e) {
 
         var signature = joinPoint.getSignature();
         var logger = LoggerFactory.getLogger(signature.getDeclaringType());
 
         switch (logLevel) {
-            case TRACE: {
+            case Trace: {
                 if (logger.isTraceEnabled()) {
                     var message = generateAfterThrowingMessage(signature, e);
-                    if (withStacktrace) 
+                    if (withStackTrace) 
                         logger.trace(message, e);
                     else
                         logger.trace(message);
                 }
                 break;
             }
-            case DEBUG: {
+            case Debug: {
                 if (logger.isDebugEnabled()) {
                     var message = generateAfterThrowingMessage(signature, e);
-                    if (withStacktrace) 
+                    if (withStackTrace) 
                         logger.debug(message, e);
                     else
                         logger.debug(message);
                 }
                 break;
             }
-            case INFO: {
+            case Info: {
                 if (logger.isInfoEnabled()) {
                     var message = generateAfterThrowingMessage(signature, e);
-                    if (withStacktrace) 
+                    if (withStackTrace) 
                         logger.info(message, e);
                     else
                         logger.info(message);
                 }
                 break;
             }
-            case WARN: {
+            case Warn: {
                 if (logger.isWarnEnabled()) {
                     var message = generateAfterThrowingMessage(signature, e);
-                    if (withStacktrace) 
+                    if (withStackTrace) 
                         logger.warn(message, e);
                     else
                         logger.warn(message);
                 }
                 break;
             }
-            case ERROR: {
+            case Error: {
                 if (logger.isErrorEnabled()) {
                     var message = generateAfterThrowingMessage(signature, e);
-                    if (withStacktrace) 
+                    if (withStackTrace) 
                         logger.error(message, e);
                     else
                         logger.error(message);
                 }
                 break;
             }
-            case FATAL: {
+            case Fatal: {
                 var message = generateAfterThrowingMessage(signature, e);
-                if (withStacktrace) 
+                if (withStackTrace) 
                     logger.error(message, e);
                 else
                     logger.error(message);
                 break;
             }
-            case OFF:
+            case Off:
                 break;
             default:
         }

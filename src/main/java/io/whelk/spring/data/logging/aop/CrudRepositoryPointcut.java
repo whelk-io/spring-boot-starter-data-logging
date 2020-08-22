@@ -1,7 +1,7 @@
 package io.whelk.spring.data.logging.aop;
 
-import static io.whelk.spring.data.logging.aop.Log.Level.DEBUG;
-import static io.whelk.spring.data.logging.aop.Log.Level.ERROR;
+import static io.whelk.spring.data.logging.aop.Log.Level.Debug;
+import static io.whelk.spring.data.logging.aop.Log.Level.Error;
 
 import java.util.Optional;
 
@@ -213,22 +213,22 @@ public class CrudRepositoryPointcut {
 
     void logBefore(JoinPoint joinPoint) {
         if (isCrudRepositoryDeclaringType(joinPoint))
-            logAdvice.logBefore(joinPoint, DEBUG);
+            logAdvice.logBefore(joinPoint, Debug);
     }
 
     void logAfter(JoinPoint joinPoint) {
         if (isCrudRepositoryDeclaringType(joinPoint))
-            logAdvice.logAfter(joinPoint, DEBUG);
+            logAdvice.logAfter(joinPoint, Debug);
     }
 
     void logAfterReturning(JoinPoint joinPoint, Object returnType) {
         if (isCrudRepositoryDeclaringType(joinPoint))
-            logAdvice.logAfterReturning(joinPoint, DEBUG, returnType);
+            logAdvice.logAfterReturning(joinPoint, Debug, returnType);
     }
 
     void logAfterThrowing(JoinPoint joinPoint, Exception e) {
         if (isCrudRepositoryDeclaringType(joinPoint))
-            logAdvice.logAfterThrowing(joinPoint, ERROR, e);
+            logAdvice.logAfterThrowing(joinPoint, Error, e);
     }
 
     @SneakyThrows

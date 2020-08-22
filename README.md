@@ -4,25 +4,20 @@
 
 Spring-Boot starter for reducing logging boilerplate with Spring-AOP annotations. Takes advantage of tracing and logging capabilities in Spring-Data, Spring-Cloud-Sleuth, and Lombok.
 
-<br><br>
+<br>
 
-## Basic Use Case
+## Basic Method Wrapper
 
 Any method on a Spring managed bean can be wrapped with logging by annotating with `Log.Around`.
 
 ````java
-@SpringBootApplication
-public class Application implements CommandLineRunner {
+@Component
+public class SomeBean {
 
-	public static void main(String... args) {
-		SpringApplication.run(Application.class, args);
-	}
-
-	@Log.Around
-	@Override
-	public void run(String... args) throws Exception {
-		// startup tasks
-	}
+  @Log.Info.Around
+  public String someMethod(String param) {
+    return "someReturn";
+  }
 
 }
 ````
@@ -30,12 +25,123 @@ public class Application implements CommandLineRunner {
 **Console Logs**
 
 ```Logtalk
-2020-08-22 15:32:16.767 com.example.demo.Application DEBUG : before [method=run, args=([])]
+2020-08-22 18:36:28,811 c.e.d.SomeBean DEBUG : before [method=someMethod, args=("someParam")]
 
-2020-08-22 15:32:16.772 com.example.demo.Application DEBUG : after [method=run]
+2020-08-22 18:36:28,813 c.e.d.SomeBean DEBUG : after [method=someMethod, return="someReturn"]
 ```
 
-<br><br>
+<br>
+
+## Change Log Level
+
+```java
+@Component
+public class SomeBean {
+
+  // change log level with @Log.{Level}.{Pointcut}
+  @Log.Info.Around
+  public String someMethod(String param) {
+    return "foobar"
+  }
+
+  // or, on the @Log.{Pointcut} attribute
+  @Log.Around(withLevel = Log.Level.Info)
+  public String otherMethod() {
+    return "foobar"
+  }
+
+}
+```
+
+**Console Logs**
+
+```Logtalk
+2020-08-22 18:36:28,811 c.e.d.SomeBean INFO : before [method=someMethod, args=("someParam")]
+
+2020-08-22 18:36:28,813 c.e.d.SomeBean INFO : after [method=someMethod, return="someReturn"]
+
+2020-08-22 18:36:28,814 c.e.d.SomeBean INFO : before [method=otherMethod]
+
+2020-08-22 18:36:28,814 c.e.d.SomeBean INFO : after [method=otherMethod, return="otherReturn"]
+```
+
+<br>
+
+## Additional Pointcuts
+
+**`@Log.Before`**
+````java
+// log before method is invoked
+@Log.Before 
+public String someMethod(String param) {
+  return "someReturn";
+}
+````
+
+**Console Logs**
+
+````Logtalk
+2020-08-22 18:45:07,631 c.e.d.SomeBean DEBUG : before [method=someMethod, args=("someParam")]
+````
+
+<br>
+
+**`Log.After`**
+
+````java
+// log after method has been invoked
+@Log.After 
+public String otherMethod() {
+  return "otherReturn";
+}
+````
+
+````Logtalk
+2020-08-22 18:45:07,634 c.e.d.SomeBean DEBUG : after [method=otherMethod]
+````
+
+<br>
+
+**`Log.AfterReturning`**
+
+````java
+// log after method is invoked 
+// and include any value returned
+@Log.AfterReturning 
+public String otherMethod() {
+  return "otherReturn";
+}
+````
+
+````Logtalk
+2020-08-22 18:48:58,171 c.e.d.SomeBean DEBUG : after [method=otherMethod, return="otherReturn"]
+````
+
+<br>
+
+**`@Log.AfterThrowing`**
+
+````java
+// log after method is invoked
+// and only if exception is thrown
+@Log.AfterThrowing
+public String someMethod(String param) {
+  throw new RuntimeException("some error");
+}
+````
+
+**Console Logs**
+
+```Logtalk
+2020-08-22 18:54:56,499 c.e.d.SomeBean ERROR : thrown [method=someMethod, exception=java.lang.RuntimeException, message=some error]
+
+{stacktrace}
+````
+
+<br>
+
+
+## Full Configurtion
 
 ### Method Logging
 
@@ -46,28 +152,35 @@ public class Application implements CommandLineRunner {
 | `withLevel` | `@Log.Level` | `@Log.Level.Debug` | Level of message when logged |
 | `withArgs` | `@Log.Args` | `@Log.Args` | Configuration for logging method parameters | 
 
-<br><br>
+<br>
 
 **`@Log.After`** - Log message after method is invoked.
+
+// TODO
 
         Log.Level withLevel() default Log.Level.DEBUG;
         Log.ReturnException withReturnException() default @Log.ReturnException;
 
-<br><br>
+
+<br>
 
 **`@Log.AfterReturning`** - Log message with return value after method is invoked. 
+
+// TODO
 
         Log.Level withLevel() default Log.Level.DEBUG;
         Log.ReturnType withReturnType() default @Log.ReturnType;
 
-<br><br>
+<br>
 
 **`@Log.AfterThrowing`** - Log message only after throwing an exception.
+
+// TODO
 
         Log.Level withLevel() default Log.Level.ERROR;
         Log.ReturnException withReturnException() default @Log.ReturnException;
 
-<br><br>
+<br>
 
 **`@Log.Around`** - Combines other annotations to wrap a method with logging before, after, and on exception.
 
@@ -76,7 +189,7 @@ public class Application implements CommandLineRunner {
         Log.ReturnType withReturnType() default @Log.ReturnType;
         Log.ReturnException withReturnException() default @Log.ReturnException;
 
-<br><br>
+<br>
 
 ### Configuration
 
@@ -89,7 +202,7 @@ public class Application implements CommandLineRunner {
 
 > <sup>1</sup> See [Global Configuration](#global-configuration) to change value for all logging annotations.
 
-<br><br>
+<br>
 
 **`@Log.ReturnType`**
 
@@ -100,7 +213,7 @@ public class Application implements CommandLineRunner {
 
 > <sup>1</sup> See [Global Configuration](#global-configuration) to change value for all logging annotations.
 
-<br><br>
+<br>
 
 **`@Log.ReturnException`**
 
@@ -111,36 +224,23 @@ public class Application implements CommandLineRunner {
 
 > <sup>1</sup> See [Global Configuration](#global-configuration) to change value for all logging annotations.
 
-<br><br>
-
-
-/// @Log.{Level}.Before
-
+<br>
 
 #### Auto-Logging with Spring-Data-Rest
 
+// TODO
+
 #### Auto-Logging with Spring-Data-JPA
+
+// TODO
 
 #### Auto-Logging with Spring-Cloud-Sleuth
 
+// TODO
+
 #### Global Configuration
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// TODO
 
 ## Spring-Cloud-Sleuth
 
@@ -169,27 +269,9 @@ Source: [Spring Cloud Sleuth](https://spring.io/projects/spring-cloud-sleuth)
     </dependencies>
   </dependencyManagement>
 
-## Spring-Data-JPA
+<br>
 
-// default logging and span
-
-## Spring-Data-MongoDB
-
-// default logging and span
-
-## ToString ArgWriter with Lombok
-
-## JSON ArgWriter with Jackson
-
-## Configure SLF4j Log Pattern
-
-## Configure Log Message Format
-
-// default
-
-// how to configure custom
-
-## Supported Versions
+## Supported Dependencies
 
 | Package                          | Version                      |
 | -------------------------------- | ---------------------------- |
@@ -207,6 +289,8 @@ Source: [Spring Cloud Sleuth](https://spring.io/projects/spring-cloud-sleuth)
 <sup>1</sup> Dependency versioning inherited from `Spring-Boot-Starter`.
 
 <sup>2</sup> Dependency versioning inherited from `Spring-Cloud`.
+
+<br> 
 
 ## Maven Integration
 

@@ -276,7 +276,7 @@ public interface Log {
     @Target(METHOD)
     @Retention(RUNTIME)
     public @interface Before {
-        Log.Level withLevel() default Log.Level.DEBUG;
+        Log.Level withLevel() default Log.Level.Debug;
 
         Log.Args withArgs() default @Log.Args;
     }
@@ -285,7 +285,7 @@ public interface Log {
     @Target(METHOD)
     @Retention(RUNTIME)
     public @interface After {
-        Log.Level withLevel() default Log.Level.DEBUG;
+        Log.Level withLevel() default Log.Level.Debug;
 
         Log.ReturnException withReturnException() default @Log.ReturnException;
     }
@@ -294,7 +294,7 @@ public interface Log {
     @Target(METHOD)
     @Retention(RUNTIME)
     public @interface AfterReturning {
-        Log.Level withLevel() default Log.Level.DEBUG;
+        Log.Level withLevel() default Log.Level.Debug;
 
         Log.ReturnType withReturnType() default @Log.ReturnType;
     }
@@ -303,7 +303,7 @@ public interface Log {
     @Target(METHOD)
     @Retention(RUNTIME)
     public @interface AfterThrowing {
-        Log.Level withLevel() default Log.Level.ERROR;
+        Log.Level withLevel() default Log.Level.Error;
 
         Log.ReturnException withReturnException() default @Log.ReturnException;
     }
@@ -312,7 +312,7 @@ public interface Log {
     @Target(METHOD)
     @Retention(RUNTIME)
     public @interface Around {
-        Log.Level withLevel() default Log.Level.DEBUG;
+        Log.Level withLevel() default Log.Level.Debug;
 
         Log.Args withArgs() default @Log.Args;
 
@@ -351,13 +351,13 @@ public interface Log {
     @Target(ElementType.PARAMETER)
     @Retention(RUNTIME)
     public @interface ReturnException {
-        boolean withStacktrace() default true;
+        boolean withStackTrace() default true;
 
-        boolean withOverride() default true;
+        Log.Level withLogLevel() default Log.Level.Error;
     }
 
     enum Level {
-        TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF
+        Trace, Debug, Info, Warn, Error, Fatal, Off
     }
 
 }

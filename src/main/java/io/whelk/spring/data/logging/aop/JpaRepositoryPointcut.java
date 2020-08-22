@@ -1,7 +1,7 @@
 package io.whelk.spring.data.logging.aop;
 
-import static io.whelk.spring.data.logging.aop.Log.Level.DEBUG;
-import static io.whelk.spring.data.logging.aop.Log.Level.ERROR;
+import static io.whelk.spring.data.logging.aop.Log.Level.Debug;
+import static io.whelk.spring.data.logging.aop.Log.Level.Error;
 
 import java.util.Optional;
 
@@ -258,22 +258,22 @@ public class JpaRepositoryPointcut {
 
     void logBefore(JoinPoint joinPoint) {
         if (isJpaRepositoryDeclaringType(joinPoint))
-            logAdvice.logBefore(joinPoint, DEBUG);
+            logAdvice.logBefore(joinPoint, Debug);
     }
 
     void logAfterReturning(JoinPoint joinPoint, Object returnType) { 
         if (isJpaRepositoryDeclaringType(joinPoint))
-            logAdvice.logAfterReturning(joinPoint, DEBUG, returnType);
+            logAdvice.logAfterReturning(joinPoint, Debug, returnType);
     }
 
     void logAfter(JoinPoint joinPoint) { 
         if (isJpaRepositoryDeclaringType(joinPoint))
-            logAdvice.logAfter(joinPoint, DEBUG);
+            logAdvice.logAfter(joinPoint, Debug);
     }
 
     void logAfterThrowing(JoinPoint joinPoint, Exception e) { 
         if (isJpaRepositoryDeclaringType(joinPoint))
-            logAdvice.logAfterThrowing(joinPoint, ERROR, e);
+            logAdvice.logAfterThrowing(joinPoint, Error, e);
     }
 
     @SneakyThrows
