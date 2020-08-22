@@ -27,8 +27,6 @@ public class Application implements CommandLineRunner {
 }
 ````
 
-<br><br>
-
 **Console Logs**
 
 ```Logtalk
@@ -86,7 +84,7 @@ public class Application implements CommandLineRunner {
 
 | Attribute | Type | Default Value | Description | 
 | ----------| ---- | ------------- | ------------|
-| `enabled` | `boolean` | `true` | Whether to log method parameters or not |
+| `enabled` | `boolean` | `true` | Whether to log method parameters |
 | `withWriter` | [`ArgWriter`](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/ArgWriter.java) | [`SimpleArgWriter`](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/SimpleArgWriter.java)<sup>1</sup> | Converts method parameters to `String` for logging | 
 
 > <sup>1</sup> See [Global Configuration](#global-configuration) to change value for all logging annotations.
@@ -97,7 +95,7 @@ public class Application implements CommandLineRunner {
 
 | Attribute | Type | Default Value | Description | 
 | ----------| ---- | ------------- | ------------|
-| `enabled` | `boolean` | `true` | Whether to log return type or not |
+| `enabled` | `boolean` | `true` | Whether to log return type |
 | `withWriter` | [`ReturnTypeWriter`](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/ReturnTypeWriter.java) | [`SimpleReturnTypeWriter`](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/SimpleReturnTypeWriter.java)<sup>1</sup> | Converts return type to String for logging |
 
 > <sup>1</sup> See [Global Configuration](#global-configuration) to change value for all logging annotations.
@@ -106,11 +104,17 @@ public class Application implements CommandLineRunner {
 
 **`@Log.ReturnException`**
 
+| Attribute | Type | Default Value | Description | 
+| ----------| ---- | ------------- | ------------|
+| `withStacktrace` | `boolean` | `true` | Whether to log stacktrace on exception |
+| `withOverride` | `boolean` | `true` | Whether to override `withLevel` with `Log.Level.Error` on method annotation when logging exception |
 
-        boolean withStacktrace () default true;
-        boolean withOverride() default true;
+> <sup>1</sup> See [Global Configuration](#global-configuration) to change value for all logging annotations.
 
 <br><br>
+
+
+/// @Log.{Level}.Before
 
 
 #### Auto-Logging with Spring-Data-Rest

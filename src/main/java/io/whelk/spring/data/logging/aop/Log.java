@@ -48,7 +48,9 @@ public interface Log {
         @Retention(RUNTIME)
         public @interface Around {
             Log.Args withArgs() default @Log.Args;
+
             Log.ReturnType withReturnType() default @Log.ReturnType;
+
             Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
@@ -89,7 +91,9 @@ public interface Log {
         @Retention(RUNTIME)
         public @interface Around {
             Log.Args withArgs() default @Log.Args;
+
             Log.ReturnType withReturnType() default @Log.ReturnType;
+
             Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
@@ -130,7 +134,9 @@ public interface Log {
         @Retention(RUNTIME)
         public @interface Around {
             Log.Args withArgs() default @Log.Args;
+
             Log.ReturnType withReturnType() default @Log.ReturnType;
+
             Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
@@ -171,7 +177,9 @@ public interface Log {
         @Retention(RUNTIME)
         public @interface Around {
             Log.Args withArgs() default @Log.Args;
+
             Log.ReturnType withReturnType() default @Log.ReturnType;
+
             Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
@@ -213,7 +221,9 @@ public interface Log {
         @Retention(RUNTIME)
         public @interface Around {
             Log.Args withArgs() default @Log.Args;
+
             Log.ReturnType withReturnType() default @Log.ReturnType;
+
             Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
@@ -254,7 +264,9 @@ public interface Log {
         @Retention(RUNTIME)
         public @interface Around {
             Log.Args withArgs() default @Log.Args;
+
             Log.ReturnType withReturnType() default @Log.ReturnType;
+
             Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
@@ -265,6 +277,7 @@ public interface Log {
     @Retention(RUNTIME)
     public @interface Before {
         Log.Level withLevel() default Log.Level.DEBUG;
+
         Log.Args withArgs() default @Log.Args;
     }
 
@@ -273,6 +286,7 @@ public interface Log {
     @Retention(RUNTIME)
     public @interface After {
         Log.Level withLevel() default Log.Level.DEBUG;
+
         Log.ReturnException withReturnException() default @Log.ReturnException;
     }
 
@@ -281,6 +295,7 @@ public interface Log {
     @Retention(RUNTIME)
     public @interface AfterReturning {
         Log.Level withLevel() default Log.Level.DEBUG;
+
         Log.ReturnType withReturnType() default @Log.ReturnType;
     }
 
@@ -289,6 +304,7 @@ public interface Log {
     @Retention(RUNTIME)
     public @interface AfterThrowing {
         Log.Level withLevel() default Log.Level.ERROR;
+
         Log.ReturnException withReturnException() default @Log.ReturnException;
     }
 
@@ -297,43 +313,51 @@ public interface Log {
     @Retention(RUNTIME)
     public @interface Around {
         Log.Level withLevel() default Log.Level.DEBUG;
+
         Log.Args withArgs() default @Log.Args;
+
         Log.ReturnType withReturnType() default @Log.ReturnType;
+
         Log.ReturnException withReturnException() default @Log.ReturnException;
     }
 
     @Inherited
     @Target(ElementType.PARAMETER)
     @Retention(RUNTIME)
-    public @interface Args { 
+    public @interface Args {
         boolean enabled() default true;
+
         Class<? extends ArgWriter> withWriter() default ArgWriter.class;
     }
 
     @Inherited
     @Target(ElementType.PARAMETER)
     @Retention(RUNTIME)
-    public @interface ReturnType { 
+    public @interface ReturnType {
         boolean enabled() default true;
+
         Class<? extends ReturnTypeWriter> withWriter() default ReturnTypeWriter.class;
     }
 
+    /**
+     * Configuration for method logging when exception is thrown.
+     * 
+     * @param withStackTrace - log stacktrace with exception is thrown, default true
+     * @param withOverride   - override withLevel on logging annotations with
+     *                       <code>Log.Level.Error</code> when exception is thrown,
+     *                       default is true
+     */
     @Inherited
     @Target(ElementType.PARAMETER)
     @Retention(RUNTIME)
-    public @interface ReturnException { 
-        boolean withStacktrace () default true;
+    public @interface ReturnException {
+        boolean withStacktrace() default true;
+
         boolean withOverride() default true;
     }
 
-    enum Level { 
+    enum Level {
         TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF
-    }
-
-    @Inherited
-    @Target(METHOD)
-    @Retention(RUNTIME)
-    public @interface Span {
     }
 
 }
