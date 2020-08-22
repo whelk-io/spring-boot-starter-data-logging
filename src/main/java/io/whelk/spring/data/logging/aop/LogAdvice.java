@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import io.whelk.spring.data.logging.configurer.LoggingConfigurer;
 import io.whelk.spring.data.logging.writer.ArgWriter;
 import io.whelk.spring.data.logging.writer.ReturnTypeWriter;
+import io.whelk.spring.data.logging.writer.SimpleArgWriter;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -23,57 +24,55 @@ public class LogAdvice {
     private final LoggingConfigurer loggingConfigurer;
     private final ApplicationContext applicationContext;
 
-    public void logBefore(JoinPoint joinPoint, LogLevel logLevel) {
-        logBefore(joinPoint, logLevel, true, null);
+    void logBefore(JoinPoint joinPoint, LogLevel logLevel) { 
+        logBefore(joinPoint, logLevel, true, SimpleArgWriter.class);
     }
 
-    public void logBefore(JoinPoint joinPoint, LogLevel logLevel, Class<? extends ArgWriter> argWriter) {
-        logBefore(joinPoint, logLevel, true, argWriter);
+    void logBefore(JoinPoint joinPoint, LogLevel logLevel, Log.Args args) {
+        logBefore(joinPoint, logLevel, args.enabled(), args.withWriter());
     }
 
-    public void logBefore(JoinPoint joinPoint, LogLevel logLevel, boolean withArgs, Class<? extends ArgWriter> argWriter) {
+    void logBefore(JoinPoint joinPoint, LogLevel logLevel, boolean enabled, Class<? extends ArgWriter> argWriter) {
         var logger = LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringType());
-        var methodName = joinPoint.getSignature().getName();
-        var args = joinPoint.getArgs();
 
         switch (logLevel) {
             case TRACE: {
                 if (logger.isTraceEnabled()) {
-                    var message = generateBeforeMessage(methodName, withArgs, argWriter, args);
+                    var message = generateBeforeMessage(joinPoint, enabled, argWriter);
                     logger.trace(message);
                 }
                 break;
             }
             case DEBUG: {
                 if (logger.isDebugEnabled()) {
-                    var message = generateBeforeMessage(methodName, withArgs, argWriter, args);
+                    var message = generateBeforeMessage(joinPoint, enabled, argWriter);
                     logger.debug(message);
                 }
                 break;
             }
             case INFO: {
                 if (logger.isInfoEnabled()) {
-                    var message = generateBeforeMessage(methodName, withArgs, argWriter, args);
+                    var message = generateBeforeMessage(joinPoint, enabled, argWriter);
                     logger.info(message);
                 }
                 break;
             }
             case WARN: {
                 if (logger.isWarnEnabled()) {
-                    var message = generateBeforeMessage(methodName, withArgs, argWriter, args);
+                    var message = generateBeforeMessage(joinPoint, enabled, argWriter);
                     logger.warn(message);
                 }
                 break;
             }
             case ERROR: {
                 if (logger.isErrorEnabled()) {
-                    var message = generateBeforeMessage(methodName, withArgs, argWriter, args);
+                    var message = generateBeforeMessage(joinPoint, enabled, argWriter);
                     logger.error(message);
                 }
                 break;
             }
             case FATAL: {
-                var message = generateBeforeMessage(methodName, withArgs, argWriter, args);
+                var message = generateBeforeMessage(joinPoint, enabled, argWriter);
                 logger.error(message);
                 break;
             }
@@ -145,10 +144,10 @@ public class LogAdvice {
     }
 
     public void logAfterReturning(
-            JoinPoint joinPoint, 
-            LogLevel logLevel, 
-            Class<? extends ReturnTypeWriter> returnTypeWriter, 
-            Object returnType) {
+        JoinPoint joinPoint, 
+        LogLevel logLevel, 
+        Class<? extends ReturnTypeWriter> returnTypeWriter, 
+        Object returnType) {
 
         logAfterReturning(joinPoint, logLevel, true, returnTypeWriter, returnType);
 
@@ -321,17 +320,15 @@ public class LogAdvice {
         return Void.TYPE.equals(MethodSignature.class.cast(signature).getReturnType());
     }
 
-    String generateBeforeMessage(
-            String methodName, 
-            boolean withArgs, 
-            Class<? extends ArgWriter> argWriter, 
-            Object[] args) {
+    String generateBeforeMessage(JoinPoint joinPoint, boolean enabled, Class<? extends ArgWriter> argWriter) {
+        var methodArgs = joinPoint.getArgs();
+        var methodName = joinPoint.getSignature().getName();
 
-        if (withArgs && args != null && args.length > 0) {
+        if (enabled && methodArgs != null && methodArgs.length > 0) {
             var argWriterBean = this.getArgWriterBean(argWriter);
             var argsJoined = 
                 Arrays
-                    .stream(args)
+                    .stream(methodArgs)
                     .map(argWriterBean::argToString)
                     .collect(Collectors.joining(", "));
             return String.format(loggingConfigurer.beforeWithArgsMessage(), methodName, argsJoined);

@@ -3,6 +3,7 @@ package io.whelk.spring.data.logging.aop;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -20,43 +21,37 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface Before {
-            boolean withArgs() default true;
-            Class<? extends ArgWriter> withArgWriter() default ArgWriter.class;
+            Log.Args withArgs() default @Log.Args;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface After {
-            boolean withExceptionStacktrace() default true;
-            boolean withExceptionOverride() default true;
+            Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterReturning {
-            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
+            Log.ReturnType withReturnType() default @Log.ReturnType;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterThrowing {
-            boolean withExceptionStacktrace() default true;
-            boolean withExceptionOverride() default true;
+            Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface Around {
-            boolean withArgs() default true;
-            Class<? extends ArgWriter> withArgWriter() default ArgWriter.class;
-            boolean withReturnType() default true;
-            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
-            boolean withExceptionStacktrace() default true;
-            boolean withExceptionOverride() default true;
+            Log.Args withArgs() default @Log.Args;
+            Log.ReturnType withReturnType() default @Log.ReturnType;
+            Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
     }
@@ -67,43 +62,37 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface Before {
-            boolean withArgs() default true;
-            Class<? extends ArgWriter> withArgWriter() default ArgWriter.class;
+            Log.Args withArgs() default @Log.Args;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface After {
-            boolean withExceptionStacktrace() default true;
-            boolean withExceptionOverride() default true;
+            Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterReturning {
-            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
+            Log.ReturnType withReturnType() default @Log.ReturnType;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterThrowing {
-            boolean withExceptionStacktrace() default true;
-            boolean withExceptionOverride() default true;
+            Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface Around {
-            boolean withArgs() default true;
-            Class<? extends ArgWriter> withArgWriter() default ArgWriter.class;
-            boolean withReturnType() default true;
-            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
-            boolean withExceptionStacktrace() default true;
-            boolean withExceptionOverride() default true;
+            Log.Args withArgs() default @Log.Args;
+            Log.ReturnType withReturnType() default @Log.ReturnType;
+            Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
     }
@@ -114,43 +103,37 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface Before {
-            boolean withArgs() default true;
-            Class<? extends ArgWriter> withArgWriter() default ArgWriter.class;
+            Log.Args withArgs() default @Log.Args;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface After {
-            boolean withExceptionStacktrace() default true;
-            boolean withExceptionOverride() default true;
+            Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterReturning {
-            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
+            Log.ReturnType withReturnType() default @Log.ReturnType;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterThrowing {
-            boolean withExceptionStacktrace() default true;
-            boolean withExceptionOverride() default true;
+            Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface Around {
-            boolean withArgs() default true;
-            Class<? extends ArgWriter> withArgWriter() default ArgWriter.class;
-            boolean withReturnType() default true;
-            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
-            boolean withExceptionStacktrace() default true;
-            boolean withExceptionOverride() default true;
+            Log.Args withArgs() default @Log.Args;
+            Log.ReturnType withReturnType() default @Log.ReturnType;
+            Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
     }
@@ -161,43 +144,37 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface Before {
-            boolean withArgs() default true;
-            Class<? extends ArgWriter> withArgWriter() default ArgWriter.class;
+            Log.Args withArgs() default @Log.Args;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface After {
-            boolean withExceptionStacktrace() default true;
-            boolean withExceptionOverride() default true;
+            Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterReturning {
-            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
+            Log.ReturnType withReturnType() default @Log.ReturnType;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterThrowing {
-            boolean withExceptionStacktrace() default true;
-            boolean withExceptionOverride() default true;
+            Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface Around {
-            boolean withArgs() default true;
-            Class<? extends ArgWriter> withArgWriter() default ArgWriter.class;
-            boolean withReturnType() default true;
-            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
-            boolean withExceptionStacktrace() default true;
-            boolean withExceptionOverride() default true;
+            Log.Args withArgs() default @Log.Args;
+            Log.ReturnType withReturnType() default @Log.ReturnType;
+            Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
     }
@@ -208,43 +185,38 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface Before {
-            boolean withArgs() default true;
-            Class<? extends ArgWriter> withArgWriter() default ArgWriter.class;
+            Log.Args withArgs() default @Log.Args;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface After {
-            boolean withExceptionStacktrace() default true;
-            boolean withExceptionOverride() default true;
+            Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterReturning {
-            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
+            Log.ReturnType withReturnType() default @Log.ReturnType;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterThrowing {
-            boolean withExceptionStacktrace() default true;
-            boolean withExceptionOverride() default true;
+            Log.ReturnException withReturnException() default @Log.ReturnException;
+
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface Around {
-            boolean withArgs() default true;
-            Class<? extends ArgWriter> withArgWriter() default ArgWriter.class;
-            boolean withReturnType() default true;
-            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
-            boolean withExceptionStacktrace() default true;
-            boolean withExceptionOverride() default true;
+            Log.Args withArgs() default @Log.Args;
+            Log.ReturnType withReturnType() default @Log.ReturnType;
+            Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
     }
@@ -255,43 +227,37 @@ public interface Log {
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface Before {
-            boolean withArgs() default true;
-            Class<? extends ArgWriter> withArgWriter() default ArgWriter.class;
+            Log.Args withArgs() default @Log.Args;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface After {
-            boolean withExceptionStacktrace() default true;
-            boolean withExceptionOverride() default true;
+            Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterReturning {
-            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
+            Log.ReturnType withReturnType() default @Log.ReturnType;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface AfterThrowing {
-            boolean withExceptionStacktrace() default true;
-            boolean withExceptionOverride() default true;
+            Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
         @Inherited
         @Target(METHOD)
         @Retention(RUNTIME)
         public @interface Around {
-            boolean withArgs() default true;
-            Class<? extends ArgWriter> withArgWriter() default ArgWriter.class;
-            boolean withReturnType() default true;
-            Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
-            boolean withExceptionStacktrace() default true;
-            boolean withExceptionOverride() default true;
+            Log.Args withArgs() default @Log.Args;
+            Log.ReturnType withReturnType() default @Log.ReturnType;
+            Log.ReturnException withReturnException() default @Log.ReturnException;
         }
 
     }
@@ -300,9 +266,8 @@ public interface Log {
     @Target(METHOD)
     @Retention(RUNTIME)
     public @interface Before {
-        boolean withArgs() default true;
-        Class<? extends ArgWriter> withArgWriter() default ArgWriter.class;
         LogLevel withLevel() default LogLevel.DEBUG;
+        Log.Args withArgs() default @Log.Args;
     }
 
     @Inherited
@@ -310,8 +275,7 @@ public interface Log {
     @Retention(RUNTIME)
     public @interface After {
         LogLevel withLevel() default LogLevel.DEBUG;
-        boolean withExceptionStacktrace() default true;
-        boolean withExceptionOverride() default true;
+        Log.ReturnException withReturnException() default @Log.ReturnException;
     }
 
     @Inherited
@@ -319,7 +283,7 @@ public interface Log {
     @Retention(RUNTIME)
     public @interface AfterReturning {
         LogLevel withLevel() default LogLevel.DEBUG;
-        Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
+        Log.ReturnType withReturnType() default @Log.ReturnType;
     }
 
     @Inherited
@@ -327,8 +291,7 @@ public interface Log {
     @Retention(RUNTIME)
     public @interface AfterThrowing {
         LogLevel withLevel() default LogLevel.ERROR;
-        boolean withExceptionStacktrace() default true;
-        boolean withExceptionOverride() default true;
+        Log.ReturnException withReturnException() default @Log.ReturnException;
     }
 
     @Inherited
@@ -336,12 +299,33 @@ public interface Log {
     @Retention(RUNTIME)
     public @interface Around {
         LogLevel withLevel() default LogLevel.DEBUG;
-        boolean withArgs() default true;
-        Class<? extends ArgWriter> withArgWriter() default ArgWriter.class;
-        boolean withReturnType() default true;
-        Class<? extends ReturnTypeWriter> withReturnTypeWriter() default ReturnTypeWriter.class;
-        boolean withExceptionStacktrace() default true;
-        boolean withExceptionOverride() default true;
+        Log.Args withArgs() default @Log.Args;
+        Log.ReturnType withReturnType() default @Log.ReturnType;
+        Log.ReturnException withReturnException() default @Log.ReturnException;
+    }
+
+    @Inherited
+    @Target(ElementType.PARAMETER)
+    @Retention(RUNTIME)
+    public @interface Args { 
+        boolean enabled() default true;
+        Class<? extends ArgWriter> withWriter() default ArgWriter.class;
+    }
+
+    @Inherited
+    @Target(ElementType.PARAMETER)
+    @Retention(RUNTIME)
+    public @interface ReturnType { 
+        boolean enabled() default true;
+        Class<? extends ReturnTypeWriter> withWriter() default ReturnTypeWriter.class;
+    }
+
+    @Inherited
+    @Target(ElementType.PARAMETER)
+    @Retention(RUNTIME)
+    public @interface ReturnException { 
+        boolean withStacktrace () default true;
+        boolean withOverride() default true;
     }
 
     @Inherited
