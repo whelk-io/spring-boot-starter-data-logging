@@ -72,7 +72,9 @@ public class Application implements CommandLineRunner {
         Log.ReturnType withReturnType() default @Log.ReturnType;
         Log.ReturnException withReturnException() default @Log.ReturnException;
 
-<br> 
+<br><br>
+
+----
 
 ### Configuration
 
@@ -96,7 +98,7 @@ public class Application implements CommandLineRunner {
 
 > <sup>1</sup> See [Global Configuration](#global-configuration) to change value for all logging annotations.
 
-<br> 
+<br><br>
 
 **`@Log.ReturnException`**
 
@@ -104,7 +106,7 @@ public class Application implements CommandLineRunner {
         boolean withStacktrace () default true;
         boolean withOverride() default true;
 
-<br> 
+<br><br>
 
 
 #### Auto-Logging with Spring-Data-Rest
