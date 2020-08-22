@@ -3,22 +3,20 @@ package io.whelk.spring.data.logging.sleuth;
 import java.util.Optional;
 
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 
 import brave.Tracer.SpanInScope;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
-@Aspect
 @RequiredArgsConstructor
-public class TracerAspect {
+public class TracerAdvice {
+
+    public static final String SPAN_MDC = "X-B3-TraceId";
 
     private final Optional<brave.Tracer> tracer;
 
     @SneakyThrows
-    @Around("@annotation(tracerSpan)")
-    public Object spanAround(final ProceedingJoinPoint joinPoint, final Tracer.Span tracerSpan) {
+    public Object spanAround(final ProceedingJoinPoint joinPoint) {
         brave.Span span = null;
         try {
             if (tracer.isPresent()) {

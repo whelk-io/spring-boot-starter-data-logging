@@ -1,23 +1,30 @@
 package io.whelk.spring.data.logging.configurer;
 
 import io.whelk.spring.data.logging.writer.ArgWriter;
+import io.whelk.spring.data.logging.writer.ReturnTypeWriter;
 import lombok.NonNull;
 
 public interface LoggingConfigurer {
 
     @NonNull
-    String beforeMethodMessage();
+    String beforeMessage();
 
     @NonNull
-    String beforeMethodWithArgsMessage();
+    String beforeWithArgsMessage();
 
     @NonNull
-    String afterMethodMessage();
+    String afterMessage();
 
     @NonNull
-    String afterMethodWithReturnType();
+    String afterReturningMessage();
+
+    @NonNull
+    String afterThrowingMessage();
 
     @NonNull
     ArgWriter argWriter();
+
+    @NonNull
+    ReturnTypeWriter returnTypeWriter();
 
 }

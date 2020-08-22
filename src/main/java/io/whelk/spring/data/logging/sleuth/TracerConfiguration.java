@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 public class TracerConfiguration {
 
     @Bean
-    public TracerAspect tracerAspect(Optional<brave.Tracer> tracer) {
-        return new TracerAspect(tracer);
+    public TracerAdvice tracerAspect(Optional<brave.Tracer> tracer) {
+        return new TracerAdvice(tracer);
     }
 
 }
