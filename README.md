@@ -33,37 +33,78 @@ public class Application implements CommandLineRunner {
 2020-08-22 15:32:16.772 com.example.demo.Application DEBUG : after [method=run]
 ```
 
-#### Method Logging
+### Method Logging
 
-`@Log.Before` - Log message (with method parameters) before method is invoked
+**`@Log.Before`** - Log message (with method parameters) before method is invoked
 
-| Attribute   | Type         | Default Value      | Description                                 | 
-| ----------- | ------------ | ------------------ | ------------------------------------------- |
-| `withLevel` | `@Log.Level` | `@Log.Level.Debug` | Level of message when logged                |
-| `withArgs`  | `@Log.Args`  | `@Log.Args`        | Configuration for logging method parameters | 
+| Attribute   | Type | Default Value | Description | 
+| ----------- | ---- | ------------- | ----------- |
+| `withLevel` | `@Log.Level` | `@Log.Level.Debug` | Level of message when logged |
+| `withArgs` | `@Log.Args` | `@Log.Args` | Configuration for logging method parameters | 
 
-`@Log.After` - Log message after method is invoked.
+<br> 
 
-`@Log.AfterReturning` - Log message with return value after method is invoked. 
+**`@Log.After`** - Log message after method is invoked.
 
-`@Log.AfterThrowing` - Log message only after throwing an exception.
+        Log.Level withLevel() default Log.Level.DEBUG;
+        Log.ReturnException withReturnException() default @Log.ReturnException;
 
-`@Log.Around` - Combines other annotations to log wrap a method with logging before, after, and on exception.
+<br> 
 
-**Configuration**
+**`@Log.AfterReturning`** - Log message with return value after method is invoked. 
 
-`@Log.Args` - Configuration for logging method parameters
+        Log.Level withLevel() default Log.Level.DEBUG;
+        Log.ReturnType withReturnType() default @Log.ReturnType;
+
+<br> 
+
+**`@Log.AfterThrowing`** - Log message only after throwing an exception.
+
+        Log.Level withLevel() default Log.Level.ERROR;
+        Log.ReturnException withReturnException() default @Log.ReturnException;
+
+<br> 
+
+**`@Log.Around`** - Combines other annotations to wrap a method with logging before, after, and on exception.
+
+        Log.Level withLevel() default Log.Level.DEBUG;
+        Log.Args withArgs() default @Log.Args;
+        Log.ReturnType withReturnType() default @Log.ReturnType;
+        Log.ReturnException withReturnException() default @Log.ReturnException;
+
+<br> 
+
+### Configuration
+
+**`@Log.Args`** - Configuration for logging method parameters
 
 | Attribute | Type | Default Value | Description | 
 | ----------| ---- | ------------- | ------------|
 | `enabled` | `boolean` | `true` | Whether to log method parameters or not |
-| `withWriter` | [`ArgWriter`](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/ArgWriter.java) | [`SimpleArgWriter`](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/SimpleArgWriter.java) <sup>1</sup> | Converts method parameters to `String` for logging | 
+| `withWriter` | [`ArgWriter`](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/ArgWriter.java) | [`SimpleArgWriter`](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/SimpleArgWriter.java)<sup>1</sup> | Converts method parameters to `String` for logging | 
 
-<sup>1</sup> See [Global Configuration](#global-configuration) to change value for all logging annotations.
+> <sup>1</sup> See [Global Configuration](#global-configuration) to change value for all logging annotations.
 
-`@Log.ReturnType`
+<br><br>
 
-`@Log.ReturnException`
+**`@Log.ReturnType`**
+
+| Attribute | Type | Default Value | Description | 
+| ----------| ---- | ------------- | ------------|
+| `enabled` | `boolean` | `true` | Whether to log return type or not |
+| `withWriter` | [`ReturnTypeWriter`](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/ReturnTypeWriter.java) | [`SimpleReturnTypeWriter`](https://github.com/whelk-io/spring-boot-starter-data-logging/blob/master/src/main/java/io/whelk/spring/data/logging/writer/SimpleReturnTypeWriter.java)<sup>1</sup> | Converts return type to String for logging |
+
+> <sup>1</sup> See [Global Configuration](#global-configuration) to change value for all logging annotations.
+
+<br> 
+
+**`@Log.ReturnException`**
+
+
+        boolean withStacktrace () default true;
+        boolean withOverride() default true;
+
+<br> 
 
 
 #### Auto-Logging with Spring-Data-Rest
@@ -80,14 +121,14 @@ public class Application implements CommandLineRunner {
 
 
 
-Given Spring Bean with method
 
 
-With Spring-Data-REST
 
-With Spring-Data-JPA
 
-With Spring-Cloud-Sleuth
+
+
+
+
 
 
 
