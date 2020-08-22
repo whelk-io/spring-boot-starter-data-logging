@@ -74,9 +74,9 @@ public class Application implements CommandLineRunner {
 
 <br><br>
 
-----
-
 ### Configuration
+
+<br><br>
 
 **`@Log.Args`** - Configuration for logging method parameters
 
