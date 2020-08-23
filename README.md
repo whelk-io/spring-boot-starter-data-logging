@@ -174,20 +174,22 @@ Log message with return value after method is invoked.
 ###`@Log.AfterThrowing`
 Log message only after throwing an exception.
 
-// TODO
-
-        Log.Level withLevel() default Log.Level.ERROR;
-        Log.ReturnException withReturnException() default @Log.ReturnException;
+| Attribute   | Type | Default Value | Description | 
+| ----------- | ---- | ------------- | ----------- |
+| `withLevel` | [`@Log.Level`](#loglevel) | `@Log.Level.Debug` | Level of message when logged |
+| `withReturnException` | [`@Log.ReturnException`](#logreturnexception) | `@Log.ReturnException` | Configuration for handling uncaught exceptions from method |
 
 <br/>
 
 ### `@Log.Around`
 Combines other annotations to wrap a method with logging before, after, and on exception.
 
-        Log.Level withLevel() default Log.Level.DEBUG;
-        Log.Args withArgs() default @Log.Args;
-        Log.ReturnType withReturnType() default @Log.ReturnType;
-        Log.ReturnException withReturnException() default @Log.ReturnException;
+| Attribute   | Type | Default Value | Description | 
+| ----------- | ---- | ------------- | ----------- |
+| `withLevel` | [`@Log.Level`](#loglevel) | `@Log.Level.Debug` | Level of message when logged |
+| `withArgs` | [`@Log.Args`](#logargs) | `@Log.Args` | Configuration for writing method parameters | 
+| `withReturnType` | [`@Log.ReturnType`](#logreturntype) | `@Log.ReturnType` | Configuration for writing value return from method |
+| `withReturnException` | [`@Log.ReturnException`](#logreturnexception) | `@Log.ReturnException` | Configuration for handling uncaught exceptions from method |
 
 <br/>
 
@@ -245,17 +247,25 @@ Supported log levels.
 
 // TODO
 
+<br/>
+
 ## Auto-Logging with Spring-Data-JPA
 
 // TODO
+
+<br/>
 
 ## Auto-Logging with Spring-Cloud-Sleuth
 
 // TODO
 
+<br/>
+
 ## Global Configuration
 
 // TODO
+
+<br/>
 
 ## Spring-Cloud-Sleuth
 
@@ -309,7 +319,7 @@ Source: [Spring Cloud Sleuth](https://spring.io/projects/spring-cloud-sleuth)
 
 ## Maven Integration
 
-**~/.m2/settings.xml**
+> **~`/.m2/settings.xml`**
 
 ````xml
 <settings>
