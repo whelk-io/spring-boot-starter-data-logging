@@ -361,6 +361,34 @@ When [`spring-boot-starter-data-rest`](https://docs.spring.io/spring-data/rest/d
 
 When [`spring-boot-starter-data-jpa`](https://docs.spring.io/spring-data/jpa/docs/current/reference/html) is on the classpath, the inherited methods of `JpaRepository<T,ID>` are automatically applied.
 
+````Java
+@Repository
+public interface EmployeeRepository extends JpaRepository<Employee, Long> { }
+````
+
+````Java
+@Service
+@RequiredArgsConstructor
+public class EmployeeService {
+
+  private final EmployeeRepository employeeRepository;
+
+    public Optional<Employee> findEmployeeByName(String name) {
+        var exampleEmployee = new Employee();
+        exampleEmployee.setName(name);
+
+        // findOne(..) from JpaRepository automatically pointcut for logs
+        return employeeRepository.findOne(Example.of(exampleEmployee));
+    }
+
+}
+````
+
+````Logtalk
+2020-08-23 13:48:43.697 QueryByExampleExecutor DEBUG : before [method=findOne, args=({"probe":{"name":"Alan Turing"},"matcher":{"nullHandler":"IGNORE","defaultStringMatcher":"DEFAULT","propertySpecifiers":{"specifiers":[]},"ignoredPaths":[],"ignoreCaseEnabled":false,"matchMode":"ALL","allMatching":true,"anyMatching":false},"probeType":"com.example.demo.model.Employee"})]
+
+2020-08-23 13:48:43.705 QueryByExampleExecutor DEBUG : after [method=findOne, return={"id":1,"name":"Alan Turing"}]
+````
 <br/>
 
 ## Auto-Logging with Spring-Cloud-Sleuth
