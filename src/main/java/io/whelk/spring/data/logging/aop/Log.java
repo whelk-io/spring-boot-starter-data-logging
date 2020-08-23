@@ -297,6 +297,8 @@ public interface Log {
         Log.Level withLevel() default Log.Level.Debug;
 
         Log.ReturnType withReturnType() default @Log.ReturnType;
+
+        Log.ReturnException withReturnException() default @Log.ReturnException;
     }
 
     @Inherited
