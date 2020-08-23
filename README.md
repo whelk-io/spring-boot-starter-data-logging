@@ -481,4 +481,3 @@ When [`spring-cloud-starter-sleuth`](https://spring.io/projects/spring-cloud-sle
 
 > [Additional information on authenticating with GitHub Packages](https://help.github.com/en/github/managing-packages-with-github-packages/configuring-apache-maven-for-use-with-github-packages#authenticating-to-github-packages)
 
-
