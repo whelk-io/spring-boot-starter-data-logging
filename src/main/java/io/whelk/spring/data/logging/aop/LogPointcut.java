@@ -136,72 +136,72 @@ public class LogPointcut {
 
     @AfterReturning(value = "@annotation(afterReturning)", returning = "returnType")
     void logAfterReturning(JoinPoint joinPoint, Log.AfterReturning afterReturning, Object returnType) {
-        logAdvice.logAfterReturning(joinPoint, afterReturning.withLevel(), afterReturning.withReturnType().withWriter(), returnType);
+        logAdvice.logAfterReturning(joinPoint, afterReturning.withLevel(), afterReturning.withReturnType(), returnType);
     }
 
     @AfterReturning(value = "@annotation(afterReturning)", returning = "returnType")
     void logAfterReturning(JoinPoint joinPoint, Log.Trace.AfterReturning afterReturning, Object returnType) {
-        logAdvice.logAfterReturning(joinPoint, Trace, afterReturning.withReturnType().withWriter(), returnType);
+        logAdvice.logAfterReturning(joinPoint, Trace, afterReturning.withReturnType(), returnType);
     }
 
     @AfterReturning(value = "@annotation(afterReturning)", returning = "returnType")
     void logAfterReturning(JoinPoint joinPoint, Log.Debug.AfterReturning afterReturning, Object returnType) {
-        logAdvice.logAfterReturning(joinPoint, Debug, afterReturning.withReturnType().withWriter(), returnType);
+        logAdvice.logAfterReturning(joinPoint, Debug, afterReturning.withReturnType(), returnType);
     }
 
     @AfterReturning(value = "@annotation(afterReturning)", returning = "returnType")
     void logAfterReturning(JoinPoint joinPoint, Log.Info.AfterReturning afterReturning, Object returnType) {
-        logAdvice.logAfterReturning(joinPoint, Info, afterReturning.withReturnType().withWriter(), returnType);
+        logAdvice.logAfterReturning(joinPoint, Info, afterReturning.withReturnType(), returnType);
     }
 
     @AfterReturning(value = "@annotation(afterReturning)", returning = "returnType")
     void logAfterReturning(JoinPoint joinPoint, Log.Warn.AfterReturning afterReturning, Object returnType) {
-        logAdvice.logAfterReturning(joinPoint, Warn, afterReturning.withReturnType().withWriter(), returnType);
+        logAdvice.logAfterReturning(joinPoint, Warn, afterReturning.withReturnType(), returnType);
     }
 
     @AfterReturning(value = "@annotation(afterReturning)", returning = "returnType")
     void logAfterReturning(JoinPoint joinPoint, Log.Error.AfterReturning afterReturning, Object returnType) {
-        logAdvice.logAfterReturning(joinPoint, Error, afterReturning.withReturnType().withWriter(), returnType);
+        logAdvice.logAfterReturning(joinPoint, Error, afterReturning.withReturnType(), returnType);
     }
 
     @AfterReturning(value = "@annotation(afterReturning)", returning = "returnType")
     void logAfterReturning(JoinPoint joinPoint, Log.Fatal.AfterReturning afterReturning, Object returnType) {
-        logAdvice.logAfterReturning(joinPoint, Fatal, afterReturning.withReturnType().withWriter(), returnType);
+        logAdvice.logAfterReturning(joinPoint, Fatal, afterReturning.withReturnType(), returnType);
     }
 
     @AfterReturning(value = "@annotation(around)", returning = "returnType")
     void logAfterReturning(JoinPoint joinPoint, Log.Around around, Object returnType) {
-        logAdvice.logAfterReturning(joinPoint, around.withLevel(), around.withReturnType().enabled(), around.withReturnType().withWriter(), returnType);
+        logAdvice.logAfterReturning(joinPoint, around.withLevel(), around.withReturnType(), returnType);
     }
 
     @AfterReturning(value = "@annotation(around)", returning = "returnType")
     void logAfterReturning(JoinPoint joinPoint, Log.Trace.Around around, Object returnType) {
-        logAdvice.logAfterReturning(joinPoint, Trace, around.withReturnType().enabled(), around.withReturnType().withWriter(), returnType);
+        logAdvice.logAfterReturning(joinPoint, Trace, around.withReturnType(), returnType);
     }
 
     @AfterReturning(value = "@annotation(around)", returning = "returnType")
     void logAfterReturning(JoinPoint joinPoint, Log.Debug.Around around, Object returnType) {
-        logAdvice.logAfterReturning(joinPoint, Debug, around.withReturnType().enabled(), around.withReturnType().withWriter(), returnType);
+        logAdvice.logAfterReturning(joinPoint, Debug, around.withReturnType(), returnType);
     }
 
     @AfterReturning(value = "@annotation(around)", returning = "returnType")
     void logAfterReturning(JoinPoint joinPoint, Log.Info.Around around, Object returnType) {
-        logAdvice.logAfterReturning(joinPoint, Info, around.withReturnType().enabled(), around.withReturnType().withWriter(), returnType);
+        logAdvice.logAfterReturning(joinPoint, Info, around.withReturnType(), returnType);
     }
 
     @AfterReturning(value = "@annotation(around)", returning = "returnType")
     void logAfterReturning(JoinPoint joinPoint, Log.Warn.Around around, Object returnType) {
-        logAdvice.logAfterReturning(joinPoint, Warn, around.withReturnType().enabled(), around.withReturnType().withWriter(), returnType);
+        logAdvice.logAfterReturning(joinPoint, Warn, around.withReturnType(), returnType);
     }
 
     @AfterReturning(value = "@annotation(around)", returning = "returnType")
     void logAfterReturning(JoinPoint joinPoint, Log.Error.Around around, Object returnType) {
-        logAdvice.logAfterReturning(joinPoint, Error, around.withReturnType().enabled(), around.withReturnType().withWriter(), returnType);
+        logAdvice.logAfterReturning(joinPoint, Error, around.withReturnType(), returnType);
     }
 
     @AfterReturning(value = "@annotation(around)", returning = "returnType")
     void logAfterReturning(JoinPoint joinPoint, Log.Fatal.Around around, Object returnType) {
-        logAdvice.logAfterReturning(joinPoint, Fatal, around.withReturnType().enabled(), around.withReturnType().withWriter(), returnType);
+        logAdvice.logAfterReturning(joinPoint, Fatal, around.withReturnType(), returnType);
     }
 
     /* After Throwing */
