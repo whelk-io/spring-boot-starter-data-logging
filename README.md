@@ -157,7 +157,7 @@ Log message after method is invoked.
 | Attribute   | Type | Default Value | Description | 
 | ----------- | ---- | ------------- | ----------- |
 | `withLevel` | [`@Log.Level`](#loglevel) | `@Log.Level.Debug` | Level of message when logged |
-| `withReturnException` | [`@Log.ReturnException`](#logreturnexception) | `@Log.ReturnException` | Configuration for handling uncaught exceptions from method |
+| `withReturnException` | [`@Log.ReturnException`](#logreturnexception) | `@Log.ReturnException` | Configuration for handling uncaught exceptions |
 
 <br/>
 
@@ -168,6 +168,7 @@ Log message with return value after method is invoked.
 | ----------- | ---- | ------------- | ----------- |
 | `withLevel` | [`@Log.Level`](#loglevel) | `@Log.Level.Debug` | Level of message when logged |
 | `withReturnType` | [`@Log.ReturnType`](#logreturntype) | `@Log.ReturnType` | Configuration for writing value return from method |
+| `withReturnException` | [`@Log.ReturnException`](#logreturnexception) | `@Log.ReturnException` | Configuration for handling uncaught exceptions |
 
 <br/>
 
@@ -177,7 +178,7 @@ Log message only after throwing an exception.
 | Attribute   | Type | Default Value | Description | 
 | ----------- | ---- | ------------- | ----------- |
 | `withLevel` | [`@Log.Level`](#loglevel) | `@Log.Level.Debug` | Level of message when logged |
-| `withReturnException` | [`@Log.ReturnException`](#logreturnexception) | `@Log.ReturnException` | Configuration for handling uncaught exceptions from method |
+| `withReturnException` | [`@Log.ReturnException`](#logreturnexception) | `@Log.ReturnException` | Configuration for handling uncaught exceptions |
 
 <br/>
 
@@ -189,7 +190,7 @@ Combines other annotations to wrap a method with logging before, after, and on e
 | `withLevel` | [`@Log.Level`](#loglevel) | `@Log.Level.Debug` | Level of message when logged |
 | `withArgs` | [`@Log.Args`](#logargs) | `@Log.Args` | Configuration for writing method parameters | 
 | `withReturnType` | [`@Log.ReturnType`](#logreturntype) | `@Log.ReturnType` | Configuration for writing value return from method |
-| `withReturnException` | [`@Log.ReturnException`](#logreturnexception) | `@Log.ReturnException` | Configuration for handling uncaught exceptions from method |
+| `withReturnException` | [`@Log.ReturnException`](#logreturnexception) | `@Log.ReturnException` | Configuration for handling uncaught exceptions |
 
 <br/>
 
