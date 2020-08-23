@@ -146,8 +146,8 @@ Log message (with method parameters) before method is invoked
 
 | Attribute   | Type | Default Value | Description | 
 | ----------- | ---- | ------------- | ----------- |
-| `withLevel` | [`@Log.Level`](#log-level) | `@Log.Level.Debug` | Level of message when logged |
-| `withArgs` | [`@Log.Args`](#log-args) | `@Log.Args` | Configuration for logging method parameters | 
+| `withLevel` | [`@Log.Level`](#loglevel) | `@Log.Level.Debug` | Level of message when logged |
+| `withArgs` | [`@Log.Args`](#logargs) | `@Log.Args` | Configuration for writing method parameters | 
 
 // TODO link to Log.Level and Log.Args in doc
 
@@ -158,19 +158,20 @@ Log message after method is invoked.
 
 // TODO
 
-        Log.Level withLevel() default Log.Level.DEBUG;
-        Log.ReturnException withReturnException() default @Log.ReturnException;
-
+| Attribute   | Type | Default Value | Description | 
+| ----------- | ---- | ------------- | ----------- |
+| `withLevel` | [`@Log.Level`](#loglevel) | `@Log.Level.Debug` | Level of message when logged |
+| `withReturnException` | [`@Log.ReturnException`](#logreturnexception) | `@Log.ReturnException` | Configuration for handling uncaught exceptions from method |
 
 <br/>
 
 ### `@Log.AfterReturning`
 Log message with return value after method is invoked. 
 
-// TODO
-
-        Log.Level withLevel() default Log.Level.DEBUG;
-        Log.ReturnType withReturnType() default @Log.ReturnType;
+| Attribute   | Type | Default Value | Description | 
+| ----------- | ---- | ------------- | ----------- |
+| `withLevel` | [`@Log.Level`](#loglevel) | `@Log.Level.Debug` | Level of message when logged |
+| `withReturnType` | [`@Log.ReturnType`](#logreturntype) | `@Log.ReturnType` | Configuration for writing value return from method |
 
 <br/>
 
