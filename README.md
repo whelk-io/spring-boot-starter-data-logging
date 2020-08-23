@@ -32,7 +32,7 @@ public class SomeBean {
 
 ## Change Log Level
 
-```java
+````java
 @Component
 public class SomeBean {
 
@@ -49,9 +49,9 @@ public class SomeBean {
   }
 
 }
-```
+````
 
-```Logtalk
+````Logtalk
 2020-08-22 18:36:28,811 c.e.d.SomeBean INFO : before [method=someMethod, args=("someParam")]
 
 2020-08-22 18:36:28,813 c.e.d.SomeBean INFO : after [method=someMethod, return="someReturn"]
@@ -59,13 +59,13 @@ public class SomeBean {
 2020-08-22 18:36:28,814 c.e.d.SomeBean INFO : before [method=otherMethod]
 
 2020-08-22 18:36:28,814 c.e.d.SomeBean INFO : after [method=otherMethod, return="otherReturn"]
-```
+````
 
 <br/>
 
 ## Additional Pointcuts
 
-**`@Log.Before`**
+### `@Log.Before`
 ````java
 // log before method is invoked
 @Log.Before 
@@ -80,7 +80,7 @@ public String someMethod(String param) {
 
 <br/>
 
-**`Log.After`**
+### `@Log.After`
 
 ````java
 // log after method has been invoked
@@ -96,7 +96,7 @@ public String otherMethod() {
 
 <br/>
 
-**`Log.AfterReturning`**
+### `@Log.AfterReturning`
 
 ````java
 // log after method is invoked 
@@ -113,7 +113,7 @@ public String otherMethod() {
 
 <br/>
 
-**`@Log.AfterThrowing`**
+### `@Log.AfterThrowing`
 
 ````java
 // log after method is invoked
@@ -124,7 +124,7 @@ public String someMethod(String param) {
 }
 ````
 
-```Logtalk
+````Logtalk
 2020-08-22 18:54:56,499 c.e.d.SomeBean ERROR : thrown [method=someMethod, exception=java.lang.RuntimeException, message=some error]
 
 {stacktrace}
@@ -275,6 +275,9 @@ Source: [Spring Cloud Sleuth](https://spring.io/projects/spring-cloud-sleuth)
 
 ### Integration
 
+// TODO
+
+````xml
   <dependencies>
     <dependency>
       <groupId>org.springframework.cloud</groupId>
@@ -293,6 +296,7 @@ Source: [Spring Cloud Sleuth](https://spring.io/projects/spring-cloud-sleuth)
       </dependency>
     </dependencies>
   </dependencyManagement>
+````
 
 <br/>
 
