@@ -372,7 +372,7 @@ When [`spring-cloud-starter-sleuth`](https://spring.io/projects/spring-cloud-sle
 ````Logtalk
 2020-08-23 13:33:48.358 [demo,18aa9a69178dcc3f,e555838da7405451] CrudRepository DEBUG: before [method=save, args=({"name":"Alan Turing"})]
 
-2020-08-23 13:33:48.370 [foo,18aa9a69178dcc3f,e555838da7405451] CrudRepository DEBUG : after [method=save, return={"id":4,"name":"Alan Turing"}]
+2020-08-23 13:33:48.370 [demo,18aa9a69178dcc3f,e555838da7405451] CrudRepository DEBUG : after [method=save, return={"id":1,"name":"Alan Turing"}]
 ````
 
 <br/>
