@@ -134,8 +134,24 @@ public String someMethod(String param) {
 
 ## Log Arguments Using Jackson
 
-// see global configuration
-// TODO
+````java
+@Log.Before(withArgs = 
+    @Log.Args(withWriter = JacksonArgWriter.class))
+
+@Log.AfterReturning(withReturnType = 
+    @Log.ReturnType(withWriter = JacksonReturnTypeWriter.class))
+
+public Foo someMethod(Foo foo) {
+  return foo;
+}
+````
+
+````Logtalk
+2020-08-23 11:31:13,865 c.e.d.SomeBean DEBUG : before [method=someMethod, args=({"name":"foo","description":"foobar"})]
+
+2020-08-23 11:31:13,870 c.e.d.SomeBean DEBUG : after [method=someMethod, return={"name":"foo","description":"foobar"}]
+````
+> `ArgWriter` and `ReturnTypeWriter` can be globally configured for all methods, see [Global Configuration](#global-configuration).
 
 <br/>
 
@@ -244,6 +260,12 @@ Supported log levels.
 
 <br/>
 
+## Global Configuration
+
+// TODO
+
+<br/>
+
 ## Auto-Logging with Spring-Data-Rest
 
 // TODO
@@ -257,12 +279,6 @@ Supported log levels.
 <br/>
 
 ## Auto-Logging with Spring-Cloud-Sleuth
-
-// TODO
-
-<br/>
-
-## Global Configuration
 
 // TODO
 
