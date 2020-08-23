@@ -171,7 +171,7 @@ Log message with return value after method is invoked.
 
 <br/>
 
-###`@Log.AfterThrowing`
+### `@Log.AfterThrowing`
 Log message only after throwing an exception.
 
 | Attribute   | Type | Default Value | Description | 
