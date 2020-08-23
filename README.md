@@ -141,9 +141,7 @@ public String someMethod(String param) {
 
 ## Method Configuration
 
-### Method Logging
-
-#### `@Log.Before` 
+### `@Log.Before` 
 Log message (with method parameters) before method is invoked
 
 | Attribute   | Type | Default Value | Description | 
@@ -155,7 +153,8 @@ Log message (with method parameters) before method is invoked
 
 <br/>
 
-**`@Log.After`** - Log message after method is invoked.
+### `@Log.After`
+Log message after method is invoked.
 
 // TODO
 
@@ -165,7 +164,8 @@ Log message (with method parameters) before method is invoked
 
 <br/>
 
-**`@Log.AfterReturning`** - Log message with return value after method is invoked. 
+### `@Log.AfterReturning`
+Log message with return value after method is invoked. 
 
 // TODO
 
@@ -174,7 +174,8 @@ Log message (with method parameters) before method is invoked
 
 <br/>
 
-**`@Log.AfterThrowing`** - Log message only after throwing an exception.
+###`@Log.AfterThrowing`
+Log message only after throwing an exception.
 
 // TODO
 
@@ -183,7 +184,8 @@ Log message (with method parameters) before method is invoked
 
 <br/>
 
-**`@Log.Around`** - Combines other annotations to wrap a method with logging before, after, and on exception.
+### `@Log.Around`
+Combines other annotations to wrap a method with logging before, after, and on exception.
 
         Log.Level withLevel() default Log.Level.DEBUG;
         Log.Args withArgs() default @Log.Args;
@@ -192,7 +194,8 @@ Log message (with method parameters) before method is invoked
 
 <br/>
 
-**`@Log.Args`** - Configuration for logging method parameters
+### `@Log.Args`
+Configuration for logging method parameters
 
 | Attribute | Type | Default Value | Description | 
 | ----------| ---- | ------------- | ------------|
@@ -203,7 +206,8 @@ Log message (with method parameters) before method is invoked
 
 <br/>
 
-**`@Log.ReturnType`**
+### `@Log.ReturnType`
+Configuration for logging any value returned from method.
 
 | Attribute | Type | Default Value | Description | 
 | ----------| ---- | ------------- | ------------|
@@ -214,7 +218,8 @@ Log message (with method parameters) before method is invoked
 
 <br/>
 
-**`@Log.ReturnException`**
+### `@Log.ReturnException`
+Configuration for logging any uncaught exception thrown by method.
 
 | Attribute | Type | Default Value | Description | 
 | ----------| ---- | ------------- | ------------|
@@ -225,9 +230,10 @@ Log message (with method parameters) before method is invoked
 
 <br/>
 
-**`@Log.Level`**
+### `@Log.Level`
+Supported log levels.
 
-| Supported log levels |
+| Levels |
 | --- |
 | Log.Level.Trace |
 | Log.Level.Debug | 
