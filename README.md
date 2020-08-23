@@ -132,6 +132,12 @@ public String someMethod(String param) {
 
 <br/>
 
+## Log Arguments Using Jackson
+
+// see global configuration
+// TODO
+
+<br/>
 
 ## Method Configuration
 
@@ -141,8 +147,8 @@ public String someMethod(String param) {
 
 | Attribute   | Type | Default Value | Description | 
 | ----------- | ---- | ------------- | ----------- |
-| `withLevel` | `@Log.Level` | `@Log.Level.Debug` | Level of message when logged |
-| `withArgs` | `@Log.Args` | `@Log.Args` | Configuration for logging method parameters | 
+| `withLevel` | [`@Log.Level`](#log-level) | `@Log.Level.Debug` | Level of message when logged |
+| `withArgs` | [`@Log.Args`](#log-args) | `@Log.Args` | Configuration for logging method parameters | 
 
 // TODO link to Log.Level and Log.Args in doc
 
@@ -220,7 +226,14 @@ public String someMethod(String param) {
 
 **`@Log.Level`**
 
-// TOOD
+| Supported log levels |
+| --- |
+| Log.Level.Trace |
+| Log.Level.Debug | 
+| Log.Level.Info | 
+| Log.Level.Warn |
+| Log.Level.Error | 
+| Log.Level.Fatal | 
 
 <br/>
 
