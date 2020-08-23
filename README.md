@@ -143,7 +143,8 @@ public String someMethod(String param) {
 
 ### Method Logging
 
-**`@Log.Before`** - Log message (with method parameters) before method is invoked
+#### `@Log.Before` 
+Log message (with method parameters) before method is invoked
 
 | Attribute   | Type | Default Value | Description | 
 | ----------- | ---- | ------------- | ----------- |
