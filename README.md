@@ -2,13 +2,15 @@
 
 [![CodeFactor](https://www.codefactor.io/repository/github/whelk-io/spring-boot-starter-data-logging/badge)](https://www.codefactor.io/repository/github/whelk-io/spring-boot-starter-data-logging) ![release](https://github.com/whelk-io/spring-boot-starter-data-logging/workflows/release/badge.svg)
 
-Spring-Boot starter for reducing logging boilerplate with Spring-AOP annotations. Takes advantage of tracing and logging capabilities in Spring-Data, Spring-Cloud-Sleuth, and Lombok.
+Spring-Boot starter for reducing logging boilerplate with Spring-AOP annotations. Takes advantage of tracing and logging capabilities in Spring-Data, Spring-Cloud-Sleuth, and Lombok. 
+
+This library is a pure AOP implementation without Java reflection, which allows for compilation on GraalVM and use on high performance frameworks such as Quarkus and Micronaut.
 
 <br/>
 
 ## Basic Method Wrapper
 
-Any method on a Spring managed bean can be wrapped with logging by annotating with `Log.Around`.
+Any method on a Spring managed bean can be wrapped with logging by annotating with `@Log.Around`.
 
 ````java
 @Component
@@ -262,57 +264,115 @@ Supported log levels.
 
 ## Global Configuration
 
-// TODO
+By default, `SimpleArgWriter` and `SimpleReturnTypeWriter` are globally wired for method annotations. These can be changed by wiring a new `@Primary` `@Bean` for `ArgWriter` and `ReturnTypeWriter` repectively.
+
+````java
+@Configuration
+public class LogConfiguration {
+
+  @Bean
+  @Primary
+  public ArgWriter argWriter(JacksonArgWriter jacksonArgWriter) {
+    return jacksonArgWriter;
+  }
+
+  @Bean
+  @Primary
+  public ReturnTypeWriter returnTypeWriter(JacksonReturnTypeWriter jacksonReturnTypeWriter) {
+    return jacksonReturnTypeWriter;
+  }
+
+}
+````
+
+> Alternatively, custom writers which implement `ArgWriter` or `ReturnTypeWriter` can also be wired.
 
 <br/>
 
 ## Auto-Logging with Spring-Data-Rest
 
-// TODO
+When [`spring-boot-starter-data-rest`](https://docs.spring.io/spring-data/rest/docs/current/reference/html) is on the classpath, pointcuts are automatically applied to the default methods.
+
+### `GET /employees`
+
+````Logtalk
+2020-08-23 13:28:26,064 tingRepository DEBUG : before [method=findAll, args=({"sort":{"sorted":false,"unsorted":true,"empty":true},"offset":0,"pageNumber":0,"pageSize":20,"paged":true,"unpaged":false})]
+
+2020-08-23 13:28:26,073 tingRepository DEBUG : after [method=findAll, return={"content":[{"id":1,"name":"Alan Turing"}],"pageable":{"sort":{"sorted":false,"unsorted":true,"empty":true},"offset":0,"pageNumber":0,"pageSize":20,"paged":true,"unpaged":false},"last":true,"totalPages":1,"totalElements":1,"size":20,"number":0,"sort":{"sorted":false,"unsorted":true,"empty":true},"numberOfElements":1,"first":true,"empty":false}]
+````
+
+<br/>
+
+### `GET /employees/1`
+
+````Logtalk
+2020-08-23 13:23:51,586 CrudRepository DEBUG : before [method=findById, args=(1)]
+
+2020-08-23 13:23:51,611 CrudRepository DEBUG : after [method=findById, return={"id":1,"name":"Alan Turing"}]
+````
+
+<br/>
+
+### `POST /employees`
+
+````Logtalk
+
+2020-08-23 13:22:07,634 CrudRepository DEBUG : before [method=save, args=({"name":"Alan Turing"})]
+
+2020-08-23 13:22:07,646 CrudRepository DEBUG : after [method=save, return={"id":1,"name":"Alan Turing"}]
+
+````
+
+<br/>
+
+### `PATCH /employees/1`
+
+````Logtalk
+2020-08-23 13:27:02,567 CrudRepository DEBUG : before [method=save, args=({"id":1,"name":"Alan Turing"})]
+
+2020-08-23 13:27:02,580 CrudRepository DEBUG : after [method=save, return={"id":1,"name":"Alan Turing"}]
+````
+
+
+<br/>
+
+### `PUT /employees/1`
+
+````Logtalk
+2020-08-23 13:26:10,042 CrudRepository DEBUG : before [method=save, args=({"id":1,"name":"Alan Turing"})]
+
+2020-08-23 13:26:10,055 CrudRepository DEBUG : after [method=save, return={"id":1,"name":"Alan Turing"}]
+````
+
+
+<br/>
+
+### `DELETE /employees/1`
+
+````Logtalk
+2020-08-23 13:25:28,326 CrudRepository DEBUG : before [method=deleteById, args=(1)]
+
+2020-08-23 13:25:28,341 CrudRepository DEBUG : after [method=deleteById]
+````
 
 <br/>
 
 ## Auto-Logging with Spring-Data-JPA
 
-// TODO
+When [`spring-boot-starter-data-jpa`](https://docs.spring.io/spring-data/jpa/docs/current/reference/html) is on the classpath, the inherited methods of `JpaRepository<T,ID>` are automatically applied.
 
 <br/>
 
 ## Auto-Logging with Spring-Cloud-Sleuth
 
-// TODO
+When [`spring-cloud-starter-sleuth`](https://spring.io/projects/spring-cloud-sleuth) is on the classpath with [`spring-boot-starter-data-rest`](https://docs.spring.io/spring-data/rest/docs/current/reference/html), spans are automatically applied to all repository methods.
 
-<br/>
+**`POST /employees`**
 
-## Spring-Cloud-Sleuth
+````Logtalk
+2020-08-23 13:33:48.358 [demo,18aa9a69178dcc3f,e555838da7405451] CrudRepository DEBUG: before [method=save, args=({"name":"Alan Turing"})]
 
-> Spring Cloud Sleuth provides Spring Boot auto-configuration for distributed tracing. Specifically, adds trace and span ids to the Slf4J MDC, to extract all the logs from a given trace or span in a log aggregator.
-
-Source: [Spring Cloud Sleuth](https://spring.io/projects/spring-cloud-sleuth)
-
-### Integration
-
-// TODO
-
-````xml
-  <dependencies>
-    <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-sleuth</artifactId>
-    </dependency>
-  </dependencies>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-dependencies</artifactId>
-        <version>${spring-cloud.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
+2020-08-23 13:33:48.370 [foo,18aa9a69178dcc3f,e555838da7405451] CrudRepository DEBUG : after [method=save, return={"id":4,"name":"Alan Turing"}]
 ````
 
 <br/>
@@ -340,7 +400,7 @@ Source: [Spring Cloud Sleuth](https://spring.io/projects/spring-cloud-sleuth)
 
 ## Maven Integration
 
-> `~/.m2/settings.xml`
+**`~/.m2/settings.xml`**
 
 ````xml
 <settings>
