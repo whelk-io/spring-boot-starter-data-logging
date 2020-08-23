@@ -16,7 +16,7 @@ Any method on a Spring managed bean can be wrapped with logging by annotating wi
 @Component
 public class SomeBean {
 
-  @Log.Info.Around
+  @Log.Around
   public String someMethod(String param) {
     return "someReturn";
   }
