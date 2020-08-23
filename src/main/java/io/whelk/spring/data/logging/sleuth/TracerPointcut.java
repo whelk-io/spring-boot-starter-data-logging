@@ -26,12 +26,6 @@ public class TracerPointcut {
     private final Optional<TracerAdvice> tracerAdvice;
 
     @SneakyThrows
-    @Around("@annotation(logSpan)")
-    public Object spanAround(final ProceedingJoinPoint joinPoint, final Log.Span logSpan) {
-        return spanAround(joinPoint);
-    }
-
-    @SneakyThrows
     @Around("@annotation(logAround)")
     Object logAround(final ProceedingJoinPoint joinPoint, final Log.Around logAround) {
         return spanAroundIfMissing(joinPoint);
