@@ -319,7 +319,7 @@ Source: [Spring Cloud Sleuth](https://spring.io/projects/spring-cloud-sleuth)
 
 ## Maven Integration
 
-> **~`/.m2/settings.xml`**
+> `~/.m2/settings.xml`
 
 ````xml
 <settings>
