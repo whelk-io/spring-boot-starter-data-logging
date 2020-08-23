@@ -149,14 +149,10 @@ Log message (with method parameters) before method is invoked
 | `withLevel` | [`@Log.Level`](#loglevel) | `@Log.Level.Debug` | Level of message when logged |
 | `withArgs` | [`@Log.Args`](#logargs) | `@Log.Args` | Configuration for writing method parameters | 
 
-// TODO link to Log.Level and Log.Args in doc
-
 <br/>
 
 ### `@Log.After`
 Log message after method is invoked.
-
-// TODO
 
 | Attribute   | Type | Default Value | Description | 
 | ----------- | ---- | ------------- | ----------- |
