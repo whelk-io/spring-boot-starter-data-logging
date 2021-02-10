@@ -1,3 +1,18 @@
+/*
+ * Copyright 2021 Whelk Contributors (http://whelk.io)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.whelk.spring.data.logging.aop;
 
 import static io.whelk.spring.data.logging.aop.Log.Level.Debug;
@@ -20,13 +35,17 @@ import io.whelk.spring.data.logging.sleuth.TracerAdvice;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
+/**
+ * @author Zack Teater
+ * @since 0.1.0
+ */
 @Aspect
 @Component
 @RequiredArgsConstructor
 public class PagingAndSortingRepositoryPointcut {
 
-    protected final LogAdvice logAdvice;
-    protected final Optional<TracerAdvice> tracerAdvice;
+    private final LogAdvice logAdvice;
+    private final Optional<TracerAdvice> tracerAdvice;
 
     @Pointcut("execution(* org.springframework.data.repository.PagingAndSortingRepository.findAll(..))")
     void findAllWithArgs() {
@@ -64,8 +83,8 @@ public class PagingAndSortingRepositoryPointcut {
 
     @SneakyThrows
     Object spanAround(ProceedingJoinPoint joinPoint) {
-        return tracerAdvice.isPresent() && isPagingAndSortingRepositoryDeclaringType(joinPoint)
-                ? tracerAdvice.get().spanAround(joinPoint)
+        return tracerAdvice.isPresent() && isPagingAndSortingRepositoryDeclaringType(joinPoint) //
+                ? tracerAdvice.get().spanAround(joinPoint) //
                 : joinPoint.proceed();
     }
 

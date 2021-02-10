@@ -1,3 +1,18 @@
+/*
+ * Copyright 2021 Whelk Contributors (http://whelk.io)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.whelk.spring.data.logging.aop;
 
 import java.util.Arrays;
@@ -15,6 +30,10 @@ import io.whelk.spring.data.logging.writer.ArgWriter;
 import io.whelk.spring.data.logging.writer.ReturnTypeWriter;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * @author Zack Teater
+ * @since 0.1.0
+ */
 @Component
 @RequiredArgsConstructor
 public class LogAdvice {
@@ -22,7 +41,7 @@ public class LogAdvice {
     private final LoggingConfigurer loggingConfigurer;
     private final ApplicationContext applicationContext;
 
-    void logBefore(JoinPoint joinPoint, Log.Level logLevel) { 
+    void logBefore(JoinPoint joinPoint, Log.Level logLevel) {
         logBefore(joinPoint, logLevel, true, loggingConfigurer.argWriter());
     }
 
@@ -81,7 +100,7 @@ public class LogAdvice {
         }
     }
 
-    public void logAfter(JoinPoint joinPoint, Log.Level logLevel) {
+    void logAfter(JoinPoint joinPoint, Log.Level logLevel) {
 
         var signature = joinPoint.getSignature();
         var logger = LoggerFactory.getLogger(signature.getDeclaringType());
@@ -133,20 +152,14 @@ public class LogAdvice {
         }
     }
 
-    public void logAfterReturning(
-            JoinPoint joinPoint, 
-            Log.Level withLogLevel, 
-            Object returnType) {
+    void logAfterReturning(JoinPoint joinPoint, Log.Level withLogLevel, Object returnType) {
 
         var returnTypeWriterBean = this.getReturnTypeWriterBean(null);
         logAfterReturning(joinPoint, withLogLevel, true, returnTypeWriterBean, returnType);
 
     }
 
-    public void logAfterReturning(
-            JoinPoint joinPoint, 
-            Log.Level withLogLevel, 
-            Log.ReturnType withReturnType,
+    void logAfterReturning(JoinPoint joinPoint, Log.Level withLogLevel, Log.ReturnType withReturnType,
             Object returnType) {
 
         var returnTypeWriterBean = this.getReturnTypeWriterBean(withReturnType.withWriter());
@@ -154,17 +167,13 @@ public class LogAdvice {
 
     }
 
-    public void logAfterReturning(
-            JoinPoint joinPoint, 
-            Log.Level logLevel, 
-            boolean enabled, 
-            ReturnTypeWriter returnTypeWriter,
+    void logAfterReturning(JoinPoint joinPoint, Log.Level logLevel, boolean enabled, ReturnTypeWriter returnTypeWriter,
             Object returnType) {
 
         var signature = joinPoint.getSignature();
         var logger = LoggerFactory.getLogger(signature.getDeclaringType());
 
-        if (!enabled || isVoidReturnType(signature) ) {
+        if (!enabled || isVoidReturnType(signature)) {
             this.logAfter(joinPoint, logLevel);
             return;
         }
@@ -206,7 +215,7 @@ public class LogAdvice {
                 break;
             }
             case Fatal: {
-                var message = generateAfterReturningMessage(signature, returnTypeWriter, returnType); 
+                var message = generateAfterReturningMessage(signature, returnTypeWriter, returnType);
                 logger.error(message);
                 break;
             }
@@ -217,11 +226,11 @@ public class LogAdvice {
 
     }
 
-    public void logAfterThrowing(JoinPoint joinPoint, Log.Level logLevel, Exception e) {
+    void logAfterThrowing(JoinPoint joinPoint, Log.Level logLevel, Exception e) {
         logAfterThrowing(joinPoint, logLevel, true, e);
     }
 
-    public void logAfterThrowing(JoinPoint joinPoint, Log.Level logLevel, boolean withStackTrace, Exception e) {
+    void logAfterThrowing(JoinPoint joinPoint, Log.Level logLevel, boolean withStackTrace, Exception e) {
 
         var signature = joinPoint.getSignature();
         var logger = LoggerFactory.getLogger(signature.getDeclaringType());
@@ -230,7 +239,7 @@ public class LogAdvice {
             case Trace: {
                 if (logger.isTraceEnabled()) {
                     var message = generateAfterThrowingMessage(signature, e);
-                    if (withStackTrace) 
+                    if (withStackTrace)
                         logger.trace(message, e);
                     else
                         logger.trace(message);
@@ -240,7 +249,7 @@ public class LogAdvice {
             case Debug: {
                 if (logger.isDebugEnabled()) {
                     var message = generateAfterThrowingMessage(signature, e);
-                    if (withStackTrace) 
+                    if (withStackTrace)
                         logger.debug(message, e);
                     else
                         logger.debug(message);
@@ -250,7 +259,7 @@ public class LogAdvice {
             case Info: {
                 if (logger.isInfoEnabled()) {
                     var message = generateAfterThrowingMessage(signature, e);
-                    if (withStackTrace) 
+                    if (withStackTrace)
                         logger.info(message, e);
                     else
                         logger.info(message);
@@ -260,7 +269,7 @@ public class LogAdvice {
             case Warn: {
                 if (logger.isWarnEnabled()) {
                     var message = generateAfterThrowingMessage(signature, e);
-                    if (withStackTrace) 
+                    if (withStackTrace)
                         logger.warn(message, e);
                     else
                         logger.warn(message);
@@ -270,7 +279,7 @@ public class LogAdvice {
             case Error: {
                 if (logger.isErrorEnabled()) {
                     var message = generateAfterThrowingMessage(signature, e);
-                    if (withStackTrace) 
+                    if (withStackTrace)
                         logger.error(message, e);
                     else
                         logger.error(message);
@@ -279,7 +288,7 @@ public class LogAdvice {
             }
             case Fatal: {
                 var message = generateAfterThrowingMessage(signature, e);
-                if (withStackTrace) 
+                if (withStackTrace)
                     logger.error(message, e);
                 else
                     logger.error(message);
@@ -296,10 +305,7 @@ public class LogAdvice {
         return String.format(loggingConfigurer.afterMessage(), signature.getName());
     }
 
-    String generateAfterReturningMessage(
-            Signature signature, 
-            ReturnTypeWriter returnTypeWriter, 
-            Object returnType) { 
+    String generateAfterReturningMessage(Signature signature, ReturnTypeWriter returnTypeWriter, Object returnType) {
 
         var methodName = signature.getName();
         var returnTypeString = returnTypeWriter.toString(returnType);
@@ -307,15 +313,16 @@ public class LogAdvice {
 
     }
 
-    ReturnTypeWriter getReturnTypeWriterBean(Class<? extends ReturnTypeWriter> returnTypeWriter) { 
+    ReturnTypeWriter getReturnTypeWriterBean(Class<? extends ReturnTypeWriter> returnTypeWriter) {
         return returnTypeWriter == null || ReturnTypeWriter.class.equals(returnTypeWriter)
-               ? this.loggingConfigurer.returnTypeWriter() 
-               : applicationContext.getBean(returnTypeWriter);
+                ? this.loggingConfigurer.returnTypeWriter()
+                : applicationContext.getBean(returnTypeWriter);
     }
 
-    String generateAfterThrowingMessage(Signature signature, Exception e) { 
+    String generateAfterThrowingMessage(Signature signature, Exception e) {
         var methodName = signature.getName();
-        return String.format(loggingConfigurer.afterThrowingMessage(), methodName, e.getClass().getName(), e.getMessage());
+        return String.format(loggingConfigurer.afterThrowingMessage(), methodName, e.getClass().getName(),
+                e.getMessage());
     }
 
     boolean isVoidReturnType(Signature signature) {
@@ -327,11 +334,7 @@ public class LogAdvice {
         var methodName = joinPoint.getSignature().getName();
 
         if (enabled && methodArgs != null && methodArgs.length > 0) {
-            var argsJoined = 
-                Arrays
-                    .stream(methodArgs)
-                    .map(argWriter::argToString)
-                    .collect(Collectors.joining(", "));
+            var argsJoined = Arrays.stream(methodArgs).map(argWriter::argToString).collect(Collectors.joining(", "));
             return String.format(loggingConfigurer.beforeWithArgsMessage(), methodName, argsJoined);
         } else {
             return String.format(loggingConfigurer.beforeMessage(), methodName);
@@ -339,10 +342,9 @@ public class LogAdvice {
 
     }
 
-    ArgWriter getArgWriterBean(Class<? extends ArgWriter> argWriter) { 
-        return argWriter == null || ArgWriter.class.equals(argWriter)
-               ? this.loggingConfigurer.argWriter() 
-               : applicationContext.getBean(argWriter);
+    ArgWriter getArgWriterBean(Class<? extends ArgWriter> argWriter) {
+        return argWriter == null || ArgWriter.class.equals(argWriter) ? this.loggingConfigurer.argWriter()
+                : applicationContext.getBean(argWriter);
     }
 
 }

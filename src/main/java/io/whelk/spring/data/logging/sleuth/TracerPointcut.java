@@ -1,3 +1,18 @@
+/*
+ * Copyright 2021 Whelk Contributors (http://whelk.io)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.whelk.spring.data.logging.sleuth;
 
 import static io.whelk.spring.data.logging.sleuth.TracerAdvice.SPAN_MDC;
@@ -16,6 +31,10 @@ import io.whelk.spring.data.logging.aop.Log;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
+/**
+ * @author Zack Teater
+ * @since 0.1.0
+ */
 @Aspect
 @Order(0)
 @Component
@@ -237,16 +256,16 @@ public class TracerPointcut {
 
     @SneakyThrows
     Object spanAround(final ProceedingJoinPoint joinPoint) {
-        return tracerAdvice.isPresent() 
-               ? tracerAdvice.get().spanAround(joinPoint) 
-               : joinPoint.proceed();
+        return tracerAdvice.isPresent() //
+                ? tracerAdvice.get().spanAround(joinPoint) //
+                : joinPoint.proceed();
     }
 
     @SneakyThrows
     Object spanAroundIfMissing(final ProceedingJoinPoint joinPoint) {
-        return MDC.get(SPAN_MDC) == null && tracerAdvice.isPresent()
-               ? tracerAdvice.get().spanAround(joinPoint)
-               : joinPoint.proceed();
+        return MDC.get(SPAN_MDC) == null && tracerAdvice.isPresent() //
+                ? tracerAdvice.get().spanAround(joinPoint) //
+                : joinPoint.proceed();
     }
 
 }
