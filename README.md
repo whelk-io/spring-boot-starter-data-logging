@@ -428,56 +428,10 @@ When [`spring-cloud-starter-sleuth`](https://spring.io/projects/spring-cloud-sle
 
 ## Maven Integration
 
-**`~/.m2/settings.xml`**
-
 ````xml
-<settings>
-
-  <activeProfiles>
-    <activeProfile>github</activeProfile>
-  </activeProfiles>
-
-  <profiles>
-    <profile>
-      <id>github</id>
-      <repositories>
-        <repository>
-          <id>github-github-spring-boot-starter-data-logging</id>
-          <url>https://maven.pkg.github.com/whelk-io/github-spring-boot-starter-data-logging</url>
-        </repository>
-      </repositories>
-    </profile>
-  </profiles>
-
-  <servers>
-    <server>
-      <id>github-spring-boot-starter-data-logging</id>
-      <username>GITHUB_USERNAME</username>
-      <password>PERSONAL_ACCESS_TOKEN</password>
-    </server>
-  </servers>
-
-</settings>
+<dependency>
+      <groupId>io.whelk.spring.data.logging</groupId>
+      <artifactId>spring-data-logging-starter</artifactId>
+  <version>${spring-boot-starter-data-logging.version}</version>
+</dependency>
 ````
-
-**pom.xml**
-
-````xml
-<dependencies>
-	<dependency>
-        <groupId>io.whelk.spring.data.logging</groupId>
-        <artifactId>spring-data-logging-starter</artifactId>
-		<version>${spring-boot-starter-data-logging.version}</version>
-	</dependency>
-</dependencies>
-
-<repositories>
-	<repository>
-		<id>github-spring-boot-starter-data-logging</id>
-		<url>https://maven.pkg.github.com/whelk-io/spring-boot-starter-data-logging</url>
-	</repository>
-</repositories>
-````
-
-> [Additional information on authenticating with GitHub Packages](https://help.github.com/en/github/managing-packages-with-github-packages/configuring-apache-maven-for-use-with-github-packages#authenticating-to-github-packages)
-
