@@ -1,3 +1,18 @@
+/*
+ * Copyright 2021 Whelk Contributors (http://whelk.io)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.whelk.spring.data.logging.aop;
 
 import static io.whelk.spring.data.logging.aop.Log.Level.Debug;
@@ -23,13 +38,17 @@ import io.whelk.spring.data.logging.sleuth.TracerAdvice;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
+/**
+ * @author Zack Teater
+ * @since 0.1.0
+ */
 @Aspect
 @Component
 @RequiredArgsConstructor
 public class JpaRepositoryPointcut {
 
-    protected final LogAdvice logAdvice;
-    protected final Optional<TracerAdvice> tracerAdvice;
+    private final LogAdvice logAdvice;
+    private final Optional<TracerAdvice> tracerAdvice;
 
     @Pointcut("execution(* org.springframework.data..jpa.repository.JpaRepository.getOne(*))")
     void getOne() {
@@ -261,26 +280,26 @@ public class JpaRepositoryPointcut {
             logAdvice.logBefore(joinPoint, Debug);
     }
 
-    void logAfterReturning(JoinPoint joinPoint, Object returnType) { 
+    void logAfterReturning(JoinPoint joinPoint, Object returnType) {
         if (isJpaRepositoryDeclaringType(joinPoint))
             logAdvice.logAfterReturning(joinPoint, Debug, returnType);
     }
 
-    void logAfter(JoinPoint joinPoint) { 
+    void logAfter(JoinPoint joinPoint) {
         if (isJpaRepositoryDeclaringType(joinPoint))
             logAdvice.logAfter(joinPoint, Debug);
     }
 
-    void logAfterThrowing(JoinPoint joinPoint, Exception e) { 
+    void logAfterThrowing(JoinPoint joinPoint, Exception e) {
         if (isJpaRepositoryDeclaringType(joinPoint))
             logAdvice.logAfterThrowing(joinPoint, Error, e);
     }
 
     @SneakyThrows
-    Object spanAround(ProceedingJoinPoint joinPoint) { 
+    Object spanAround(ProceedingJoinPoint joinPoint) {
         return tracerAdvice.isPresent() && isJpaRepositoryDeclaringType(joinPoint)
-            ? tracerAdvice.get().spanAround(joinPoint)
-            : joinPoint.proceed();
+                ? tracerAdvice.get().spanAround(joinPoint)
+                : joinPoint.proceed();
     }
 
     boolean isJpaRepositoryDeclaringType(JoinPoint joinPoint) {

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2021 Whelk Contributors (http://whelk.io)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.whelk.spring.data.logging.aop;
 
 import static io.whelk.spring.data.logging.aop.Log.Level.Debug;
@@ -21,35 +36,42 @@ import io.whelk.spring.data.logging.sleuth.TracerAdvice;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
+/**
+ * @author Zack Teater
+ * @since 0.1.0
+ */
 @Aspect
 @Component
 @RequiredArgsConstructor
 public class QueryByExampleExecutorPointcut {
 
-	protected final LogAdvice logAdvice;
-	protected final Optional<TracerAdvice> tracerAdvice;
-	
-	@Pointcut("execution(* org.springframework.data.repository.query.QueryByExampleExecutor.findAll(..))")
+    private final LogAdvice logAdvice;
+    private final Optional<TracerAdvice> tracerAdvice;
+
+    @Pointcut("execution(* org.springframework.data.repository.query.QueryByExampleExecutor.findAll(..))")
     void findAllWithArgs() {
     }
 
     @Before("findAllWithArgs() && args(..,example,pageable)")
     void findAllWithExamplePageableBefore(JoinPoint joinPoint, Example<?> example, Pageable pageable) throws Throwable {
         logBefore(joinPoint);
-	}
+    }
 
-	@AfterReturning(pointcut = "findAllWithArgs() && args(..,example,pageable)", returning = "returnType")
-    void findAllWithExamplePageableAfterReturning(JoinPoint joinPoint, Example<?> example, Pageable pageable, Object returnType) {
+    @AfterReturning(pointcut = "findAllWithArgs() && args(..,example,pageable)", returning = "returnType")
+    void findAllWithExamplePageableAfterReturning(JoinPoint joinPoint, Example<?> example, Pageable pageable,
+            Object returnType) {
         logAfterReturning(joinPoint, returnType);
     }
 
     @AfterThrowing(pointcut = "findAllWithArgs() && args(..,example,pageable)", throwing = "e")
-    void findAllWithExampleageableAfterThrowing(JoinPoint joinPoint, Example<?> example, Pageable pageable, Exception e) {
+    void findAllWithExampleageableAfterThrowing(JoinPoint joinPoint, Example<?> example, Pageable pageable,
+            Exception e) {
         logAfterThrowing(joinPoint, e);
     }
-    
+
     @Pointcut("execution(* org.springframework.data.repository.query.QueryByExampleExecutor.findOne(..))")
-    void findOne() { }
+    void findOne() {
+    }
 
     @Before("findOne()")
     void findOneBefore(JoinPoint joinPoint) throws Throwable {
@@ -65,9 +87,10 @@ public class QueryByExampleExecutorPointcut {
     void findOneAfterThrowing(JoinPoint joinPoint, Exception e) {
         logAfterThrowing(joinPoint, e);
     }
-    
+
     @Pointcut("execution(* org.springframework.data.repository.query.QueryByExampleExecutor.count(..))")
-    void count() { }
+    void count() {
+    }
 
     @Before("count()")
     void countBefore(JoinPoint joinPoint) throws Throwable {
@@ -85,7 +108,8 @@ public class QueryByExampleExecutorPointcut {
     }
 
     @Pointcut("execution(* org.springframework.data.repository.query.QueryByExampleExecutor.exists(..))")
-    void exists() { }
+    void exists() {
+    }
 
     @Before("exists()")
     void existsBefore(JoinPoint joinPoint) throws Throwable {
@@ -101,8 +125,8 @@ public class QueryByExampleExecutorPointcut {
     void existsAfterThrowing(JoinPoint joinPoint, Exception e) {
         logAfterThrowing(joinPoint, e);
     }
-    
-	void logBefore(JoinPoint joinPoint) {
+
+    void logBefore(JoinPoint joinPoint) {
         if (isQueryByExampleExecutorDeclaringType(joinPoint))
             logAdvice.logBefore(joinPoint, Debug);
     }
@@ -119,13 +143,13 @@ public class QueryByExampleExecutorPointcut {
 
     @SneakyThrows
     Object spanAround(ProceedingJoinPoint joinPoint) {
-        return tracerAdvice.isPresent() && isQueryByExampleExecutorDeclaringType(joinPoint)
-                ? tracerAdvice.get().spanAround(joinPoint)
+        return tracerAdvice.isPresent() && isQueryByExampleExecutorDeclaringType(joinPoint) //
+                ? tracerAdvice.get().spanAround(joinPoint) //
                 : joinPoint.proceed();
     }
 
     boolean isQueryByExampleExecutorDeclaringType(JoinPoint joinPoint) {
         return joinPoint.getSignature().getDeclaringType().equals(QueryByExampleExecutor.class);
     }
-    
+
 }
