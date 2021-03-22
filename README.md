@@ -430,8 +430,8 @@ When [`spring-cloud-starter-sleuth`](https://spring.io/projects/spring-cloud-sle
 
 ````xml
 <dependency>
-      <groupId>io.whelk.spring.data.logging</groupId>
-      <artifactId>spring-data-logging-starter</artifactId>
-  <version>${spring-boot-starter-data-logging.version}</version>
+    <groupId>io.whelk.spring.data.logging</groupId>
+    <artifactId>spring-boot-starter-data-logging</artifactId>
+    <version>${spring-boot-starter-data-logging.version}</version>
 </dependency>
 ````
